@@ -6,8 +6,9 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #000000; display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-    #__bundler_loading { display: none; }
-    #__bundler_thumbnail { position: fixed; inset: 0; width: 100%; height: 100%; background: #000000; z-index: 9999; }
+    #__bundler_loading { position: fixed; bottom: 20px; right: 20px; font: 13px/1.4 -apple-system, BlinkMacSystemFont, sans-serif; color: #666; background: #fff; padding: 8px 14px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); z-index: 10000; }
+    #__bundler_thumbnail { position: fixed; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000000; z-index: 9999; }
+    #__bundler_thumbnail svg { width: 100%; height: 100%; object-fit: contain; }
     #__bundler_placeholder { color: #999; font-size: 14px; }
   </style>
   <noscript>
@@ -18,7 +19,13 @@
   </noscript>
 </head>
 <body>
-  <div id="__bundler_thumbnail"></div>
+  <div id="__bundler_thumbnail">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="800" fill="#000000"></rect>
+      <text x="600" y="470" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="320" fill="#ffffff">m</text>
+      <text x="600" y="600" text-anchor="middle" font-family="system-ui, sans-serif" font-size="36" letter-spacing="8" fill="#ffffff" opacity="0.55">MADAM</text>
+    </svg>
+  </div>
   <div id="__bundler_loading">Unpacking...</div>
 
   <script>
@@ -127,46 +134,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     // preserve ordering (React before ReactDOM before Babel before text/babel).
     const doc = new DOMParser().parseFromString(template, 'text/html');
     document.documentElement.replaceWith(doc.documentElement);
-    // Fix: replace the Ask slide entirely with a clean version
-    requestAnimationFrame(() => {
-      const oldSlide = document.getElementById('close-slide');
-      if (oldSlide) {
-        const newSlide = document.createElement('section');
-        newSlide.id = 'close-slide';
-        newSlide.className = 'slide dark nophoto';
-        newSlide.setAttribute('data-label', '11 Close');
-        newSlide.style.cssText = 'padding:0; background:#0A0A0A; color:#fff;';
-        newSlide.innerHTML = `
-          <div style="position:absolute;inset:0;background:#0A0A0A;"></div>
-          <div style="position:absolute; top:50px; right:80px; font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.55); z-index:1;">11 / 11 \u00b7 the ask</div>
-          <div style="position:absolute; left:100px; right:100px; top:0; bottom:0; display:flex; flex-direction:column; justify-content:center; gap:72px; z-index:1;">
-            <div>
-              <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:18px;">The ask \u00b7 pre-seed</div>
-              <h1 class="display" style="font-size:268px; color:#fff; margin:0; line-height:0.8; letter-spacing:-0.05em;">$1M</h1>
-            </div>
-            <div>
-              <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:18px;">
-                <span style="font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.45);">Use of funds</span>
-              </div>
-              <div style="display:flex; gap:8px; height:120px;">
-                <div style="flex:65; background:#E3C18A; color:#2E2412; border-radius:8px; padding:24px 32px; display:flex; align-items:baseline; gap:16px;">
-                  <span class="figure display" style="font-size:60px; line-height:0.85; letter-spacing:-0.02em;">65%</span>
-                  <span style="font-family:'Plus Jakarta Sans',sans-serif; font-size:26px; font-weight:700;">Distribution</span>
-                </div>
-                <div style="flex:35; background:#BFA0B0; color:#2A1E26; border-radius:8px; padding:24px 32px; display:flex; align-items:baseline; gap:16px;">
-                  <span class="figure display" style="font-size:60px; line-height:0.85; letter-spacing:-0.02em;">35%</span>
-                  <span style="font-family:'Plus Jakarta Sans',sans-serif; font-size:26px; font-weight:700;">Engineering & Design</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="position:absolute; left:100px; bottom:56px; font-family:'Plus Jakarta Sans',sans-serif; font-size:22px; letter-spacing:0.04em; z-index:1;">
-            <a href="https://trymadam.com" target="_blank" rel="noopener" style="color:#fff; font-weight:600; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.4); padding-bottom:2px;">trymadam.com</a>
-          </div>
-        `;
-        oldSlide.replaceWith(newSlide);
-      }
-    });
     const dead = Array.from(document.scripts);
     for (const old of dead) {
       const s = document.createElement('script');

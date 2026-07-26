@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Madam — Business Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --ink:#0A0A0A;
+      --ink-2:#1A1A1A;
+      --paper:#FFFFFF;
+      --paper-2:#F4F4F4;     /* light gray panels */
+      --paper-3:#EAEAEA;     /* divider gray */
+      --mute:#9A9A9A;
+      --mute-2:#6B6B6B;      /* secondary text */
+      --line:#1A1A1A;
+    }
+    html,body{margin:0;padding:0;background:#000;color:var(--ink);}
+    *{-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;}
+
+    /* Type */
+    .display{ font-family:"Plus Jakarta Sans", system-ui, sans-serif; font-weight:800; letter-spacing:-0.04em; line-height:0.94; }
+    .body{ font-family:"Plus Jakarta Sans", system-ui, sans-serif; font-weight:400; }
+    .mono{ font-family:"Plus Jakarta Sans", system-ui, sans-serif; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; font-size:24px; }
+
+    /* "m" wordmark — real Figma SVG */
+    .mark{ display:inline-block; vertical-align:middle; }
+    .mark svg{ display:block; width:1em; height:auto; }
+
+    /* Slide base */
+    .slide{
+      background:var(--paper);
+      color:var(--ink);
+      padding:90px 100px;
+      display:flex;
+      flex-direction:column;
+      position:relative;
+      font-family:"Plus Jakarta Sans", system-ui, sans-serif;
+    }
+    .slide.dark{ background:var(--ink); color:var(--paper); }
+    .slide.gray{ background:var(--paper-2); }
+
+    /* Header chrome */
+    .chrome-top{
+      position:absolute; top:50px; left:100px; right:100px;
+      display:flex; justify-content:space-between; align-items:center;
+      pointer-events:none;
+    }
+    .wm{ display:inline-flex; align-items:center; gap:14px; }
+    .wm .mark svg{ width:64px; }
+    .slide.dark .wm .mark{ color:var(--paper); }
+    .wm .label{ font-weight:600; letter-spacing:0.02em; font-size:18px; color:var(--ink); }
+    .slide.dark .wm .label{ color:var(--paper); }
+    .chrome-top .idx{ color:var(--mute-2); font-variant-numeric:tabular-nums; font-weight:600; letter-spacing:0.14em; font-size:18px; text-transform:uppercase; white-space:nowrap;}
+    .slide.dark .chrome-top .idx{ color:rgba(255,255,255,0.55); }
+
+    .eyebrow{
+      display:flex; align-items:center; gap:14px;
+      font-size:24px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase;
+      color:var(--ink);
+    }
+    .slide.dark .eyebrow{ color:var(--paper); }
+    .eyebrow-line{ width:32px; height:1px; background:var(--ink); display:inline-block; }
+    .slide.dark .eyebrow-line{ background:var(--paper); }
+
+    h1.title{ margin:0; }
+    h1.mega{ font-size:240px; }
+    h1.big{ font-size:140px; }
+    h1.mid{ font-size:96px; }
+    h1.sm{  font-size:72px; }
+
+    p.lede{ font-size:30px; line-height:1.32; font-weight:400; color:var(--ink-2); max-width:1200px; }
+    .slide.dark p.lede{ color:rgba(255,255,255,0.85); }
+
+    .hr{ height:1px; background:var(--ink); width:100%; }
+    .slide.dark .hr{ background:rgba(255,255,255,0.2); }
+
+    .figure{ font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1; }
+
+    /* Phone */
+    .phone{
+      width:380px; height:776px; border-radius:50px; background:#000;
+      padding:8px; box-shadow: 0 50px 100px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.08);
+      position:relative;
+      flex-shrink:0;
+    }
+    .phone .screen{
+      width:100%; height:100%; border-radius:42px; overflow:hidden; position:relative; background:#fff;
+    }
+    .phone .notch{
+      position:absolute; top:18px; left:50%; transform:translateX(-50%); width:104px; height:30px; background:#000; border-radius:18px; z-index:10;
+    }
+    .phone .nav{
+      position:absolute; left:0; right:0; bottom:0; height:88px; background:#fff; border-top:1px solid #EAEAEA;
+      display:flex; align-items:center; justify-content:space-around; padding:0 24px 18px;
+    }
+    .phone .nav .ico{ width:24px; height:24px; color:#0A0A0A; }
+    .phone .nav .plus{ width:46px; height:46px; border-radius:50%; background:#0A0A0A; color:#fff; display:flex; align-items:center; justify-content:center; }
+  </style>
+
+  <!-- shared "m" mark for reuse -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="m-mark" viewBox="0 0 24 9">
+        <path d="M 18.254 7.705 C 19.361 8.115 21.973 6.282 23.233 5.315 C 23.971 5.11 24.063 5.628 23.97 5.912 C 23.51 6.425 22.127 7.671 19.914 8.558 C 17.148 9.668 16.503 8.388 16.318 7.961 C 16.047 7.333 15.857 5.486 15.95 4.547 C 16.109 2.925 15.581 2.897 15.212 2.925 C 13.645 3.522 10.75 6.721 9.865 7.705 C 8.943 8.729 8.021 7.79 8.39 6.51 C 8.611 3.232 8.666 2.384 8.297 2.157 C 7.191 1.474 2.397 7.107 1.936 7.705 C 1.567 8.183 1.229 8.473 1.106 8.558 C 0.295 8.9 0.031 8.302 0 7.961 C 0.369 2.976 1.17 0.217 1.475 0.108 C 2.674 -0.319 2.827 0.62 2.674 1.132 C 1.936 3.591 1.844 5.4 1.844 6.254 C 3.227 4.717 6.14 1.542 7.837 0.791 C 9.533 0.04 10.018 1.559 10.049 2.413 L 10.141 5.912 C 10.971 4.888 13.147 2.652 15.212 1.901 C 17.277 1.15 17.609 3.352 17.517 4.547 C 17.609 5.4 17.148 7.295 18.254 7.705 Z" fill="currentColor"/>
+      </symbol>
+
+      <!-- Jar icon (matches in-app jar icon) -->
+      <symbol id="jar" viewBox="0 0 24 24">
+        <path d="M6 8 Q6 6.5 7.5 6.5 H16.5 Q18 6.5 18 8 V18 Q18 19.5 16.5 19.5 H7.5 Q6 19.5 6 18 Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M8.5 6.5 Q8.5 4.5 12 4.5 Q15.5 4.5 15.5 6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <script src="deck-stage.js"></script>
+</head>
+<body>
+  <deck-stage width="1920" height="1080">
+
+    <!-- =============================================================== -->
+    <!-- 01 · COVER                                                       -->
+    <!-- =============================================================== -->
+    <section class="slide" data-label="Cover" style="padding:0;overflow:hidden;background:#FFFFFF;">
+      <!-- left: type · right: portrait -->
+      <div style="position:absolute; inset:0; display:grid; grid-template-columns: 1.05fr 1fr;">
+        <!-- LEFT -->
+        <div style="padding:60px 80px; display:flex; flex-direction:column; justify-content:space-between; position:relative; min-height:0;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="mark" style="color:#0A0A0A; font-size:64px; line-height:1;"><svg><use href="#m-mark"/></svg></span>
+            <span style="font-size:24px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--mute-2);">Business Plan · 2026</span>
+          </div>
+
+          <div>
+            <div style="display:flex; align-items:center; gap:14px; font-size:24px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink); margin-bottom:28px;">
+              <span class="eyebrow-line"></span> A home for Black women
+            </div>
+            <h1 class="display title" id="tw-cover-title" style="font-size:140px;">
+              Build the<br/>worlds you<br/>care about.
+            </h1>
+            <p class="lede" id="tw-cover-sub" style="margin:32px 0 0; max-width:760px; font-size:28px;">Madam is where Black women build, follow and connect through the things they're most passionate about.</p>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:end; color:var(--mute-2); font-size:18px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; white-space:nowrap;">
+            <span>01 / 10</span>
+            <span style="text-transform:none; letter-spacing:normal; font-size:24px; font-weight:500; color:var(--ink);">
+</span>
+          </div>
+        </div>
+
+        <!-- RIGHT photo -->
+        <div style="position:relative; overflow:hidden; background:#0A0A0A;">
+          <div style="position:absolute; inset:0; background:url('assets/portrait-braids.png') center 18%/cover no-repeat;"></div>
+          <!-- subtle inner shadow on left -->
+          <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(0,0,0,0.18), transparent 12%);"></div>
+          <!-- big mark watermark bottom-right -->
+          <span class="mark" style="position:absolute; right:48px; bottom:48px; color:#fff; font-size:160px; line-height:1; opacity:0.95;"><svg><use href="#m-mark"/></svg></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 02 · PROBLEM                                                     -->
+    <!-- =============================================================== -->
+    <section class="slide" data-label="Problem">
+      <div class="chrome-top">
+        <span class="wm"><span class="mark" style="color:#0A0A0A;"><svg><use href="#m-mark"/></svg></span></span>
+        <span class="idx">02 / 10 · the problem</span>
+      </div>
+
+      <div style="margin-top:170px; max-width:1500px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> the problem </div>
+        <h1 class="display title big" style="margin-top:32px;">
+          People are more than posts.
+        </h1>
+        <p class="lede" style="margin-top:36px; max-width:1300px;">
+          Today's platforms reduce Black women to a feed — flattening her routines, passions, and evolving identity into another scroll for someone else's attention. Nothing she discovers stays. Nothing accumulates. Nothing belongs to her.
+        </p>
+      </div>
+
+      <div style="position:absolute; left:100px; right:100px; bottom:120px; display:grid; grid-template-columns:repeat(3, 1fr); gap:0;">
+        <div style="padding:32px 48px 32px 0; border-right:1px solid var(--paper-3);">
+          <div class="mono" style="color:var(--mute-2);">Social</div>
+          <p style="font-size:24px; line-height:1.35; margin:14px 0 0;">Algorithms reward outrage and trend-chasing — not depth, taste, or progression.</p>
+        </div>
+        <div style="padding:32px 48px; border-right:1px solid var(--paper-3);">
+          <div class="mono" style="color:var(--mute-2);">Search &amp; Shop</div>
+          <p style="font-size:24px; line-height:1.35; margin:14px 0 0;">Mainstream tools weren't built for her hair, her skin, or her aesthetic. She's always translating.</p>
+        </div>
+        <div style="padding:32px 0 32px 48px;">
+          <div class="mono" style="color:var(--mute-2);">Identity</div>
+          <p style="font-size:24px; line-height:1.35; margin:14px 0 0;">There is no place to organize who she is — only places to perform who she is.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 03 · VISION                                                      -->
+    <!-- =============================================================== -->
+    <section class="slide dark" data-label="Vision">
+      <div class="chrome-top">
+        <span class="wm"><span class="mark" style="color:#FFFFFF;"><svg style="color:#FFFFFF;"><use href="#m-mark"/></svg></span></span>
+        <span class="idx" style="color:rgba(255,255,255,0.55);">03 / 10 · the vision</span>
+      </div>
+
+      <div style="margin-top:170px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> the vision </div>
+        <h1 class="display title" style="margin-top:32px; font-size:120px; max-width:1500px;">
+          A place where she shapes <span style="color:var(--mute);">and shares</span> who she is.
+        </h1>
+      </div>
+
+      <!-- Tag cloud of passions -->
+      <div style="position:absolute; left:100px; right:100px; bottom:130px;">
+        <div class="mono" style="color:rgba(255,255,255,0.55); margin-bottom:28px;">She builds worlds around …</div>
+        <div style="display:flex; flex-wrap:wrap; gap:14px 16px; max-width:1700px;">
+          <!-- pills with varying weights -->
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">fitness</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; background:#fff; color:#0A0A0A; font-weight:600;">entrepreneurship</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">travel</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">spirituality</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; background:#fff; color:#0A0A0A; font-weight:600;">fashion</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">books</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">motherhood</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">art</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; background:#fff; color:#0A0A0A; font-weight:600;">wellness</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">relationships</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">learning</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">discipline</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; background:#fff; color:#0A0A0A; font-weight:600;">creativity</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">healing</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">style</span>
+          <span class="pill" style="font-size:32px; padding:14px 28px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); color:#fff; font-weight:500;">a phase she's moving through.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 04 · THE JAR                                                     -->
+    <!-- =============================================================== -->
+    <section class="slide" data-label="Jars">
+      <div class="chrome-top">
+        <span class="wm"><span class="mark" style="color:#0A0A0A;"><svg><use href="#m-mark"/></svg></span></span>
+        <span class="idx">04 / 10 · the jar</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.1fr 1fr; gap:80px; align-items:center; height:100%; padding-top:60px;">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> what we build · 01 </div>
+          <h1 class="display title" style="margin-top:24px; font-size:160px;">
+            The Jar.
+          </h1>
+          <p class="lede" style="max-width:760px; margin-top:28px; font-size:32px;">
+            A Jar is a living space around a passion — not a folder, not a board. She fills it with looks, products, links, notes and routines, and people connect through what's inside.
+          </p>
+
+          <div style="margin-top:48px; display:grid; grid-template-columns:1fr 1fr; gap:30px 40px; max-width:760px;">
+            <div style="border-top:1px solid var(--paper-3); padding-top:18px;">
+              <div class="mono" style="color:var(--mute-2);">Around</div>
+              <p style="margin:8px 0 0; font-size:22px; line-height:1.4; color:var(--ink-2);">A passion, a routine, a goal, an aesthetic — anything she cares about.</p>
+            </div>
+            <div style="border-top:1px solid var(--paper-3); padding-top:18px;">
+              <div class="mono" style="color:var(--mute-2);">Inside</div>
+              <p style="margin:8px 0 0; font-size:22px; line-height:1.4; color:var(--ink-2);">Posts, products, photos, notes, and the people she's learning from.</p>
+            </div>
+            <div style="border-top:1px solid var(--paper-3); padding-top:18px;">
+              <div class="mono" style="color:var(--mute-2);">Shared</div>
+              <p style="margin:8px 0 0; font-size:22px; line-height:1.4; color:var(--ink-2);">Public Jars let other women follow, save and recreate.</p>
+            </div>
+            <div style="border-top:1px solid var(--paper-3); padding-top:18px;">
+              <div class="mono" style="color:var(--mute-2);">Hers</div>
+              <p style="margin:8px 0 0; font-size:22px; line-height:1.4; color:var(--ink-2);">Private Jars are sacred. A space to hold who she's becoming.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jar visual: stacked cards inside a jar outline -->
+        <div style="display:flex; justify-content:center; align-items:center; position:relative;">
+          <svg viewBox="0 0 460 560" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="width:520px; height:auto;" aria-hidden="true">
+            <defs>
+              <clipPath id="jarclip">
+                <path d="M40 130 Q40 100 70 100 H390 Q420 100 420 130 V510 Q420 540 390 540 H70 Q40 540 40 510 Z"/>
+              </clipPath>
+            </defs>
+            <!-- jar body outline -->
+            <path d="M40 130 Q40 100 70 100 H390 Q420 100 420 130 V510 Q420 540 390 540 H70 Q40 540 40 510 Z" fill="#F4F4F4" stroke="#0A0A0A" stroke-width="3"/>
+            <!-- jar lid -->
+            <path d="M100 100 Q100 50 230 50 Q360 50 360 100" fill="none" stroke="#0A0A0A" stroke-width="3" stroke-linecap="round"/>
+            <!-- contents (clipped) -->
+            <g clip-path="url(#jarclip)">
+              <image href="assets/casey.png" xlink:href="assets/casey.png" x="60" y="160" width="200" height="240" preserveAspectRatio="xMidYMid slice"/>
+              <rect x="60" y="160" width="200" height="240" fill="none" stroke="#0A0A0A" stroke-width="2"/>
+              <image href="assets/portrait-braids.png" xlink:href="assets/portrait-braids.png" x="280" y="180" width="120" height="160" preserveAspectRatio="xMidYMid slice"/>
+              <rect x="280" y="180" width="120" height="160" fill="none" stroke="#0A0A0A" stroke-width="2"/>
+              <rect x="60" y="420" width="340" height="80" fill="#fff" stroke="#0A0A0A" stroke-width="2"/>
+              <text x="80" y="450" font-family="Plus Jakarta Sans" font-weight="700" font-size="20" fill="#0A0A0A">Sunday Reset Routine</text>
+              <text x="80" y="478" font-family="Plus Jakarta Sans" font-weight="500" font-size="14" fill="#6B6B6B">14 items · 2.4k followers</text>
+            </g>
+          </svg>
+          <span class="mono" style="position:absolute; bottom:-20px; right:60px; color:var(--mute-2);">A Jar can hold anything.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 05 · JOURNEYS                                                    -->
+    <!-- =============================================================== -->
+    <section class="slide gray" data-label="Journeys">
+      <div class="chrome-top">
+        <span class="wm"><span class="mark" style="color:#0A0A0A;"><svg><use href="#m-mark"/></svg></span></span>
+        <span class="idx">05 / 10 · journeys</span>
+      </div>
+
+      <div style="margin-top:170px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> what we build · 02 </div>
+        <h1 class="display title" style="margin-top:24px; font-size:140px;">
+          Journeys.
+        </h1>
+        <p class="lede" style="margin-top:32px; max-width:1300px; font-size:30px;">
+          Documenting progression over time — building a business, learning a skill, healing, training, creating, growing. Other women follow, learn, and recreate parts of them for themselves.
+        </p>
+      </div>
+
+      <!-- Journey timeline visual -->
+      <div style="position:absolute; left:100px; right:100px; bottom:120px;">
+        <div style="position:relative; height:240px;">
+          <!-- horizontal line: sits ABOVE the circles row, behind only the circles -->
+          <div style="position:absolute; left:13px; right:13px; top:13px; height:2px; background:#0A0A0A; z-index:0;"></div>
+          <!-- nodes -->
+          <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:0; position:relative; z-index:1;">
+            <!-- step -->
+            <div style="display:flex; flex-direction:column; align-items:flex-start; padding-right:24px;">
+              <div style="width:26px; height:26px; border-radius:50%; background:#0A0A0A; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;">01</div>
+              <span class="mono" style="color:var(--mute-2); margin-top:18px; font-size:18px;">Day 1</span>
+              <div class="display" style="font-size:26px; margin-top:14px; letter-spacing:-0.02em;">Started a Jar.</div>
+              <p style="font-size:18px; line-height:1.4; color:var(--mute-2); margin:8px 0 0;">"From corporate to candle-maker."</p>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-start; padding-right:24px;">
+              <div style="width:26px; height:26px; border-radius:50%; background:#0A0A0A; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;">02</div>
+              <span class="mono" style="color:var(--mute-2); margin-top:18px; font-size:18px;">Week 2</span>
+              <div class="display" style="font-size:26px; margin-top:14px; letter-spacing:-0.02em;">First batch.</div>
+              <p style="font-size:18px; line-height:1.4; color:var(--mute-2); margin:8px 0 0;">Posted the recipe + the failures.</p>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-start; padding-right:24px;">
+              <div style="width:26px; height:26px; border-radius:50%; background:#0A0A0A; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;">03</div>
+              <span class="mono" style="color:var(--mute-2); margin-top:18px; font-size:18px;">Month 2</span>
+              <div class="display" style="font-size:26px; margin-top:14px; letter-spacing:-0.02em;">First sale.</div>
+              <p style="font-size:18px; line-height:1.4; color:var(--mute-2); margin:8px 0 0;">Affiliate links live.</p>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-start; padding-right:24px;">
+              <div style="width:26px; height:26px; border-radius:50%; background:#0A0A0A; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;">04</div>
+              <span class="mono" style="color:var(--mute-2); margin-top:18px; font-size:18px;">Month 5</span>
+              <div class="display" style="font-size:26px; margin-top:14px; letter-spacing:-0.02em;">120 followers.</div>
+              <p style="font-size:18px; line-height:1.4; color:var(--mute-2); margin:8px 0 0;">Each one starting their own.</p>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-start; padding-right:24px;">
+              <div style="width:26px; height:26px; border-radius:50%; background:#0A0A0A; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;">05</div>
+              <span class="mono" style="color:var(--mute-2); margin-top:18px; font-size:18px;">Month 9</span>
+              <div class="display" style="font-size:26px; margin-top:14px; letter-spacing:-0.02em;">Quit the job.</div>
+              <p style="font-size:18px; line-height:1.4; color:var(--mute-2); margin:8px 0 0;">A subscriber Jar &amp; a brand.</p>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-start;">
+              <div style="width:26px; height:26px; border-radius:50%; background:#fff; color:#0A0A0A; border:2px solid #0A0A0A; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;">→</div>
+              <span class="mono" style="color:var(--ink); margin-top:18px; font-size:18px;">Today</span>
+              <div class="display" style="font-size:26px; margin-top:14px; letter-spacing:-0.02em;">Still going.</div>
+              <p style="font-size:18px; line-height:1.4; color:var(--mute-2); margin:8px 0 0;">A whole arc, in one place.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 06 · THE FEED                                                    -->
+    <!-- =============================================================== -->
+    <section class="slide" data-label="Feed">
+      <div class="chrome-top">
+        <span class="wm"><span class="mark" style="color:#0A0A0A;"><svg><use href="#m-mark"/></svg></span></span>
+        <span class="idx">06 / 10 · the feed</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 460px; gap:80px; align-items:center; height:100%; padding-top:60px;">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> what we build · 03 </div>
+          <h1 class="display title" style="margin-top:24px; font-size:140px;">
+            A feed of <span style="color:var(--mute);">people,</span><br/>not posts.
+          </h1>
+          <p class="lede" style="margin-top:28px; max-width:780px; font-size:30px;">Madam's feed is shaped around the women you follow and the Jars you live in not whatever an algorithm needs you to keep scrolling.</p>
+
+          <div style="margin-top:44px; display:flex; flex-direction:column; gap:18px; max-width:760px;">
+            <div style="display:flex; gap:18px; align-items:flex-start;">
+              <div style="width:40px; height:40px; border-radius:50%; background:#0A0A0A; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700;">01</div>
+              <div>
+                <div class="display" style="font-size:28px; letter-spacing:-0.02em;">Discovery through people.</div>
+                <p style="font-size:20px; line-height:1.4; color:var(--mute-2); margin:6px 0 0;">Stories, posts and Jars from women whose taste you trust.</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:18px; align-items:flex-start;">
+              <div style="width:40px; height:40px; border-radius:50%; background:#0A0A0A; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700;">02</div>
+              <div>
+                <div class="display" style="font-size:28px; letter-spacing:-0.02em;">Save anything to a Jar.</div>
+                <p style="font-size:20px; line-height:1.4; color:var(--mute-2); margin:6px 0 0;">Every product, look, or quote one tap away from her permanent collection.</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:18px; align-items:flex-start;">
+              <div style="width:40px; height:40px; border-radius:50%; background:#0A0A0A; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700;">03</div>
+              <div>
+                <div class="display" style="font-size:28px; letter-spacing:-0.02em;">Recreate, don't just consume.</div>
+                <p style="font-size:20px; line-height:1.4; color:var(--mute-2); margin:6px 0 0;">"Make it mine" turns any post into the start of her own Jar or Journey.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div style="display:flex; justify-content:center; align-items:center;">
+          <div class="phone">
+            <div class="notch"></div>
+            <div class="screen" style="background:url('assets/home-feed.png') center top/cover no-repeat;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 07 · DAIA                                                        -->
+    <!-- =============================================================== -->
+    <section class="slide dark" data-label="Daia">
+      <div class="chrome-top">
+        <span class="wm"><span class="mark" style="color:#FFFFFF;"><svg style="color:#FFFFFF;"><use href="#m-mark"/></svg></span></span>
+        <span class="idx" style="color:rgba(255,255,255,0.55);">07 / 10 · ai chat</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.05fr 1fr; gap:80px; align-items:center; height:100%; padding-top:60px;">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> what we build · 04 </div>
+          <h1 class="display title" style="margin-top:24px; font-size:160px; color:#fff;">
+            Daia.
+          </h1>
+          <p class="lede" style="margin-top:28px; max-width:760px; font-size:30px;">
+            Daia is the AI built into Madam — she knows your hair, your skin, your Jars and your goals, and she answers in your language.
+          </p>
+
+          <div style="margin-top:48px; display:flex; flex-direction:column; gap:14px; max-width:760px;">
+            <div style="background:#fff; color:#0A0A0A; border-radius:22px; padding:18px 24px; align-self:flex-end; max-width:520px; font-size:22px; line-height:1.4;">
+              "Will this gel work on my 4c hair if I co-wash twice a week?"
+            </div>
+            <div style="background:rgba(255,255,255,0.08); color:#fff; border-radius:22px; padding:18px 24px; align-self:flex-start; max-width:560px; font-size:22px; line-height:1.4;">
+              Yes — but pair it with the leave-in already in <em style="color:#fff; font-style:italic;">your Sunday Reset Jar</em>. Want me to add it?
+            </div>
+            <div style="background:#fff; color:#0A0A0A; border-radius:22px; padding:18px 24px; align-self:flex-end; max-width:380px; font-size:22px; line-height:1.4;">
+              Yes. And remind me Friday.
+            </div>
+          </div>
+        </div>
+
+        <!-- Daia visual: big m mark + accent label -->
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:32px;">
+          <div style="width:380px; height:380px; border-radius:50%; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center;">
+            <span class="mark" style="color:#FFFFFF; font-size:200px; line-height:1;"><svg style="color:#FFFFFF;" fill="#FFFFFF"><use href="#m-mark" fill="#FFFFFF"/></svg></span>
+          </div>
+          <div style="text-align:center;">
+            <div class="display" style="color:#fff; font-size:48px;">Daia</div>
+            <div class="mono" style="color:rgba(255,255,255,0.55); margin-top:8px;">Your AI · Inside every Jar</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 08 · BUSINESS MODEL                                              -->
+    <!-- =============================================================== -->
+    <section class="slide" data-label="Business model">
+      <div class="chrome-top">
+        <span class="wm"><span class="mark" style="color:#0A0A0A;"><svg><use href="#m-mark"/></svg></span></span>
+        <span class="idx">08 / 10 · business model</span>
+      </div>
+
+      <div style="margin-top:170px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> how we make money </div>
+        <h1 class="display title" style="margin-top:24px; font-size:120px;">
+          Three revenue lines. <span style="color:var(--mute);">One platform.</span>
+        </h1>
+      </div>
+
+      <div style="position:absolute; left:100px; right:100px; bottom:130px; display:grid; grid-template-columns:repeat(3, 1fr); gap:0;">
+        <!-- 01 Affiliate -->
+        <div style="padding:36px 56px 36px 0; border-right:1px solid var(--paper-3);">
+          <div style="display:flex; align-items:baseline; justify-content:space-between;">
+            <div class="mono" style="color:var(--mute-2);">01 · Today</div>
+            <div class="display figure" style="font-size:42px;">$$</div>
+          </div>
+          <div class="display" style="font-size:54px; margin-top:14px; letter-spacing:-0.03em;">Affiliate.</div>
+          <p style="font-size:20px; line-height:1.45; color:var(--ink-2); margin-top:14px; max-width:430px;">
+            Every product saved into a Jar is shoppable. We take a cut on every checkout — creator earns, Madam earns.
+          </p>
+          <div class="mono" style="color:var(--mute-2); margin-top:18px;">Live at launch · 8–18% take</div>
+        </div>
+
+        <!-- 02 Subscriptions -->
+        <div style="padding:36px 56px; border-right:1px solid var(--paper-3); background:var(--ink); color:#fff; margin:-36px 0 -36px 0;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between;">
+            <div class="mono" style="color:rgba(255,255,255,0.6);">02 · This year</div>
+            <div class="display figure" style="font-size:42px; color:#fff;">$$$</div>
+          </div>
+          <div class="display" style="font-size:54px; margin-top:14px; letter-spacing:-0.03em; color:#fff;">Jar subscriptions.</div>
+          <p style="font-size:20px; line-height:1.45; color:rgba(255,255,255,0.85); margin-top:14px; max-width:430px;">
+            Creators charge a monthly fee for premium Jars — exclusive routines, members-only Journeys, locked product lists. Madam takes 15%.
+          </p>
+          <div class="mono" style="color:rgba(255,255,255,0.55); margin-top:18px;">Recurring · highest LTV line</div>
+        </div>
+
+        <!-- 03 Ads -->
+        <div style="padding:36px 0 36px 56px;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between;">
+            <div class="mono" style="color:var(--mute-2);">03 · Future</div>
+            <div class="display figure" style="font-size:42px;">$$$$</div>
+          </div>
+          <div class="display" style="font-size:54px; margin-top:14px; letter-spacing:-0.03em;">Ads.</div>
+          <p style="font-size:20px; line-height:1.45; color:var(--ink-2); margin-top:14px; max-width:430px;">
+            Brands pay to appear inside relevant Jars and Daia answers — first-party signal, not third-party tracking. Unlocks at scale.
+          </p>
+          <div class="mono" style="color:var(--mute-2); margin-top:18px;">Phase 3 · sponsored placement</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 09 · WHY NOW / MARKET                                            -->
+    <!-- =============================================================== -->
+    <section class="slide gray" data-label="Why now">
+      <div class="chrome-top">
+        <span class="wm"><span class="mark" style="color:#0A0A0A;"><svg><use href="#m-mark"/></svg></span></span>
+        <span class="idx">09 / 10 · why now</span>
+      </div>
+
+      <div style="margin-top:170px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> why now </div>
+        <h1 class="display title" style="margin-top:24px; font-size:120px;">
+          A market hiding in plain sight.
+        </h1>
+      </div>
+
+      <div style="position:absolute; left:100px; right:100px; bottom:130px;">
+        <div style="display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:0; border-top:1px solid #0A0A0A;">
+          <div style="padding:36px 56px 0 0; border-right:1px solid var(--paper-3);">
+            <div class="figure display" style="font-size:140px; line-height:0.9;">$1.6T</div>
+            <p style="font-size:22px; line-height:1.4; margin-top:18px; max-width:420px;">Annual buying power of Black America — larger than most G20 economies.</p>
+            <div class="mono" style="color:var(--mute-2); margin-top:14px;">Nielsen / McKinsey</div>
+          </div>
+          <div style="padding:36px 56px; border-right:1px solid var(--paper-3);">
+            <div class="figure display" style="font-size:140px; line-height:0.9;">9×</div>
+            <p style="font-size:22px; line-height:1.4; margin-top:18px; max-width:340px;">Black women spend 9× more than non-Black consumers on hair &amp; beauty.</p>
+            <div class="mono" style="color:var(--mute-2); margin-top:14px;">Mintel</div>
+          </div>
+          <div style="padding:36px 0 0 56px;">
+            <div class="figure display" style="font-size:140px; line-height:0.9;">24M</div>
+            <p style="font-size:22px; line-height:1.4; margin-top:18px; max-width:340px;">US Black women — the most digitally active demographic per capita.</p>
+            <div class="mono" style="color:var(--mute-2); margin-top:14px;">US Census · eMarketer</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 10 · ASK / CLOSE                                                 -->
+    <!-- =============================================================== -->
+    <section class="slide dark" data-label="Close" style="padding:0;">
+      <div style="position:absolute; inset:0; display:grid; grid-template-columns:1fr 1fr;">
+        <!-- LEFT: portrait -->
+        <div style="position:relative; overflow:hidden; background:#0A0A0A;">
+          <div style="position:absolute; inset:0; background:url('assets/hero-woman.png') center 30%/cover no-repeat;"></div>
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.0) 30%, rgba(0,0,0,0.65) 100%);"></div>
+          <div style="position:absolute; left:60px; top:60px;">
+            <span class="mark" style="color:#fff; font-size:80px;"><svg><use href="#m-mark"/></svg></span>
+          </div>
+          <div style="position:absolute; left:60px; bottom:60px; right:40px;">
+            <div class="mono" style="color:rgba(255,255,255,0.55);">the team</div>
+            <div class="display" id="tw-founder-line" style="color:#fff; font-size:42px; margin-top:10px; letter-spacing:-0.02em;">Black men. Building for Black women.</div>
+            <p style="color:rgba(255,255,255,0.7); font-size:18px; line-height:1.45; margin-top:14px; max-width:420px;">Building this because we've watched the women around us be flattened by every platform. Madam is the answer we want for them.</p>
+          </div>
+        </div>
+
+        <!-- RIGHT: ask -->
+        <div style="padding:90px 100px; display:flex; flex-direction:column; justify-content:center; position:relative; background:#0A0A0A;">
+          <div style="position:absolute; top:50px; right:80px; font-size:18px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; white-space:nowrap;">10 / 10</div>
+
+          <div class="eyebrow"><span class="eyebrow-line"></span> the ask </div>
+          <h1 class="display title" id="tw-ask-amount" style="font-size:140px; color:#fff; margin-top:24px;">
+            $1.5M seed.
+          </h1>
+          <p class="lede" id="tw-ask-sub" style="color:rgba(255,255,255,0.85); margin-top:24px; font-size:26px; max-width:560px;">
+            18 months of runway. Goal: 100K active women, 5K creators, $1M GMV through Jars.
+          </p>
+
+          <div style="margin-top:48px; display:flex; flex-direction:column; gap:14px; max-width:580px;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.15); font-size:22px; color:#fff;">
+              <span>Product &amp; engineering</span><span class="figure" style="color:rgba(255,255,255,0.7);">55%</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.15); font-size:22px; color:#fff;">
+              <span>Creator &amp; community growth</span><span class="figure" style="color:rgba(255,255,255,0.7);">30%</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:14px; font-size:22px; color:#fff;">
+              <span>Brand partnerships &amp; ops</span><span class="figure" style="color:rgba(255,255,255,0.7);">15%</span>
+            </div>
+          </div>
+
+          <div style="margin-top:64px; display:flex; gap:36px; color:rgba(255,255,255,0.65); font-size:18px;">
+            <span>hello@madam.app</span>
+            <span style="color:rgba(255,255,255,0.25);">·</span>
+            <span>madam.app</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </deck-stage>
+
+  <!-- ============================================= -->
+  <!-- TWEAKS                                         -->
+  <!-- ============================================= -->
+  <div id="tweaks-panel" aria-hidden="true" style="
+    position:fixed; right:20px; bottom:70px; width:320px; z-index:2147483647;
+    background:#0A0A0A; color:#fff; border:1px solid rgba(255,255,255,0.12);
+    border-radius:16px; padding:18px; font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    box-shadow:0 30px 60px rgba(0,0,0,0.55); display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <span style="display:inline-flex; align-items:center; gap:10px;">
+        <svg viewBox="0 0 24 9" width="36" height="14" style="color:#fff;"><use href="#m-mark"/></svg>
+        <span style="font-size:14px; font-weight:600;">Madam</span>
+      </span>
+      <span style="font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.5);">Tweaks</span>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <label style="display:flex; flex-direction:column; gap:6px;">
+        <span style="font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55);">Cover headline</span>
+        <textarea id="tw-input-title" rows="3" style="background:#1A1A1A; color:#fff; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:9px 10px; font-size:13px; font-family:inherit; resize:none;"></textarea>
+      </label>
+
+      <label style="display:flex; flex-direction:column; gap:6px;">
+        <span style="font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55);">Founder line (slide 10)</span>
+        <input id="tw-input-founder" type="text" style="background:#1A1A1A; color:#fff; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit;" />
+      </label>
+
+      <label style="display:flex; flex-direction:column; gap:6px;">
+        <span style="font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55);">Ask amount</span>
+        <input id="tw-input-ask" type="text" style="background:#1A1A1A; color:#fff; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit;" />
+      </label>
+
+      <label style="display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:4px;">
+        <span style="font-size:12px;">Show slide counter</span>
+        <input id="tw-input-counter" type="checkbox" style="accent-color:#fff; transform:scale(1.2);" />
+      </label>
+    </div>
+
+    <div style="margin-top:16px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.1); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.35);">
+      Toggle Tweaks in toolbar to hide
+    </div>
+  </div>
+
+  <script>
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "coverTitle": "Build the\nworlds you\ncare about.",
+      "founderLine": "Black men. Building for Black women.",
+      "askAmount": "$1.5M seed.",
+      "showCounter": true
+    }/*EDITMODE-END*/;
+
+    const state = { ...TWEAK_DEFAULTS };
+
+    function applyState(){
+      const q = (id) => document.getElementById(id);
+
+      if (q('tw-cover-title')) {
+        q('tw-cover-title').innerHTML = String(state.coverTitle).split('\n').map(s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;')).join('<br/>');
+      }
+      if (q('tw-founder-line')) q('tw-founder-line').textContent = state.founderLine;
+      if (q('tw-ask-amount')) q('tw-ask-amount').textContent = state.askAmount;
+
+      document.querySelectorAll('.chrome-top .idx').forEach(el => {
+        el.style.visibility = state.showCounter ? 'visible' : 'hidden';
+      });
+    }
+
+    function persist(partial){
+      try { window.parent.postMessage({type:'__edit_mode_set_keys', edits: partial}, '*'); } catch(e){}
+    }
+
+    function bindInput(inputId, key){
+      const el = document.getElementById(inputId);
+      el.value = state[key];
+      el.addEventListener('input', () => { state[key] = el.value; applyState(); });
+      el.addEventListener('change', () => persist({[key]: el.value}));
+    }
+    function bindCheckbox(inputId, key){
+      const el = document.getElementById(inputId);
+      el.checked = !!state[key];
+      el.addEventListener('change', () => { state[key] = el.checked; applyState(); persist({[key]: el.checked}); });
+    }
+
+    applyState();
+    bindInput('tw-input-title', 'coverTitle');
+    bindInput('tw-input-founder', 'founderLine');
+    bindInput('tw-input-ask', 'askAmount');
+    bindCheckbox('tw-input-counter', 'showCounter');
+
+    window.addEventListener('message', (e) => {
+      const d = e.data || {};
+      if (d.type === '__activate_edit_mode') document.getElementById('tweaks-panel').style.display = 'block';
+      else if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display = 'none';
+    });
+    try { window.parent.postMessage({type:'__edit_mode_available'}, '*'); } catch(e){}
+  </script>
+<script>
+(async () => {
+  try { await customElements.whenDefined('deck-stage'); } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 500);
+})();
+</script>
+</body>
+</html>

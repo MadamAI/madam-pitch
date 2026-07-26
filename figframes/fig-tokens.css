@@ -1,0 +1,437 @@
+/* Generated from Figma Variables. First mode = :root default.
+   FLOAT tokens are unitless — multiply by 1px in calc() where a length is needed. */
+
+:root {
+  --accents-blue: rgb(0,136,255); /* @kind color */
+  --accents-brown: rgb(172,127,94); /* @kind color */
+  --accents-cyan: rgb(0,192,232); /* @kind color */
+  --accents-green: rgb(52,199,89); /* @kind color */
+  --accents-indigo: rgb(97,85,245); /* @kind color */
+  --accents-mint: rgb(0,200,179); /* @kind color */
+  --accents-orange: rgb(255,141,40); /* @kind color */
+  --accents-pink: rgb(255,45,85); /* @kind color */
+  --accents-purple: rgb(203,48,224); /* @kind color */
+  --accents-red: rgb(255,56,60); /* @kind color */
+  --accents-teal: rgb(0,195,208); /* @kind color */
+  --accents-yellow: rgb(255,204,0); /* @kind color */
+  --backgrounds-grouped-primary-elevated: rgb(242,242,247); /* @kind color */
+  --backgrounds-grouped-primary: rgb(242,242,247); /* @kind color */
+  --backgrounds-grouped-secondary-elevated: rgb(255,255,255); /* @kind color */
+  --backgrounds-grouped-secondary: rgb(255,255,255); /* @kind color */
+  --backgrounds-grouped-tertiary-elevated: rgb(242,242,247); /* @kind color */
+  --backgrounds-grouped-tertiary: rgb(242,242,247); /* @kind color */
+  --backgrounds-primary-elevated: rgb(255,255,255); /* @kind color */
+  --backgrounds-primary: rgb(255,255,255); /* @kind color */
+  --backgrounds-secondary-elevated-2: rgb(242,242,247); /* @kind color */
+  --backgrounds-secondary-elevated: rgb(242,242,247); /* @kind color */
+  --backgrounds-secondary: rgb(242,242,247); /* @kind color */
+  --backgrounds-tertiary-elevated: rgb(255,255,255); /* @kind color */
+  --backgrounds-tertiary: rgb(255,255,255); /* @kind color */
+  --bg-context-2: "Bright";
+  --bg-context: "Bright";
+  --black-100: rgba(12,12,13,0.05); /* @kind color */
+  --black-200: rgba(12,12,13,0.1); /* @kind color */
+  --black-400: rgba(12,12,13,0.4); /* @kind color */
+  --bottom: 62;
+  --component-fill: rgb(245,245,245); /* @kind color */
+  --component-stroke: var(--accents-indigo); /* @kind color */
+  --depth-025: 1;
+  --depth-0: 0;
+  --depth-100: 4;
+  --depth-400: 16;
+  --depth-800: 32;
+  --depth-negative-100: -4;
+  --depth-negative-200: -8;
+  --fills-primary: rgba(120,120,120,0.2); /* @kind color */
+  --fills-quaternary: rgba(116,116,128,0.08); /* @kind color */
+  --fills-secondary: rgba(120,120,128,0.16); /* @kind color */
+  --fills-tertiary: rgba(118,118,128,0.12); /* @kind color */
+  --fills-vibrant-primary: rgb(204,204,204); /* @kind color */
+  --fills-vibrant-tertiary: rgb(237,237,237); /* @kind color */
+  --grays-black-2: rgb(0,0,0); /* @kind color */
+  --grays-black: rgb(0,0,0); /* @kind color */
+  --grays-gray-2-2: rgb(174,174,178); /* @kind color */
+  --grays-gray-2: rgb(142,142,147); /* @kind color */
+  --grays-gray-3-2: rgb(199,199,204); /* @kind color */
+  --grays-gray-3: rgb(199,199,204); /* @kind color */
+  --grays-gray-4-2: rgb(209,209,214); /* @kind color */
+  --grays-gray-4: rgb(209,209,214); /* @kind color */
+  --grays-gray-5: rgb(229,229,234); /* @kind color */
+  --grays-gray-6-2: rgb(242,242,247); /* @kind color */
+  --grays-gray-6: rgb(242,242,247); /* @kind color */
+  --grays-gray: rgb(142,142,147); /* @kind color */
+  --grays-white-2: rgb(255,255,255); /* @kind color */
+  --grays-white: rgb(255,255,255); /* @kind color */
+  --icon: "String value";
+  --labels-primary: rgb(0,0,0); /* @kind color */
+  --labels-quaternary: rgba(60,60,67,0.18); /* @kind color */
+  --labels-secondary: rgba(60,60,67,0.6); /* @kind color */
+  --labels-tertiary: rgba(60,60,67,0.3); /* @kind color */
+  --labels-vibrant-controls-primary-2: rgb(64,64,64); /* @kind color */
+  --labels-vibrant-controls-primary: rgb(26,26,26); /* @kind color */
+  --labels-vibrant-controls-tertiary: rgb(191,191,191); /* @kind color */
+  --labels-vibrant-primary-2: rgb(51,51,51); /* @kind color */
+  --labels-vibrant-primary: rgb(26,26,26); /* @kind color */
+  --labels-vibrant-secondary: rgb(114,114,114); /* @kind color */
+  --labels-vibrant-tertiary: rgb(191,191,191); /* @kind color */
+  --labels-vibrant-use-plus-lighter-darker-tertiary: rgb(191,191,191); /* @kind color */
+  --liquid-glass-depth-medium-and-large-2: 16;
+  --liquid-glass-depth-medium-and-large: 16;
+  --liquid-glass-depth-regular: 16;
+  --liquid-glass-dispersion-2: 0;
+  --liquid-glass-dispersion: 0;
+  --liquid-glass-frost-medium-2: 12;
+  --liquid-glass-frost-medium: 12;
+  --liquid-glass-frost-regular: 7;
+  --liquid-glass-light-angle-2: -45;
+  --liquid-glass-light-angle: -45;
+  --liquid-glass-opacity: 60;
+  --liquid-glass-refraction-2: 100;
+  --liquid-glass-refraction: 100;
+  --liquid-glass-splay-medium-and-large: 6;
+  --liquid-glass-splay-regular: 6;
+  --miscellaneous-buttons-bg-destructive: rgba(255,56,60,0.14); /* @kind color */
+  --miscellaneous-keyboards-emoji-mic: rgba(34,43,89,0.63); /* @kind color */
+  --miscellaneous-keyboards-glyphs-primary: rgb(89,89,89); /* @kind color */
+  --miscellaneous-segmented-control-selected-fill: rgb(255,255,255); /* @kind color */
+  --miscellaneous-toggle-ax-label-off: rgb(179,179,179); /* @kind color */
+  --mode-2: "Light";
+  --mode-3: "Light";
+  --mode-4: "Light";
+  --mode: "Light";
+  --schemes-on-surface: rgb(29,27,32); /* @kind color */
+  --section-fill: rgb(245,245,245); /* @kind color */
+  --section-stroke: rgba(0,0,0,0.4); /* @kind color */
+  --separators-non-opaque: rgba(0,0,0,0.12); /* @kind color */
+  --separators-opaque: rgb(198,198,200); /* @kind color */
+  --separators-vibrant: rgb(230,230,230); /* @kind color */
+  --sheet-iphone-bottom-radius: 58;
+  --sheet-iphone-top-radius: 34;
+  --subcomponent-fill-2: rgb(170,170,170); /* @kind color */
+  --subcomponent-fill: rgb(170,170,170); /* @kind color */
+  --subcomponent-stroke-2: rgba(0,0,0,0.4); /* @kind color */
+  --subcomponent-stroke: rgba(0,0,0,0.4); /* @kind color */
+  --top: 27;
+}
+
+:root[data-theme="dark"], .dark {
+  --accents-blue: rgb(0,145,255); /* @kind color */
+  --accents-blue: rgb(92,184,255); /* @kind color */
+  --accents-brown: rgb(183,138,102); /* @kind color */
+  --accents-brown: rgb(219,166,121); /* @kind color */
+  --accents-cyan: rgb(109,217,255); /* @kind color */
+  --accents-cyan: rgb(60,211,254); /* @kind color */
+  --accents-green: rgb(48,209,88); /* @kind color */
+  --accents-green: rgb(74,233,104); /* @kind color */
+  --accents-indigo: rgb(109,124,255); /* @kind color */
+  --accents-indigo: rgb(167,170,255); /* @kind color */
+  --accents-mint: rgb(0,218,195); /* @kind color */
+  --accents-mint: rgb(84,223,203); /* @kind color */
+  --accents-orange: rgb(255,146,48); /* @kind color */
+  --accents-orange: rgb(255,160,86); /* @kind color */
+  --accents-pink: rgb(255,138,196); /* @kind color */
+  --accents-pink: rgb(255,55,95); /* @kind color */
+  --accents-purple: rgb(219,52,242); /* @kind color */
+  --accents-purple: rgb(234,141,255); /* @kind color */
+  --accents-red: rgb(255,66,69); /* @kind color */
+  --accents-red: rgb(255,97,101); /* @kind color */
+  --accents-teal: rgb(0,210,224); /* @kind color */
+  --accents-teal: rgb(59,221,236); /* @kind color */
+  --accents-yellow: rgb(254,223,67); /* @kind color */
+  --accents-yellow: rgb(255,214,0); /* @kind color */
+  --backgrounds-grouped-primary-elevated: rgb(28,28,30); /* @kind color */
+  --backgrounds-grouped-primary-elevated: rgb(36,36,38); /* @kind color */
+  --backgrounds-grouped-primary: rgb(0,0,0); /* @kind color */
+  --backgrounds-grouped-primary: rgb(0,0,0); /* @kind color */
+  --backgrounds-grouped-secondary-elevated: rgb(44,44,46); /* @kind color */
+  --backgrounds-grouped-secondary-elevated: rgb(54,54,56); /* @kind color */
+  --backgrounds-grouped-secondary: rgb(28,28,30); /* @kind color */
+  --backgrounds-grouped-secondary: rgb(36,36,38); /* @kind color */
+  --backgrounds-grouped-tertiary-elevated: rgb(58,58,60); /* @kind color */
+  --backgrounds-grouped-tertiary-elevated: rgb(58,58,60); /* @kind color */
+  --backgrounds-grouped-tertiary: rgb(44,44,46); /* @kind color */
+  --backgrounds-grouped-tertiary: rgb(54,54,56); /* @kind color */
+  --backgrounds-primary-elevated: rgb(28,28,30); /* @kind color */
+  --backgrounds-primary-elevated: rgb(36,36,38); /* @kind color */
+  --backgrounds-primary: rgb(0,0,0); /* @kind color */
+  --backgrounds-primary: rgb(0,0,0); /* @kind color */
+  --backgrounds-secondary-elevated-2: rgb(44,44,46); /* @kind color */
+  --backgrounds-secondary-elevated-2: rgb(54,54,56); /* @kind color */
+  --backgrounds-secondary-elevated: rgb(44,44,46); /* @kind color */
+  --backgrounds-secondary-elevated: rgb(54,54,56); /* @kind color */
+  --backgrounds-secondary: rgb(28,28,30); /* @kind color */
+  --backgrounds-secondary: rgb(36,36,38); /* @kind color */
+  --backgrounds-tertiary-elevated: rgb(58,58,60); /* @kind color */
+  --backgrounds-tertiary-elevated: rgb(58,58,60); /* @kind color */
+  --backgrounds-tertiary: rgb(44,44,46); /* @kind color */
+  --backgrounds-tertiary: rgb(54,54,56); /* @kind color */
+  --fills-primary: rgba(120,120,128,0.36); /* @kind color */
+  --fills-primary: rgba(120,120,128,0.44); /* @kind color */
+  --fills-quaternary: rgba(118,118,128,0.18); /* @kind color */
+  --fills-quaternary: rgba(118,118,128,0.26); /* @kind color */
+  --fills-secondary: rgba(120,120,128,0.32); /* @kind color */
+  --fills-secondary: rgba(120,120,128,0.4); /* @kind color */
+  --fills-tertiary: rgba(118,118,128,0.24); /* @kind color */
+  --fills-tertiary: rgba(118,118,128,0.32); /* @kind color */
+  --fills-vibrant-primary: rgb(51,51,51); /* @kind color */
+  --fills-vibrant-primary: rgb(51,51,51); /* @kind color */
+  --fills-vibrant-tertiary: rgb(18,18,18); /* @kind color */
+  --fills-vibrant-tertiary: rgb(18,18,18); /* @kind color */
+  --grays-black-2: rgb(0,0,0); /* @kind color */
+  --grays-black-2: rgb(0,0,0); /* @kind color */
+  --grays-black: rgb(0,0,0); /* @kind color */
+  --grays-black: rgb(0,0,0); /* @kind color */
+  --grays-gray-2-2: rgb(84,84,86); /* @kind color */
+  --grays-gray-2-2: rgb(99,99,102); /* @kind color */
+  --grays-gray-2: rgb(142,142,147); /* @kind color */
+  --grays-gray-2: rgb(174,174,178); /* @kind color */
+  --grays-gray-3-2: rgb(68,68,70); /* @kind color */
+  --grays-gray-3-2: rgb(72,72,74); /* @kind color */
+  --grays-gray-3: rgb(68,68,70); /* @kind color */
+  --grays-gray-3: rgb(72,72,74); /* @kind color */
+  --grays-gray-4-2: rgb(54,54,56); /* @kind color */
+  --grays-gray-4-2: rgb(58,58,60); /* @kind color */
+  --grays-gray-4: rgb(54,54,56); /* @kind color */
+  --grays-gray-4: rgb(58,58,60); /* @kind color */
+  --grays-gray-5: rgb(36,36,38); /* @kind color */
+  --grays-gray-5: rgb(44,44,46); /* @kind color */
+  --grays-gray-6-2: rgb(0,0,0); /* @kind color */
+  --grays-gray-6-2: rgb(28,28,30); /* @kind color */
+  --grays-gray-6: rgb(0,0,0); /* @kind color */
+  --grays-gray-6: rgb(28,28,30); /* @kind color */
+  --grays-gray: rgb(142,142,147); /* @kind color */
+  --grays-gray: rgb(174,174,178); /* @kind color */
+  --grays-white-2: rgb(255,255,255); /* @kind color */
+  --grays-white-2: rgb(255,255,255); /* @kind color */
+  --grays-white: rgb(255,255,255); /* @kind color */
+  --grays-white: rgb(255,255,255); /* @kind color */
+  --labels-primary: rgb(255,255,255); /* @kind color */
+  --labels-primary: rgb(255,255,255); /* @kind color */
+  --labels-quaternary: rgba(235,235,245,0.16); /* @kind color */
+  --labels-quaternary: rgba(235,235,245,0.4); /* @kind color */
+  --labels-secondary: rgba(235,235,245,0.7); /* @kind color */
+  --labels-secondary: rgba(235,235,245,0.7); /* @kind color */
+  --labels-tertiary: rgba(235,235,245,0.3); /* @kind color */
+  --labels-tertiary: rgba(235,235,245,0.55); /* @kind color */
+  --labels-vibrant-controls-primary-2: rgb(191,191,191); /* @kind color */
+  --labels-vibrant-controls-primary-2: rgb(191,191,191); /* @kind color */
+  --labels-vibrant-controls-primary: rgb(245,245,245); /* @kind color */
+  --labels-vibrant-controls-primary: rgb(255,255,255); /* @kind color */
+  --labels-vibrant-controls-tertiary: rgb(64,64,64); /* @kind color */
+  --labels-vibrant-controls-tertiary: rgb(64,64,64); /* @kind color */
+  --labels-vibrant-primary-2: rgb(255,255,255); /* @kind color */
+  --labels-vibrant-primary-2: rgb(255,255,255); /* @kind color */
+  --labels-vibrant-primary: rgb(245,245,245); /* @kind color */
+  --labels-vibrant-primary: rgb(255,255,255); /* @kind color */
+  --labels-vibrant-secondary: rgb(138,138,138); /* @kind color */
+  --labels-vibrant-secondary: rgb(138,138,138); /* @kind color */
+  --labels-vibrant-tertiary: rgb(64,64,64); /* @kind color */
+  --labels-vibrant-tertiary: rgb(64,64,64); /* @kind color */
+  --labels-vibrant-use-plus-lighter-darker-tertiary: rgb(64,64,64); /* @kind color */
+  --miscellaneous-buttons-bg-destructive: rgba(255,66,69,0.14); /* @kind color */
+  --miscellaneous-buttons-bg-destructive: rgba(255,97,101,0.14); /* @kind color */
+  --miscellaneous-keyboards-emoji-mic: rgba(255,255,255,0.73); /* @kind color */
+  --miscellaneous-keyboards-emoji-mic: rgba(255,255,255,0.73); /* @kind color */
+  --miscellaneous-keyboards-glyphs-primary: rgb(166,166,166); /* @kind color */
+  --miscellaneous-keyboards-glyphs-primary: rgb(166,166,166); /* @kind color */
+  --miscellaneous-segmented-control-selected-fill: rgba(255,255,255,0.27); /* @kind color */
+  --miscellaneous-segmented-control-selected-fill: rgba(255,255,255,0.27); /* @kind color */
+  --miscellaneous-toggle-ax-label-off: rgb(166,166,166); /* @kind color */
+  --miscellaneous-toggle-ax-label-off: rgb(255,255,255); /* @kind color */
+  --mode-2: "Dark";
+  --mode-3: "Dark";
+  --mode-3: "IC - Dark";
+  --mode-4: "Dark";
+  --mode: "Dark";
+  --mode: "IC - Dark";
+  --schemes-on-surface: rgb(230,224,233); /* @kind color */
+  --schemes-on-surface: rgb(255,249,255); /* @kind color */
+  --schemes-on-surface: rgb(255,255,255); /* @kind color */
+  --separators-non-opaque: rgba(255,255,255,0.17); /* @kind color */
+  --separators-non-opaque: rgba(255,255,255,0.17); /* @kind color */
+  --separators-opaque: rgb(56,56,58); /* @kind color */
+  --separators-opaque: rgb(56,56,58); /* @kind color */
+  --separators-vibrant: rgb(26,26,26); /* @kind color */
+  --separators-vibrant: rgb(26,26,26); /* @kind color */
+}
+
+:root[data-theme="light"], .light {
+  --accents-blue: rgb(30,110,244); /* @kind color */
+  --accents-brown: rgb(149,109,81); /* @kind color */
+  --accents-cyan: rgb(0,126,174); /* @kind color */
+  --accents-green: rgb(0,137,50); /* @kind color */
+  --accents-indigo: rgb(86,74,222); /* @kind color */
+  --accents-mint: rgb(0,133,117); /* @kind color */
+  --accents-orange: rgb(197,83,0); /* @kind color */
+  --accents-pink: rgb(231,18,77); /* @kind color */
+  --accents-purple: rgb(176,47,194); /* @kind color */
+  --accents-red: rgb(233,21,45); /* @kind color */
+  --accents-teal: rgb(0,129,152); /* @kind color */
+  --accents-yellow: rgb(161,106,0); /* @kind color */
+  --backgrounds-grouped-primary-elevated: rgb(235,235,239); /* @kind color */
+  --backgrounds-grouped-primary: rgb(235,235,239); /* @kind color */
+  --backgrounds-grouped-secondary-elevated: rgb(255,255,255); /* @kind color */
+  --backgrounds-grouped-secondary: rgb(255,255,255); /* @kind color */
+  --backgrounds-grouped-tertiary-elevated: rgb(235,235,239); /* @kind color */
+  --backgrounds-grouped-tertiary: rgb(235,235,239); /* @kind color */
+  --backgrounds-primary-elevated: rgb(255,255,255); /* @kind color */
+  --backgrounds-primary: rgb(255,255,255); /* @kind color */
+  --backgrounds-secondary-elevated-2: rgb(235,235,239); /* @kind color */
+  --backgrounds-secondary-elevated: rgb(235,235,239); /* @kind color */
+  --backgrounds-secondary: rgb(235,235,239); /* @kind color */
+  --backgrounds-tertiary-elevated: rgb(255,255,255); /* @kind color */
+  --backgrounds-tertiary: rgb(255,255,255); /* @kind color */
+  --fills-primary: rgba(120,120,120,0.28); /* @kind color */
+  --fills-quaternary: rgba(116,116,128,0.16); /* @kind color */
+  --fills-secondary: rgba(120,120,128,0.24); /* @kind color */
+  --fills-tertiary: rgba(118,118,128,0.2); /* @kind color */
+  --fills-vibrant-primary: rgb(204,204,204); /* @kind color */
+  --fills-vibrant-tertiary: rgb(237,237,237); /* @kind color */
+  --grays-black-2: rgb(0,0,0); /* @kind color */
+  --grays-black: rgb(0,0,0); /* @kind color */
+  --grays-gray-2-2: rgb(174,174,178); /* @kind color */
+  --grays-gray-2: rgb(108,108,112); /* @kind color */
+  --grays-gray-3-2: rgb(199,199,203); /* @kind color */
+  --grays-gray-3: rgb(199,199,203); /* @kind color */
+  --grays-gray-4-2: rgb(209,209,213); /* @kind color */
+  --grays-gray-4: rgb(209,209,213); /* @kind color */
+  --grays-gray-5: rgb(229,229,233); /* @kind color */
+  --grays-gray-6-2: rgb(242,242,246); /* @kind color */
+  --grays-gray-6: rgb(242,242,246); /* @kind color */
+  --grays-gray: rgb(108,108,112); /* @kind color */
+  --grays-white-2: rgb(255,255,255); /* @kind color */
+  --grays-white: rgb(255,255,255); /* @kind color */
+  --labels-primary: rgb(0,0,0); /* @kind color */
+  --labels-quaternary: rgba(60,60,67,0.55); /* @kind color */
+  --labels-secondary: rgba(60,60,67,0.8); /* @kind color */
+  --labels-tertiary: rgba(60,60,67,0.7); /* @kind color */
+  --labels-vibrant-controls-primary-2: rgb(64,64,64); /* @kind color */
+  --labels-vibrant-controls-primary: rgb(0,0,0); /* @kind color */
+  --labels-vibrant-controls-tertiary: rgb(191,191,191); /* @kind color */
+  --labels-vibrant-primary-2: rgb(51,51,51); /* @kind color */
+  --labels-vibrant-primary: rgb(0,0,0); /* @kind color */
+  --labels-vibrant-secondary: rgb(153,153,153); /* @kind color */
+  --labels-vibrant-tertiary: rgb(191,191,191); /* @kind color */
+  --miscellaneous-buttons-bg-destructive: rgba(233,21,45,0.14); /* @kind color */
+  --miscellaneous-keyboards-emoji-mic: rgba(34,43,89,0.63); /* @kind color */
+  --miscellaneous-keyboards-glyphs-primary: rgb(89,89,89); /* @kind color */
+  --miscellaneous-segmented-control-selected-fill: rgb(255,255,255); /* @kind color */
+  --miscellaneous-toggle-ax-label-off: rgb(255,255,255); /* @kind color */
+  --mode-2: "Clear Light";
+  --mode-3: "IC - Light";
+  --mode: "IC - Light";
+  --schemes-on-surface: rgb(0,0,0); /* @kind color */
+  --schemes-on-surface: rgb(29,27,32); /* @kind color */
+  --separators-non-opaque: rgba(0,0,0,0.12); /* @kind color */
+  --separators-opaque: rgb(198,198,200); /* @kind color */
+  --separators-vibrant: rgb(230,230,230); /* @kind color */
+}
+
+:root[data-mode="dim"] {
+  --bg-context-2: "Dim";
+  --bg-context: "Dim";
+}
+
+:root[data-mode="monochrome-lt"] {
+  --schemes-on-surface: rgb(27,27,27); /* @kind color */
+}
+
+:root[data-mode="monochrome-dt"] {
+  --schemes-on-surface: rgb(226,226,226); /* @kind color */
+}
+
+:root[data-mode="pink-lt"] {
+  --schemes-on-surface: rgb(33,25,28); /* @kind color */
+}
+
+:root[data-mode="pink-dt"] {
+  --schemes-on-surface: rgb(238,223,227); /* @kind color */
+}
+
+:root[data-mode="rose-lt"] {
+  --schemes-on-surface: rgb(34,25,26); /* @kind color */
+}
+
+:root[data-mode="rose-dt"] {
+  --schemes-on-surface: rgb(240,222,223); /* @kind color */
+}
+
+:root[data-mode="red-lt"] {
+  --schemes-on-surface: rgb(35,25,24); /* @kind color */
+}
+
+:root[data-mode="red-dt"] {
+  --schemes-on-surface: rgb(241,222,220); /* @kind color */
+}
+
+:root[data-mode="orange-lt"] {
+  --schemes-on-surface: rgb(34,26,21); /* @kind color */
+}
+
+:root[data-mode="orange-dt"] {
+  --schemes-on-surface: rgb(240,223,215); /* @kind color */
+}
+
+:root[data-mode="yellow-lt"] {
+  --schemes-on-surface: rgb(31,27,19); /* @kind color */
+}
+
+:root[data-mode="yellow-dt"] {
+  --schemes-on-surface: rgb(235,225,212); /* @kind color */
+}
+
+:root[data-mode="chartreuse-lt"] {
+  --schemes-on-surface: rgb(27,28,20); /* @kind color */
+}
+
+:root[data-mode="chartreuse-dt"] {
+  --schemes-on-surface: rgb(229,227,214); /* @kind color */
+}
+
+:root[data-mode="green-lt"] {
+  --schemes-on-surface: rgb(24,29,24); /* @kind color */
+}
+
+:root[data-mode="green-dt"] {
+  --schemes-on-surface: rgb(224,228,219); /* @kind color */
+}
+
+:root[data-mode="teal-lt"] {
+  --schemes-on-surface: rgb(23,29,27); /* @kind color */
+}
+
+:root[data-mode="teal-dt"] {
+  --schemes-on-surface: rgb(221,228,225); /* @kind color */
+}
+
+:root[data-mode="cyan-lt"] {
+  --schemes-on-surface: rgb(23,28,30); /* @kind color */
+}
+
+:root[data-mode="cyan-dt"] {
+  --schemes-on-surface: rgb(222,227,230); /* @kind color */
+}
+
+:root[data-mode="blue-lt"] {
+  --schemes-on-surface: rgb(26,27,33); /* @kind color */
+}
+
+:root[data-mode="blue-dt"] {
+  --schemes-on-surface: rgb(226,226,233); /* @kind color */
+}
+
+:root[data-mode="indigo-lt"] {
+  --schemes-on-surface: rgb(28,27,33); /* @kind color */
+}
+
+:root[data-mode="indigo-dt"] {
+  --schemes-on-surface: rgb(229,225,233); /* @kind color */
+}
+
+:root[data-mode="purple-lt"] {
+  --schemes-on-surface: rgb(29,26,32); /* @kind color */
+}
+
+:root[data-mode="purple-dt"] {
+  --schemes-on-surface: rgb(231,224,232); /* @kind color */
+}

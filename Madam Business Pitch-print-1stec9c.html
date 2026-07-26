@@ -1,0 +1,1255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Madam — Business Pitch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=DM+Serif+Display:ital@0;1&family=Archivo:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --ink:#0A0A0A;
+      --ink-2:#1A1A1A;
+      --paper:#FFFFFF;
+      --paper-2:#F4F4F4;
+      --paper-3:#EAEAEA;
+      --mute:#9A9A9A;
+      --mute-2:#6B6B6B;
+      --display-font:"Plus Jakarta Sans", system-ui, sans-serif;
+      --display-weight:800;
+      --display-tracking:-0.04em;
+    }
+    /* ===== Expressive tweak levers ===== */
+    /* Typeface personality */
+    html.face-editorial{ --display-font:"DM Serif Display", Georgia, serif; --display-weight:400; --display-tracking:-0.005em; }
+    html.face-grotesque{ --display-font:"Archivo", system-ui, sans-serif; --display-weight:800; --display-tracking:-0.035em; }
+    /* Accent / warmth */
+    html.acc-amber{ --mute:#C9821A; }
+    html.acc-amber .eyebrow, html.acc-amber .figure{ color:#B5731A; }
+    html.acc-amber .slide.dark .eyebrow{ color:#E3A648; }
+    html.acc-plum{ --mute:#9A4E73; }
+    html.acc-plum .eyebrow, html.acc-plum .figure{ color:#8E3F66; }
+    html.acc-plum .slide.dark .eyebrow{ color:#C97AA0; }
+    /* Paper tone */
+    html.tone-cream{ --paper:#F7F1E8; --paper-2:#EFE7DA; --paper-3:#E5DAC8; }
+    html.tone-slate{ --paper:#ECECEA; --paper-2:#E1E1DD; --paper-3:#D6D6D1; }
+    html,body{margin:0;padding:0;background:#000;color:var(--ink);}
+    *{-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;}
+    .display{ font-family:var(--display-font); font-weight:var(--display-weight); letter-spacing:var(--display-tracking); line-height:0.94; }
+    .mono{ font-family:"Plus Jakarta Sans", system-ui, sans-serif; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; font-size:24px; }
+    .slide{
+      background:var(--paper); color:var(--ink);
+      padding:90px 100px;
+      display:flex; flex-direction:column; position:relative;
+      font-family:"Plus Jakarta Sans", system-ui, sans-serif;
+    }
+    .slide.dark{ background:#000; color:var(--paper); }
+    .slide.gray{ background:var(--paper-2); }
+    .chrome-top{
+      position:absolute; top:50px; left:100px; right:100px;
+      display:flex; justify-content:space-between; align-items:center; pointer-events:none;
+    }
+    .idx{ font-variant-numeric:tabular-nums; font-weight:600; letter-spacing:0.14em; font-size:18px; text-transform:uppercase; white-space:nowrap; color:var(--mute-2);}
+    .slide.dark .idx{ color:rgba(255,255,255,0.55); }
+    .eyebrow{ display:flex; align-items:center; gap:14px; font-size:24px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink); }
+    .slide.dark .eyebrow{ color:var(--paper); }
+    .eyebrow-line{ display:none; }
+    h1.title{ margin:0; }
+    p.lede{ font-size:30px; line-height:1.32; font-weight:400; color:var(--ink-2); max-width:1200px; }
+    .slide.dark p.lede{ color:rgba(255,255,255,0.85); }
+    .figure{ font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1; }
+    /* Universal madam "m" logo — every slide except the cover, which has its own */
+    .slide:not([data-label="01 Cover"])::after{
+      content:"";
+      position:absolute;
+      top:50px;
+      left:100px;
+      width:78px;
+      height:34px;
+      background:url('assets/madam-m-v2.svg') left center/contain no-repeat;
+      filter: brightness(0); /* black on light slides */
+      pointer-events:none;
+      z-index:50;
+    }
+    .slide.dark:not([data-label="01 Cover"])::after{
+      filter: brightness(0) invert(1); /* white on dark slides */
+    }
+    /* Hide the inline chrome-top wordmark SVGs since the logo now comes from CSS */
+    .slide .chrome-top > svg:first-child{ visibility:hidden; }
+  </style>
+  <script src="deck-stage.js"></script>
+</head>
+<body>
+  <template id="__bundler_thumbnail" data-bg-color="#000000">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="800" fill="#000000"/>
+      <text x="600" y="470" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="320" fill="#ffffff">m</text>
+      <text x="600" y="600" text-anchor="middle" font-family="system-ui, sans-serif" font-size="36" letter-spacing="8" fill="#ffffff" opacity="0.55">MADAM</text>
+    </svg>
+  </template>
+  <deck-stage width="1920" height="1080">
+
+    <!-- 01 COVER -->
+    <section class="slide dark" data-label="01 Cover" style="padding:0; overflow:hidden; background:#000; color:#fff;">
+      <!-- Right: photo with rounded corners + soft black halo -->
+      <div style="position:absolute; top:48px; right:48px; bottom:48px; width:880px; border-radius:32px; overflow:hidden; background:#0A0A0A; box-shadow: 0 0 80px 30px rgba(0,0,0,0.85), 0 0 160px 60px rgba(0,0,0,0.55);">
+        <img src="assets/welcome-bg.png" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 22%;" />
+        <!-- Inner edge vignette so the photo feathers into the slide -->
+        <div style="position:absolute; inset:0; pointer-events:none; background:
+          radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%),
+          linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 18%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.55) 100%),
+          linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 14%, rgba(0,0,0,0) 86%, rgba(0,0,0,0.35) 100%);"></div>
+      </div>
+
+      <!-- Top-left: "m" monogram -->
+      <div style="position:absolute; top:64px; left:80px;">
+        <img src="assets/madam-m-v2.svg" alt="m" style="width:140px; height:auto; display:block; filter:brightness(0) invert(1);" />
+      </div>
+
+      <!-- Mid-left: eyebrow + summary -->
+      <div style="position:absolute; left:80px; top:340px; width:820px; display:flex; flex-direction:column; gap:24px;">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <span style="width: 0px; height: 1px; background: #fff; display: inline-block"></span>
+          <span style="font-family:'Plus Jakarta Sans', system-ui, sans-serif; font-size:24px; font-weight:600; letter-spacing:0.22em; color:#fff; text-transform:uppercase;">
+</span>
+        </div>
+        <p style="margin:0; max-width:760px; font-family:'Plus Jakarta Sans', system-ui, sans-serif; font-size:34px; line-height:1.35; font-weight:400; color:rgba(255,255,255,0.88); letter-spacing:-0.005em;">
+          Social commerce for Black women.
+        </p>
+      </div>
+
+      <!-- Giant Madam wordmark, bottom -->
+      <h1 class="display title" style="position:absolute; left:80px; right:48px; bottom:120px; margin:0; font-size:520px; line-height:0.85; letter-spacing:-0.04em; color:#fff; font-weight:800; pointer-events:none;">Madam</h1>
+
+      <!-- Bottom-left date stamp -->
+      <div style="position:absolute; left:80px; bottom:48px; display:flex; align-items:center; gap:24px; font-family:'Plus Jakarta Sans', system-ui, sans-serif; font-size:24px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.85);">
+        <span>Jun 2026</span>
+        <span style="opacity:0.5;">·</span>
+        <span style="color:rgba(255,255,255,0.55);">Business Pitch</span>
+        <span style="opacity:0.5;">·</span>
+        <span style="color:rgba(255,255,255,0.55);">~3 min read</span>
+      </div>
+    </section>
+
+    <!-- 02 PROBLEM -->
+    <section class="slide" data-label="02 Problem" style="overflow:hidden;">
+      <div class="chrome-top">
+        <svg viewBox="0 0 24 9" style="width:64px; height:auto;" aria-hidden="true"><path d="M 18.254 7.705 C 19.361 8.115 21.973 6.282 23.233 5.315 C 23.971 5.11 24.063 5.628 23.97 5.912 C 23.51 6.425 22.127 7.671 19.914 8.558 C 17.148 9.668 16.503 8.388 16.318 7.961 C 16.047 7.333 15.857 5.486 15.95 4.547 C 16.109 2.925 15.581 2.897 15.212 2.925 C 13.645 3.522 10.75 6.721 9.865 7.705 C 8.943 8.729 8.021 7.79 8.39 6.51 C 8.611 3.232 8.666 2.384 8.297 2.157 C 7.191 1.474 2.397 7.107 1.936 7.705 C 1.567 8.183 1.229 8.473 1.106 8.558 C 0.295 8.9 0.031 8.302 0 7.961 C 0.369 2.976 1.17 0.217 1.475 0.108 C 2.674 -0.319 2.827 0.62 2.674 1.132 C 1.936 3.591 1.844 5.4 1.844 6.254 C 3.227 4.717 6.14 1.542 7.837 0.791 C 9.533 0.04 10.018 1.559 10.049 2.413 L 10.141 5.912 C 10.971 4.888 13.147 2.652 15.212 1.901 C 17.277 1.15 17.609 3.352 17.517 4.547 C 17.609 5.4 17.148 7.295 18.254 7.705 Z" fill="#0A0A0A"/></svg>
+        <span class="idx">02 / 11 · the problem</span>
+      </div>
+
+      <div style="position:absolute; left:100px; right:100px; top:140px; bottom:80px; display:flex; flex-direction:column; justify-content:flex-start;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> the problem </div>
+        <h1 class="display title" style="margin-top:30px; font-size:100px; line-height:0.94; max-width:1620px;">Black women have no single place online <span style="color:var(--mute);">to gather, belong, and be supported.</span></h1>
+
+        <!-- journey line: how one purchase actually happens today -->
+        <div class="journey">
+          <div class="mono journey-label">HER JOURNEY</div>
+          <div class="journey-track">
+            <div class="journey-line"></div>
+            <span class="jchev" style="left:25%;">&rsaquo;</span>
+            <span class="jchev" style="left:50%;">&rsaquo;</span>
+            <span class="jchev" style="left:75%;">&rsaquo;</span>
+            <div class="journey-steps">
+              <div class="jstep">
+                <span class="jdot"></span>
+                <div class="jname">IG / TikTok</div>
+                <div class="jcap">finds something that speaks to her</div>
+              </div>
+              <div class="jstep">
+                <span class="jdot"></span>
+                <div class="jname">YouTube</div>
+                <div class="jcap">goes deeper, looking for women like her</div>
+              </div>
+              <div class="jstep">
+                <span class="jdot"></span>
+                <div class="jname">Group chats &amp; forums</div>
+                <div class="jcap">searches for a community to join</div>
+              </div>
+              <div class="jstep jstep--leak">
+                <span class="jdot"></span>
+                <div class="jname">Nowhere to land</div>
+                <div class="jcap">the spark fades &mdash; no place made for her</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        .journey{ margin-top:96px; }
+        .journey-label{ font-size:14px; letter-spacing:0.2em; color:var(--mute-2); margin-bottom:42px; }
+        .journey-track{ position:relative; }
+        .journey-line{ position:absolute; top:13px; left:12.5%; right:12.5%; height:2px; background:var(--paper-3); }
+        .jchev{ position:absolute; top:13px; transform:translate(-50%,-50%); font-family:"Plus Jakarta Sans",system-ui,sans-serif; font-size:34px; line-height:1; color:var(--mute-2); z-index:1; }
+        .journey-steps{ position:relative; display:grid; grid-template-columns:repeat(4,1fr); }
+        .jstep{ display:flex; flex-direction:column; align-items:center; text-align:center; }
+        .jdot{ width:26px; height:26px; border-radius:50%; background:#fff; border:2px solid var(--ink); margin-bottom:26px; z-index:2; }
+        .jname{ font-family:"Plus Jakarta Sans",system-ui,sans-serif; font-weight:700; font-size:30px; color:var(--ink); letter-spacing:-0.01em; }
+        .jcap{ font-family:"Plus Jakarta Sans",system-ui,sans-serif; font-size:21px; color:var(--mute-2); margin-top:10px; max-width:260px; line-height:1.32; }
+        .jstep--leak .jdot{ background:#C9821A; border-color:#C9821A; }
+        .jstep--leak .jname{ color:#C9821A; }
+      </style>
+    </section>
+
+    <!-- 03 VISION -->
+    <section class="slide dark" data-label="03 Vision">
+      <div class="chrome-top">
+        <svg viewBox="0 0 24 9" style="width:64px; height:auto;" aria-hidden="true"><path d="M 18.254 7.705 C 19.361 8.115 21.973 6.282 23.233 5.315 C 23.971 5.11 24.063 5.628 23.97 5.912 C 23.51 6.425 22.127 7.671 19.914 8.558 C 17.148 9.668 16.503 8.388 16.318 7.961 C 16.047 7.333 15.857 5.486 15.95 4.547 C 16.109 2.925 15.581 2.897 15.212 2.925 C 13.645 3.522 10.75 6.721 9.865 7.705 C 8.943 8.729 8.021 7.79 8.39 6.51 C 8.611 3.232 8.666 2.384 8.297 2.157 C 7.191 1.474 2.397 7.107 1.936 7.705 C 1.567 8.183 1.229 8.473 1.106 8.558 C 0.295 8.9 0.031 8.302 0 7.961 C 0.369 2.976 1.17 0.217 1.475 0.108 C 2.674 -0.319 2.827 0.62 2.674 1.132 C 1.936 3.591 1.844 5.4 1.844 6.254 C 3.227 4.717 6.14 1.542 7.837 0.791 C 9.533 0.04 10.018 1.559 10.049 2.413 L 10.141 5.912 C 10.971 4.888 13.147 2.652 15.212 1.901 C 17.277 1.15 17.609 3.352 17.517 4.547 C 17.609 5.4 17.148 7.295 18.254 7.705 Z" fill="#FFFFFF"/></svg>
+        <span class="idx">03 / 11 · the vision</span>
+      </div>
+      <div style="position:absolute; left:100px; right:100px; top:300px; display:flex; flex-direction:column; justify-content:flex-start;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> the vision </div>
+        <h1 class="display title" style="margin-top:30px; font-size:120px; line-height:0.94; max-width:1620px;">One place to discover <span style="color:var(--mute);">and</span> belong.</h1>
+        <p class="lede" style="margin-top:36px; font-size:33px; max-width:1280px; color:rgba(255,255,255,0.7);">No more scattering across platforms. What she finds, who she finds, and where she belongs all live in one home.</p>
+      </div>
+    </section>
+
+    <!-- 04 PRODUCT (one-page features) -->
+    <section class="slide" data-label="04 Product">
+      <div class="chrome-top">
+        <svg viewBox="0 0 24 9" style="width:64px; height:auto;" aria-hidden="true"><path d="M 18.254 7.705 C 19.361 8.115 21.973 6.282 23.233 5.315 C 23.971 5.11 24.063 5.628 23.97 5.912 C 23.51 6.425 22.127 7.671 19.914 8.558 C 17.148 9.668 16.503 8.388 16.318 7.961 C 16.047 7.333 15.857 5.486 15.95 4.547 C 16.109 2.925 15.581 2.897 15.212 2.925 C 13.645 3.522 10.75 6.721 9.865 7.705 C 8.943 8.729 8.021 7.79 8.39 6.51 C 8.611 3.232 8.666 2.384 8.297 2.157 C 7.191 1.474 2.397 7.107 1.936 7.705 C 1.567 8.183 1.229 8.473 1.106 8.558 C 0.295 8.9 0.031 8.302 0 7.961 C 0.369 2.976 1.17 0.217 1.475 0.108 C 2.674 -0.319 2.827 0.62 2.674 1.132 C 1.936 3.591 1.844 5.4 1.844 6.254 C 3.227 4.717 6.14 1.542 7.837 0.791 C 9.533 0.04 10.018 1.559 10.049 2.413 L 10.141 5.912 C 10.971 4.888 13.147 2.652 15.212 1.901 C 17.277 1.15 17.609 3.352 17.517 4.547 C 17.609 5.4 17.148 7.295 18.254 7.705 Z" fill="#0A0A0A"/></svg>
+        <span class="idx">04 / 11 · the product</span>
+      </div>
+      <div style="margin-top:150px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> the product </div>
+        <h1 class="display title" style="margin-top:24px; font-size:108px;">Where she goes <span style="color:var(--mute);">to be all of herself.</span></h1>
+      </div>
+      <div style="position:absolute; left:100px; right:100px; bottom:80px; display:grid; grid-template-columns:repeat(4, 1fr); gap:0; border-top:1px solid var(--paper-3); padding-top:40px;">
+        <div style="padding:0 36px 0 0; border-right:1px solid var(--paper-3);">
+          <div class="mono" style="color:var(--mute-2); font-size:18px;">01 · The container</div>
+          <div class="display" style="font-size:64px; margin-top:14px; letter-spacing:-0.03em;">Jars.</div>
+          <p style="font-size:22px; line-height:1.4; color:var(--ink-2); margin:18px 0 0;">Living spaces around a passion. Looks, links, notes. Public or private.</p>
+        </div>
+        <div style="padding:0 36px; border-right:1px solid var(--paper-3);">
+          <div class="mono" style="color:var(--mute-2); font-size:18px;">02 · The arc</div>
+          <div class="display" style="font-size:64px; margin-top:14px; letter-spacing:-0.03em;">Journeys.</div>
+          <p style="font-size:22px; line-height:1.4; color:var(--ink-2); margin:18px 0 0;">Chapters of progress others can recreate, step by step.</p>
+        </div>
+        <div style="padding:0 36px; border-right:1px solid var(--paper-3);">
+          <div class="mono" style="color:var(--mute-2); font-size:18px;">03 · The home</div>
+          <div class="display" style="font-size:64px; margin-top:14px; letter-spacing:-0.03em;">Feed.</div>
+          <p style="font-size:22px; line-height:1.4; color:var(--ink-2); margin:18px 0 0;">Shaped by who she follows, not by an algorithm.</p>
+        </div>
+        <div style="padding:0 0 0 36px;">
+          <div class="mono" style="color:var(--mute-2); font-size:18px;">04 · The co-pilot</div>
+          <div class="display" style="font-size:64px; margin-top:14px; letter-spacing:-0.03em;">Daia.</div>
+          <p style="font-size:22px; line-height:1.4; color:var(--ink-2); margin:18px 0 0;">An AI fluent in her Jars, her goals, her language.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEPRECATED — old feature slides retained as comments for reference; replaced by 04 Product -->
+
+    <!-- 09 TEAM -->
+    <section class="slide" data-label="05 Team" style="overflow:hidden; background:
+      radial-gradient(50% 40% at 22% 30%, rgba(255,158,44,0.07), transparent 70%),
+      radial-gradient(46% 40% at 92% 46%, rgba(0,136,255,0.06), transparent 72%),
+      radial-gradient(42% 40% at 88% 86%, rgba(255,77,141,0.05), transparent 72%),
+      var(--paper);">
+      <div class="chrome-top">
+        <svg viewBox="0 0 24 9" style="width:64px; height:auto;" aria-hidden="true"><path d="M 18.254 7.705 C 19.361 8.115 21.973 6.282 23.233 5.315 C 23.971 5.11 24.063 5.628 23.97 5.912 C 23.51 6.425 22.127 7.671 19.914 8.558 C 17.148 9.668 16.503 8.388 16.318 7.961 C 16.047 7.333 15.857 5.486 15.95 4.547 C 16.109 2.925 15.581 2.897 15.212 2.925 C 13.645 3.522 10.75 6.721 9.865 7.705 C 8.943 8.729 8.021 7.79 8.39 6.51 C 8.611 3.232 8.666 2.384 8.297 2.157 C 7.191 1.474 2.397 7.107 1.936 7.705 C 1.567 8.183 1.229 8.473 1.106 8.558 C 0.295 8.9 0.031 8.302 0 7.961 C 0.369 2.976 1.17 0.217 1.475 0.108 C 2.674 -0.319 2.827 0.62 2.674 1.132 C 1.936 3.591 1.844 5.4 1.844 6.254 C 3.227 4.717 6.14 1.542 7.837 0.791 C 9.533 0.04 10.018 1.559 10.049 2.413 L 10.141 5.912 C 10.971 4.888 13.147 2.652 15.212 1.901 C 17.277 1.15 17.609 3.352 17.517 4.547 C 17.609 5.4 17.148 7.295 18.254 7.705 Z" fill="#0A0A0A"/></svg>
+        <span class="idx">05 / 11 · the team</span>
+      </div>
+
+      <!-- Left column: heading -->
+      <div style="position:absolute; left:100px; top:50%; transform:translateY(-50%); width:760px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> the team </div>
+        <h1 class="display title" style="margin-top:24px; font-size:128px;">Meet the team.</h1>
+        <p style="font-size:30px; line-height:1.35; color:var(--ink-2); margin:28px 0 0; max-width:620px;">Operators and builders from Harvard, Facebook, Georgia Tech, Citi and NASA, around one mission.</p>
+      </div>
+
+      <!-- Right: team circle -->
+      <div style="position:absolute; right:40px; top:50%; transform:translateY(-50%) scale(1.04); transform-origin:right center; width:780px; height:850px;">
+
+        <!-- connectors + faint ring -->
+        <svg width="780" height="780" viewBox="0 0 780 780" style="position:absolute; left:0; top:35px; z-index:1;">
+          <circle cx="390" cy="390" r="290" fill="none" stroke="#EFEFF2" stroke-width="1.5"></circle>
+          <line x1="390" y1="390" x2="390" y2="100" stroke="#FF9E2C" stroke-width="2.5" stroke-linecap="round" opacity="0.5"></line>
+          <line x1="390" y1="390" x2="641" y2="245" stroke="#FF5A5F" stroke-width="2.5" stroke-linecap="round" opacity="0.5"></line>
+          <line x1="390" y1="390" x2="641" y2="535" stroke="#FF4D8D" stroke-width="2.5" stroke-linecap="round" opacity="0.5"></line>
+          <line x1="390" y1="390" x2="390" y2="680" stroke="#0088FF" stroke-width="2.5" stroke-linecap="round" opacity="0.5"></line>
+          <line x1="390" y1="390" x2="139" y2="535" stroke="#0FB5A6" stroke-width="2.5" stroke-linecap="round" opacity="0.5"></line>
+          <line x1="390" y1="390" x2="139" y2="245" stroke="#1FA85F" stroke-width="2.5" stroke-linecap="round" opacity="0.5"></line>
+        </svg>
+
+        <!-- CENTER — Madam brand hub -->
+        <div style="position:absolute; left:390px; top:425px; transform:translate(-50%,-50%); pointer-events:none; z-index:2;">
+          <div style="width:150px; height:150px; border-radius:50%; background:#0B0B0F; box-shadow:0 16px 38px rgba(0,0,0,0.32); display:flex; align-items:center; justify-content:center;">
+            <img src="assets/team/madam-logo.png" alt="madam" style="width:84px; height:auto; display:block; filter:brightness(0) invert(1);">
+          </div>
+        </div>
+
+        <!-- TOP — Caston Boyd, Founder -->
+        <div style="position:absolute; left:390px; top:135px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:13px; width:200px; z-index:3;">
+          <div style="width:134px; height:134px; border-radius:50%; padding:5px; background:linear-gradient(135deg,#FF9E2C,#FFC24B); box-shadow:0 10px 26px rgba(255,158,44,0.32);">
+            <img src="assets/team/caston.png" alt="Caston Boyd" style="width:100%; height:100%; object-fit:cover; object-position:center 18%; border-radius:50%; border:3px solid #FFFFFF; display:block;">
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:20px; color:#0B0B0F;">Caston Boyd</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; color:#C9821A; margin-top:3px;">Built the app, vision &amp; the raise</div>
+            <div style="margin-top:9px; display:flex; align-items:center; justify-content:center; gap:10px;"><img src="assets/team/harvard.png" alt="Harvard" style="height:30px; width:auto; display:block;"><img src="assets/team/facebook.png" alt="Facebook" style="height:26px; width:auto; display:block;"></div>
+          </div>
+        </div>
+
+        <!-- UPPER-RIGHT — Kai Williamson, Strategy Officer -->
+        <div style="position:absolute; left:641px; top:280px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:13px; width:200px; z-index:3;">
+          <div style="width:134px; height:134px; border-radius:50%; padding:5px; background:linear-gradient(135deg,#FF5A5F,#FF9A6B); box-shadow:0 10px 26px rgba(255,90,95,0.30);">
+            <img src="assets/team/kai.png" alt="Kai Williamson" style="width:100%; height:100%; object-fit:cover; object-position:center 20%; border-radius:50%; border:3px solid #FFFFFF; display:block;">
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:20px; color:#0B0B0F;">Kai Williamson</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; color:#E24A4A; margin-top:3px;">Drives growth &amp; partnerships</div>
+            <div style="margin-top:9px; display:flex; align-items:center; justify-content:center; gap:10px;"><img src="assets/team/georgiatech.png" alt="Georgia Tech" style="height:26px; width:auto; display:block;"><img src="assets/team/hgtv.png" alt="HGTV" style="height:24px; width:auto; display:block;"></div>
+          </div>
+        </div>
+
+        <!-- LOWER-RIGHT — Jonathan Brooks, Lead Content Strategist -->
+        <div style="position:absolute; left:641px; top:570px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:13px; width:210px; z-index:3;">
+          <div style="width:134px; height:134px; border-radius:50%; padding:5px; background:linear-gradient(135deg,#FF4D8D,#FF85AB); box-shadow:0 10px 26px rgba(255,77,141,0.30);">
+            <img src="assets/team/jonathan.png" alt="Jonathan Brooks" style="width:100%; height:100%; object-fit:cover; object-position:center 14%; border-radius:50%; border:3px solid #FFFFFF; display:block;">
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:20px; color:#0B0B0F;">Jonathan Brooks</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; color:#D63B77; margin-top:3px;">Shapes the brand &amp; content</div>
+          </div>
+        </div>
+
+        <!-- BOTTOM — Joshua Nelson, Lead Engineer -->
+        <div style="position:absolute; left:390px; top:715px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:13px; width:200px; z-index:3;">
+          <div style="width:134px; height:134px; border-radius:50%; padding:5px; background:linear-gradient(135deg,#0088FF,#28C2FF); box-shadow:0 10px 26px rgba(0,136,255,0.30);">
+            <img src="assets/team/joshua.png" alt="Joshua Nelson" style="width:100%; height:100%; object-fit:cover; object-position:center 22%; border-radius:50%; border:3px solid #FFFFFF; display:block;">
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:20px; color:#0B0B0F;">Joshua Nelson</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; color:#0A78D6; margin-top:3px;">Builds the product</div>
+            <div style="margin-top:9px; display:flex; align-items:center; justify-content:center;"><img src="assets/team/citi.png" alt="Citi" style="height:18px; width:auto; display:block;"></div>
+          </div>
+        </div>
+
+        <!-- LOWER-LEFT — Allan E. Rosales, Lead Designer -->
+        <div style="position:absolute; left:139px; top:570px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:13px; width:200px; z-index:3;">
+          <div style="width:134px; height:134px; border-radius:50%; padding:5px; background:linear-gradient(135deg,#0FB5A6,#46E0C6); box-shadow:0 10px 26px rgba(15,181,166,0.30);">
+            <img src="assets/team/allan.png" alt="Allan E. Rosales" style="width:100%; height:100%; object-fit:cover; object-position:center 30%; border-radius:50%; border:3px solid #FFFFFF; display:block;">
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:20px; color:#0B0B0F;">Allan E. Rosales</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; color:#0E9E90; margin-top:3px;">Designs the experience</div>
+            <div style="margin-top:9px; display:flex; align-items:center; justify-content:center;"><img src="assets/team/daisy.png" alt="Daisy" style="height:24px; width:24px; border-radius:6px; display:block;"></div>
+          </div>
+        </div>
+
+        <!-- UPPER-LEFT — Mihir Pathak, Finance Officer -->
+        <div style="position:absolute; left:139px; top:280px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:13px; width:200px; z-index:3;">
+          <div style="width:134px; height:134px; border-radius:50%; padding:5px; background:linear-gradient(135deg,#1FA85F,#4FD08A); box-shadow:0 10px 26px rgba(31,168,95,0.30);">
+            <img src="assets/team/mihir.png" alt="Mihir Pathak" style="width:100%; height:100%; object-fit:cover; object-position:center 25%; border-radius:50%; border:3px solid #FFFFFF; display:block;">
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:20px; color:#0B0B0F;">Mihir Pathak</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; color:#178A4C; margin-top:3px;">Runs operations &amp; finance</div>
+            <div style="margin-top:9px; display:flex; align-items:center; justify-content:center; gap:10px;"><img src="assets/team/georgiatech.png" alt="Georgia Tech" style="height:26px; width:auto; display:block;"><img src="assets/team/nasa.png" alt="NASA" style="height:26px; width:auto; display:block;"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 08 COMPETITION -->
+    <section class="slide dark" data-label="06 Competition" style="background:#0A0A0A; color:#fff; overflow:hidden;">
+      <div class="chrome-top">
+        <svg viewBox="0 0 24 9" style="width:64px; height:auto;" aria-hidden="true"><path d="M 18.254 7.705 C 19.361 8.115 21.973 6.282 23.233 5.315 C 23.971 5.11 24.063 5.628 23.97 5.912 C 23.51 6.425 22.127 7.671 19.914 8.558 C 17.148 9.668 16.503 8.388 16.318 7.961 C 16.047 7.333 15.857 5.486 15.95 4.547 C 16.109 2.925 15.581 2.897 15.212 2.925 C 13.645 3.522 10.75 6.721 9.865 7.705 C 8.943 8.729 8.021 7.79 8.39 6.51 C 8.611 3.232 8.666 2.384 8.297 2.157 C 7.191 1.474 2.397 7.107 1.936 7.705 C 1.567 8.183 1.229 8.473 1.106 8.558 C 0.295 8.9 0.031 8.302 0 7.961 C 0.369 2.976 1.17 0.217 1.475 0.108 C 2.674 -0.319 2.827 0.62 2.674 1.132 C 1.936 3.591 1.844 5.4 1.844 6.254 C 3.227 4.717 6.14 1.542 7.837 0.791 C 9.533 0.04 10.018 1.559 10.049 2.413 L 10.141 5.912 C 10.971 4.888 13.147 2.652 15.212 1.901 C 17.277 1.15 17.609 3.352 17.517 4.547 C 17.609 5.4 17.148 7.295 18.254 7.705 Z" fill="#FFFFFF"/></svg>
+        <span class="idx" style="color:rgba(255,255,255,0.55);">06 / 11 · competition</span>
+      </div>
+      <div style="margin-top:96px;">
+        <h1 class="display title" style="font-size: 96px; color: #fff; margin: 0px">Competition.</h1>
+        <p style="font-size:27px; line-height:1.4; color:rgba(255,255,255,0.7); margin:20px 0 0; max-width:1520px;">Plenty of apps can sell. None of them know her &mdash; and the identity that compounds in her Journeys can't be scraped. That's the moat.</p>
+      </div>
+      <!-- Comparison matrix -->
+      <div class="comp-matrix" style="position:absolute; left:100px; right:100px; bottom:96px;">
+
+        <!-- Header row -->
+        <div class="comp-row comp-head">
+          <div class="comp-brand"></div>
+          <div class="comp-col"><span class="comp-title">Built for her</span><span class="comp-sub">She's the center, not a segment</span></div>
+          <div class="comp-col"><span class="comp-title">Native storefront</span><span class="comp-sub">Her profile is the shop, not a link out</span></div>
+          <div class="comp-col"><span class="comp-title">She earns the sale</span><span class="comp-sub">P2P economics, not the platform's</span></div>
+          <div class="comp-col"><span class="comp-title">Journeys others follow</span><span class="comp-sub">Longitudinal identity, not posts</span></div>
+          <div class="comp-col"><span class="comp-title">Can't be copied</span><span class="comp-sub">Compounding first-party data</span></div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-brand">LTK</div>
+          <div class="comp-cell"></div><div class="comp-cell yes">&#10003;</div><div class="comp-cell yes">&#10003;</div><div class="comp-cell"></div><div class="comp-cell"></div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-brand">ShopMy</div>
+          <div class="comp-cell"></div><div class="comp-cell yes">&#10003;</div><div class="comp-cell yes">&#10003;</div><div class="comp-cell"></div><div class="comp-cell"></div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-brand">Poshmark</div>
+          <div class="comp-cell"></div><div class="comp-cell yes">&#10003;</div><div class="comp-cell yes">&#10003;</div><div class="comp-cell"></div><div class="comp-cell"></div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-brand">Miiriya</div>
+          <div class="comp-cell yes">&#10003;</div><div class="comp-cell yes">&#10003;</div><div class="comp-cell yes">&#10003;</div><div class="comp-cell"></div><div class="comp-cell"></div>
+        </div>
+        <div class="comp-row comp-madam">
+          <div class="comp-brand"><img class="madam-mark" src="assets/madam-m-v2.svg" alt="Madam" /></div>
+          <div class="comp-cell yes">&#10003;</div><div class="comp-cell yes">&#10003;</div><div class="comp-cell yes">&#10003;</div><div class="comp-cell yes">&#10003;</div><div class="comp-cell yes">&#10003;</div>
+        </div>
+      </div>
+      <style>
+        .comp-matrix{ font-family:'Plus Jakarta Sans', system-ui, sans-serif; }
+        .comp-row{
+          display:grid;
+          grid-template-columns:1.3fr repeat(5, 1fr);
+          align-items:start;
+          border-top:1px solid rgba(255,255,255,0.14);
+        }
+        .comp-row:not(.comp-head){ align-items:center; }
+        .comp-row:last-child{ border-bottom:1px solid rgba(255,255,255,0.14); }
+        .comp-head{ border-top:none; }
+        .comp-col{
+          padding:0 16px 22px; text-align:center;
+          display:flex; flex-direction:column; align-items:center;
+        }
+        .comp-col .comp-title{
+          min-height:58px; display:flex; align-items:flex-end; justify-content:center;
+          font-size:26px; font-weight:700; line-height:1.15; letter-spacing:0.01em;
+          color:#FFFFFF;
+        }
+        .comp-col .comp-sub{
+          display:block; margin-top:12px; padding-top:12px;
+          border-top:1px solid rgba(255,255,255,0.14);
+          font-size:17px; font-weight:500; line-height:1.3;
+          letter-spacing:0.01em; text-transform:none;
+          color:rgba(255,255,255,0.62);
+        }
+        .comp-brand{
+          padding:26px 0; font-size:30px; font-weight:600;
+          color:rgba(255,255,255,0.82); letter-spacing:-0.01em;
+        }
+        .comp-cell{
+          padding:26px 0; text-align:center;
+          font-size:34px; font-weight:700; color:#fff;
+        }
+        .comp-cell:not(.yes)::before{
+          content:"\2013"; color:rgba(255,255,255,0.22); font-weight:400;
+        }
+        .comp-madam{
+          background:#fff; color:#0A0A0A;
+          border-radius:18px; border-top-color:transparent;
+          box-shadow:0 18px 50px rgba(0,0,0,0.45);
+        }
+        .comp-madam .comp-brand{ padding-left:36px; }
+        .comp-madam .madam-mark{ width:120px; height:auto; display:block; filter:brightness(0); }
+        .comp-madam .comp-cell.yes{ color:#0A0A0A; }
+        .comp-caption{
+          margin-top:30px; text-align:center;
+          font-size:24px; font-weight:400; letter-spacing:0.01em;
+          color:rgba(255,255,255,0.55); font-style:italic;
+        }
+        .comp-caption strong{ color:#fff; font-weight:700; font-style:normal; }
+      </style>
+    </section>
+
+    <!-- 09 BUSINESS MODEL -->
+    <section class="slide" data-label="07 Business model">
+      <div class="chrome-top">
+        <svg viewBox="0 0 24 9" style="width:64px; height:auto;" aria-hidden="true"><path d="M 18.254 7.705 C 19.361 8.115 21.973 6.282 23.233 5.315 C 23.971 5.11 24.063 5.628 23.97 5.912 C 23.51 6.425 22.127 7.671 19.914 8.558 C 17.148 9.668 16.503 8.388 16.318 7.961 C 16.047 7.333 15.857 5.486 15.95 4.547 C 16.109 2.925 15.581 2.897 15.212 2.925 C 13.645 3.522 10.75 6.721 9.865 7.705 C 8.943 8.729 8.021 7.79 8.39 6.51 C 8.611 3.232 8.666 2.384 8.297 2.157 C 7.191 1.474 2.397 7.107 1.936 7.705 C 1.567 8.183 1.229 8.473 1.106 8.558 C 0.295 8.9 0.031 8.302 0 7.961 C 0.369 2.976 1.17 0.217 1.475 0.108 C 2.674 -0.319 2.827 0.62 2.674 1.132 C 1.936 3.591 1.844 5.4 1.844 6.254 C 3.227 4.717 6.14 1.542 7.837 0.791 C 9.533 0.04 10.018 1.559 10.049 2.413 L 10.141 5.912 C 10.971 4.888 13.147 2.652 15.212 1.901 C 17.277 1.15 17.609 3.352 17.517 4.547 C 17.609 5.4 17.148 7.295 18.254 7.705 Z" fill="#0A0A0A"/></svg>
+        <span class="idx">07 / 11 · business model</span>
+      </div>
+      <div style="margin-top:130px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> how we make money </div>
+        <h1 class="display title" style="margin-top:18px; font-size:92px;">We make money when she does.</h1>
+        <p style="font-size:26px; line-height:1.45; color:var(--ink-2); margin:22px 0 0; max-width:1100px;">A creator turns her <strong style="font-weight:700; color:var(--ink);">Jar</strong> into a storefront. Fans buy. Madam takes 5%.</p>
+      </div>
+
+      <!-- Node tree: money flows up — community → Jars → Madam -->
+      <div style="position:absolute; left:100px; right:100px; top:475px; bottom:96px;">
+        <svg viewBox="0 0 1720 480" style="width:100%; height:100%;" font-family="'Plus Jakarta Sans', sans-serif">
+          <defs>
+            <marker id="bm-up" markerWidth="11" markerHeight="11" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0A0A0A"></path></marker>
+          </defs>
+
+          <!-- tier labels -->
+          <text x="0" y="50" font-size="17" font-weight="700" letter-spacing="2.2" fill="#6B6B6B">OUR APP</text>
+          <text x="0" y="240" font-size="16" font-weight="700" letter-spacing="1.8" fill="#6B6B6B">CREATORS · 42K</text>
+          <text x="0" y="430" font-size="16" font-weight="700" letter-spacing="1.8" fill="#6B6B6B">COMMUNITY · 2.5M</text>
+
+          <!-- side rail: totals -->
+          <text x="1720" y="42" text-anchor="end" class="display figure" font-size="42" font-weight="800" fill="#0A0A0A" letter-spacing="-0.03em">$100M</text>
+          <text x="1720" y="66" text-anchor="end" font-size="14" font-weight="700" letter-spacing="1.5" fill="#6B6B6B">GMV / YEAR</text>
+          <text x="1720" y="126" text-anchor="end" class="display figure" font-size="42" font-weight="800" fill="#B5731A" letter-spacing="-0.03em">$5M</text>
+          <text x="1720" y="150" text-anchor="end" font-size="14" font-weight="700" letter-spacing="1.5" fill="#6B6B6B">5% TO MADAM</text>
+
+          <!-- money flowing UP: Jars -> Madam (the 5% take) -->
+          <path d="M330,191 C330,140 860,150 860,96" fill="none" stroke="#B5731A" stroke-width="2.4" marker-end="url(#bm-up)"></path>
+          <path d="M860,191 L860,96" fill="none" stroke="#6B6B6B" stroke-width="2.4" marker-end="url(#bm-up)"></path>
+          <path d="M1390,191 C1390,140 860,150 860,96" fill="none" stroke="#9A4E73" stroke-width="2.4" marker-end="url(#bm-up)"></path>
+
+          <!-- take badges -->
+          <g>
+            <rect x="547" y="123" width="96" height="40" rx="20" fill="#FFFFFF" stroke="#B5731A" stroke-width="1.6"></rect>
+            <text x="595" y="150" text-anchor="middle" font-size="22" font-weight="800" fill="#B5731A">+$1M</text>
+          </g>
+          <g>
+            <rect x="800" y="123" width="120" height="40" rx="20" fill="#FFFFFF" stroke="#6B6B6B" stroke-width="1.6"></rect>
+            <text x="860" y="150" text-anchor="middle" font-size="22" font-weight="800" fill="#2E2412">+$1.5M</text>
+          </g>
+          <g>
+            <rect x="1065" y="123" width="120" height="40" rx="20" fill="#FFFFFF" stroke="#9A4E73" stroke-width="1.6"></rect>
+            <text x="1125" y="150" text-anchor="middle" font-size="22" font-weight="800" fill="#9A4E73">+$2.5M</text>
+          </g>
+
+          <!-- structural: Jars -> community -->
+          <g stroke="#C2C2C2" stroke-width="1.5" fill="none">
+            <path d="M330,279 C330,330 262,360 262,405"></path>
+            <path d="M330,279 L330,405"></path>
+            <path d="M330,279 C330,330 398,360 398,405"></path>
+            <path d="M860,279 C860,330 792,360 792,405"></path>
+            <path d="M860,279 L860,405"></path>
+            <path d="M860,279 C860,330 928,360 928,405"></path>
+            <path d="M1390,279 C1390,330 1322,360 1322,405"></path>
+            <path d="M1390,279 L1390,405"></path>
+            <path d="M1390,279 C1390,330 1458,360 1458,405"></path>
+          </g>
+
+          <!-- root: Madam -->
+          <rect x="725" y="12" width="270" height="84" rx="18" fill="#0A0A0A"></rect>
+          <text x="860" y="51" text-anchor="middle" font-size="30" font-weight="800" fill="#FFFFFF">Madam</text>
+          <text x="860" y="76" text-anchor="middle" font-size="14" font-weight="600" letter-spacing="1" fill="rgba(255,255,255,0.6)">the storefront platform</text>
+
+          <!-- jars -->
+          <g>
+            <rect x="205" y="191" width="250" height="88" rx="18" fill="#E3C18A" stroke="#0A0A0A" stroke-width="2"></rect>
+            <text x="330" y="232" text-anchor="middle" font-size="26" font-weight="800" fill="#2E2412">Lo-fi DJ</text>
+            <text x="330" y="258" text-anchor="middle" font-size="14" font-weight="700" letter-spacing="2" fill="#6B5430">× 14K JARS</text>
+          </g>
+          <g>
+            <rect x="735" y="191" width="250" height="88" rx="18" fill="#F4F4F4" stroke="#0A0A0A" stroke-width="2"></rect>
+            <text x="860" y="232" text-anchor="middle" font-size="26" font-weight="800" fill="#0A0A0A">Yoruba teacher</text>
+            <text x="860" y="258" text-anchor="middle" font-size="14" font-weight="700" letter-spacing="2" fill="#6B6B6B">× 16K JARS</text>
+          </g>
+          <g>
+            <rect x="1265" y="191" width="250" height="88" rx="18" fill="#BFA0B0" stroke="#0A0A0A" stroke-width="2"></rect>
+            <text x="1390" y="232" text-anchor="middle" font-size="26" font-weight="800" fill="#2A1E26">Braider</text>
+            <text x="1390" y="258" text-anchor="middle" font-size="14" font-weight="700" letter-spacing="2" fill="#5A4350">× 12K JARS</text>
+          </g>
+
+          <!-- GMV labels (sales volume into each Jar) -->
+          <g>
+            <rect x="248" y="296" width="164" height="30" rx="15" fill="#FFFFFF"></rect>
+            <text x="330" y="317" text-anchor="middle" font-size="18" font-weight="700" fill="#1A1A1A">$20M GMV</text>
+          </g>
+          <g>
+            <rect x="778" y="296" width="164" height="30" rx="15" fill="#FFFFFF"></rect>
+            <text x="860" y="317" text-anchor="middle" font-size="18" font-weight="700" fill="#1A1A1A">$30M GMV</text>
+          </g>
+          <g>
+            <rect x="1300" y="296" width="180" height="30" rx="15" fill="#FFFFFF"></rect>
+            <text x="1390" y="317" text-anchor="middle" font-size="18" font-weight="700" fill="#1A1A1A">$50M GMV</text>
+          </g>
+
+          <!-- community -->
+          <g fill="#F4F4F4" stroke="#0A0A0A" stroke-width="1.6">
+            <circle cx="262" cy="425" r="20"></circle>
+            <circle cx="330" cy="425" r="20"></circle>
+            <circle cx="398" cy="425" r="20"></circle>
+            <circle cx="792" cy="425" r="20"></circle>
+            <circle cx="860" cy="425" r="20"></circle>
+            <circle cx="928" cy="425" r="20"></circle>
+            <circle cx="1322" cy="425" r="20"></circle>
+            <circle cx="1390" cy="425" r="20"></circle>
+            <circle cx="1458" cy="425" r="20"></circle>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 08 REVENUE -->
+    <section class="slide" data-label="08 Revenue">
+      <div class="chrome-top">
+        <svg viewBox="0 0 24 9" style="width:64px; height:auto;" aria-hidden="true"><path d="M 18.254 7.705 C 19.361 8.115 21.973 6.282 23.233 5.315 C 23.971 5.11 24.063 5.628 23.97 5.912 C 23.51 6.425 22.127 7.671 19.914 8.558 C 17.148 9.668 16.503 8.388 16.318 7.961 C 16.047 7.333 15.857 5.486 15.95 4.547 C 16.109 2.925 15.581 2.897 15.212 2.925 C 13.645 3.522 10.75 6.721 9.865 7.705 C 8.943 8.729 8.021 7.79 8.39 6.51 C 8.611 3.232 8.666 2.384 8.297 2.157 C 7.191 1.474 2.397 7.107 1.936 7.705 C 1.567 8.183 1.229 8.473 1.106 8.558 C 0.295 8.9 0.031 8.302 0 7.961 C 0.369 2.976 1.17 0.217 1.475 0.108 C 2.674 -0.319 2.827 0.62 2.674 1.132 C 1.936 3.591 1.844 5.4 1.844 6.254 C 3.227 4.717 6.14 1.542 7.837 0.791 C 9.533 0.04 10.018 1.559 10.049 2.413 L 10.141 5.912 C 10.971 4.888 13.147 2.652 15.212 1.901 C 17.277 1.15 17.609 3.352 17.517 4.547 C 17.609 5.4 17.148 7.295 18.254 7.705 Z" fill="#0A0A0A"/></svg>
+        <span class="idx">08 / 11 · revenue</span>
+      </div>
+      <div style="margin-top:130px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> how our take grows </div>
+        <h1 class="display title" style="margin-top:18px; font-size:92px;">Our take grows as she grows.</h1>
+        <p style="font-size:26px; line-height:1.45; color:var(--ink-2); margin:22px 0 0; max-width:1200px;">The 5% marketplace fee is the floor. Each service we layer on lifts revenue per creator &mdash; toward a <strong style="font-weight:700; color:var(--ink);">~10% blended take</strong> and $100M a year.</p>
+      </div>
+
+      <!-- Revenue stack -->
+      <div style="position:absolute; left:100px; right:100px; top:486px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:16px;">
+          <span class="mono" style="font-size:15px; color:var(--mute-2); letter-spacing:0.2em;">REVENUE AT SCALE</span>
+          <span class="display" style="font-size:30px; letter-spacing:-0.02em;">= $100M <span style="color:var(--mute);">/ year</span></span>
+        </div>
+        <div style="display:flex; gap:8px; height:284px;">
+          <div style="flex:50; background:#0A0A0A; color:#fff; border-radius:10px; padding:26px 30px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="font-size:25px; font-weight:700;">Marketplace fee</div>
+              <div style="font-size:16px; font-weight:600; color:rgba(255,255,255,0.6); margin-top:6px;">5% of every sale</div>
+            </div>
+            <div class="figure display" style="font-size:66px; line-height:0.85; letter-spacing:-0.02em;">$50M</div>
+          </div>
+          <div style="flex:25; background:#E3C18A; color:#2E2412; border-radius:10px; padding:26px 28px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="font-size:24px; font-weight:700;">Payments</div>
+              <div style="font-size:16px; font-weight:600; color:rgba(46,36,18,0.66); margin-top:6px;">payouts, processing &amp; financing</div>
+            </div>
+            <div class="figure display" style="font-size:60px; line-height:0.85; letter-spacing:-0.02em;">$25M</div>
+          </div>
+          <div style="flex:15; background:#BFA0B0; color:#2A1E26; border-radius:10px; padding:26px 26px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="font-size:23px; font-weight:700;">Pro Jars</div>
+              <div style="font-size:16px; font-weight:600; color:rgba(42,30,38,0.62); margin-top:6px;">recurring subscription</div>
+            </div>
+            <div class="figure display" style="font-size:54px; line-height:0.85; letter-spacing:-0.02em;">$15M</div>
+          </div>
+          <div style="flex:10; background:#D8D2CA; color:#2A2620; border-radius:10px; padding:26px 24px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="font-size:22px; font-weight:700; line-height:1.1;">Ads &amp; services</div>
+              <div style="font-size:16px; font-weight:600; color:rgba(42,38,32,0.6); margin-top:6px;">promoted + booking</div>
+            </div>
+            <div class="figure display" style="font-size:46px; line-height:0.85; letter-spacing:-0.02em;">$10M</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div style="position:absolute; left:100px; right:100px; bottom:90px; border-top:1px solid var(--paper-3); padding-top:26px; display:grid; grid-template-columns:1fr 1fr 1fr;">
+        <div style="padding-right:48px; border-right:1px solid var(--paper-3);">
+          <div class="figure display" style="font-size:78px; line-height:0.9; letter-spacing:-0.03em;">$1B</div>
+          <div class="mono" style="font-size:16px; color:var(--mute-2); margin-top:12px;">GMV powering it</div>
+        </div>
+        <div style="padding:0 48px; border-right:1px solid var(--paper-3);">
+          <div class="figure display" style="font-size:78px; line-height:0.9; letter-spacing:-0.03em; color:#B5731A;">~10%</div>
+          <div class="mono" style="font-size:16px; color:var(--mute-2); margin-top:12px;">blended take rate</div>
+        </div>
+        <div style="padding-left:48px;">
+          <div class="figure display" style="font-size:78px; line-height:0.9; letter-spacing:-0.03em;">$100M</div>
+          <div class="mono" style="font-size:16px; color:var(--mute-2); margin-top:12px;">revenue / year</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 WHY NOW -->
+    <section class="slide gray" data-label="09 Why now">
+      <div class="chrome-top">
+        <svg viewBox="0 0 24 9" style="width:64px; height:auto;" aria-hidden="true"><path d="M 18.254 7.705 C 19.361 8.115 21.973 6.282 23.233 5.315 C 23.971 5.11 24.063 5.628 23.97 5.912 C 23.51 6.425 22.127 7.671 19.914 8.558 C 17.148 9.668 16.503 8.388 16.318 7.961 C 16.047 7.333 15.857 5.486 15.95 4.547 C 16.109 2.925 15.581 2.897 15.212 2.925 C 13.645 3.522 10.75 6.721 9.865 7.705 C 8.943 8.729 8.021 7.79 8.39 6.51 C 8.611 3.232 8.666 2.384 8.297 2.157 C 7.191 1.474 2.397 7.107 1.936 7.705 C 1.567 8.183 1.229 8.473 1.106 8.558 C 0.295 8.9 0.031 8.302 0 7.961 C 0.369 2.976 1.17 0.217 1.475 0.108 C 2.674 -0.319 2.827 0.62 2.674 1.132 C 1.936 3.591 1.844 5.4 1.844 6.254 C 3.227 4.717 6.14 1.542 7.837 0.791 C 9.533 0.04 10.018 1.559 10.049 2.413 L 10.141 5.912 C 10.971 4.888 13.147 2.652 15.212 1.901 C 17.277 1.15 17.609 3.352 17.517 4.547 C 17.609 5.4 17.148 7.295 18.254 7.705 Z" fill="#0A0A0A"/></svg>
+        <span class="idx">09 / 11 · why now</span>
+      </div>
+      <div style="margin-top:150px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> why now </div>
+        <h1 class="display title" style="margin-top:22px; font-size:92px;">A market hiding in plain sight.</h1>
+        <p style="font-size:30px; line-height:1.34; color:var(--ink-2); margin:26px 0 0; max-width:1260px; text-wrap:pretty;">The broadcast era is ending. Audiences &mdash; led by Black women &mdash; are moving to <strong style="font-weight:700; color:var(--ink);">depth</strong>: smaller, identity-first platforms where creators, community and commerce share one space.</p>
+      </div>
+      <div style="position:absolute; left:100px; right:100px; bottom:120px;">
+        <div style="display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:0; border-top:1px solid #0A0A0A;">
+          <div style="padding:36px 56px 0 0; border-right:1px solid var(--paper-3);">
+            <div class="figure display" style="font-size:124px; line-height:0.9;">1 in 3</div>
+            <p style="font-size:22px; line-height:1.4; margin-top:18px; max-width:440px;">Gen&nbsp;Z deleted a broadcast social app in the past year. The open feed is fragmenting &mdash; and the migration is toward depth: smaller, truer spaces.</p>
+            <div class="mono" style="color:var(--mute-2); margin-top:14px; font-size:18px;">Axios, 2025</div>
+          </div>
+          <div style="padding:36px 56px; border-right:1px solid var(--paper-3);">
+            <div class="figure display" style="font-size:124px; line-height:0.9;">48%</div>
+            <p style="font-size:22px; line-height:1.4; margin-top:18px; max-width:400px;">of Black households shop online &mdash; 11% above the US average, over-indexing on fashion &amp; beauty. Social commerce runs ahead of the market, and short-form video drives the buy.</p>
+            <div class="mono" style="color:var(--mute-2); margin-top:14px; font-size:18px;">Nielsen</div>
+          </div>
+          <div style="padding:36px 0 0 56px;">
+            <div class="figure display" style="font-size:124px; line-height:0.9;">$2.1T</div>
+            <p style="font-size:22px; line-height:1.4; margin-top:18px; max-width:380px;">Black buying power, growing ~5% a year. Black women lead fashion &amp; beauty &mdash; a $25B fashion force and 9&times; the hair-care spend.</p>
+            <div class="mono" style="color:var(--mute-2); margin-top:14px; font-size:18px;">Nielsen &middot; McKinsey</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 TRACTION -->
+    <section class="slide" data-label="10 Traction">
+      <div class="chrome-top">
+        <svg viewBox="0 0 24 9" style="width:64px; height:auto;" aria-hidden="true"><path d="M 18.254 7.705 C 19.361 8.115 21.973 6.282 23.233 5.315 C 23.971 5.11 24.063 5.628 23.97 5.912 C 23.51 6.425 22.127 7.671 19.914 8.558 C 17.148 9.668 16.503 8.388 16.318 7.961 C 16.047 7.333 15.857 5.486 15.95 4.547 C 16.109 2.925 15.581 2.897 15.212 2.925 C 13.645 3.522 10.75 6.721 9.865 7.705 C 8.943 8.729 8.021 7.79 8.39 6.51 C 8.611 3.232 8.666 2.384 8.297 2.157 C 7.191 1.474 2.397 7.107 1.936 7.705 C 1.567 8.183 1.229 8.473 1.106 8.558 C 0.295 8.9 0.031 8.302 0 7.961 C 0.369 2.976 1.17 0.217 1.475 0.108 C 2.674 -0.319 2.827 0.62 2.674 1.132 C 1.936 3.591 1.844 5.4 1.844 6.254 C 3.227 4.717 6.14 1.542 7.837 0.791 C 9.533 0.04 10.018 1.559 10.049 2.413 L 10.141 5.912 C 10.971 4.888 13.147 2.652 15.212 1.901 C 17.277 1.15 17.609 3.352 17.517 4.547 C 17.609 5.4 17.148 7.295 18.254 7.705 Z" fill="#0A0A0A"/></svg>
+        <span class="idx">10 / 11 · traction</span>
+      </div>
+      <div style="margin-top:170px;">
+        <div class="eyebrow"><span class="eyebrow-line"></span> traction </div>
+        <h1 class="display title" style="margin-top:24px; font-size:120px;">Already shipping. <span style="color:var(--mute);">Now we scale.</span></h1>
+      </div>
+
+      <div style="position:absolute; left:100px; right:100px; bottom:140px; display:grid; grid-template-columns:1.05fr 1.15fr 0.95fr; gap:0; border-top:1px solid var(--paper-3); padding-top:40px; align-items:start;">
+
+        <!-- Live today -->
+        <div style="padding:0 56px 0 0; border-right:1px solid var(--paper-3);">
+          <div class="mono" style="color:var(--mute-2); font-size:20px;">Live today</div>
+          <div style="display:flex; flex-direction:column; gap:16px; margin-top:28px;">
+            <div style="display:flex; align-items:center; gap:16px; background:var(--ink); color:#fff; border-radius:14px; padding:18px 24px;">
+              <span style="width:11px; height:11px; border-radius:50%; background:#4ADE80; box-shadow:0 0 0 4px rgba(74,222,128,0.18); flex:none;"></span>
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff" aria-hidden="true" style="flex:none;"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 14.25 3.51 5.74 9.05 5.45c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 3.99l.01-.05zM12.03 5.4C11.9 3.2 13.69 1.38 15.74 1.2c.28 2.55-2.32 4.45-3.71 4.2z"/></svg>
+              <span style="font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:600;">App Store</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:16px; background:var(--ink); color:#fff; border-radius:14px; padding:18px 24px;">
+              <span style="width:11px; height:11px; border-radius:50%; background:#4ADE80; box-shadow:0 0 0 4px rgba(74,222,128,0.18); flex:none;"></span>
+              <svg viewBox="0 0 512 512" width="24" height="24" aria-hidden="true" style="flex:none;"><path d="M48 59.49v393a4.33 4.33 0 0 0 7.37 3.07L260 256 55.37 56.42A4.33 4.33 0 0 0 48 59.49z" fill="#00d2ff"/><path d="M345.8 174 89.22 32.64l-.16-.09c-4.42-2.4-8.62 3.58-5 7.06L260 256z" fill="#00e676"/><path d="M345.8 338 260 256 84.06 432.39c-3.64 3.48.56 9.46 5 7.06l.16-.09L345.8 338z" fill="#ff3a44"/><path d="M449.38 231.94 374.3 191.3 282.65 256l91.65 64.7 75.08-40.64c21.27-11.54 21.27-46.58 0-58.12z" fill="#ffc400"/></svg>
+              <span style="font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:600;">Google Play</span>
+            </div>
+          </div>
+          <p style="font-size:22px; line-height:1.4; color:var(--ink-2); margin:24px 0 0;">In market on both platforms. iOS and Android, live now.</p>
+        </div>
+
+        <!-- Live signal -->
+        <div style="padding:0 56px; border-right:1px solid var(--paper-3);">
+          <div class="mono" style="color:var(--mute-2); font-size:20px;">Live signal · organic</div>
+          <div style="display:flex; align-items:baseline; gap:18px; margin-top:18px;">
+            <span class="figure display" style="font-size:118px; line-height:0.9;">~20%</span>
+            <span style="font-size:34px; font-weight:600; color:var(--mute);">WAU</span>
+          </div>
+          <p style="font-size:22px; line-height:1.4; color:var(--ink-2); margin:24px 0 0; max-width:440px;">Roughly 1 in 5 of our ~62 organic users return every week &mdash; with zero paid acquisition. Retention is the depth thesis in a number.</p>
+        </div>
+
+        <!-- This round proves -->
+        <div style="padding:0 0 0 56px;">
+          <div class="mono" style="color:var(--mute-2); font-size:20px;">This round proves</div>
+          <div class="display" style="font-size:96px; margin-top:18px; letter-spacing:-0.03em; line-height:0.92;">The&nbsp;seed.</div>
+          <p style="font-size:22px; line-height:1.4; color:var(--ink-2); margin:24px 0 0;">Activation rate and GMV per seller &mdash; the two numbers we&rsquo;re instrumenting now &mdash; open the seed round.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 ASK -->
+    <section id="close-slide" class="slide dark nophoto" data-label="11 Close" style="padding:0; background:#0A0A0A; color:#fff;">
+      <!-- Index, top-right -->
+      <div style="position:absolute; top:50px; right:80px; font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.55);">11 / 11 · the ask</div>
+
+      <!-- Two-column fill: ask on the left, use of funds on the right -->
+      <div style="position:absolute; left:100px; right:100px; top:0; bottom:0; display:flex; flex-direction:column; justify-content:center; gap:72px;">
+
+        <!-- The number -->
+        <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:60px;">
+          <div style="display:flex; flex-direction:column;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:18px;">The ask · pre-seed</div>
+            <h1 class="display" id="tw-ask-amount" style="font-size:268px; color:#fff; margin:0; line-height:0.8; letter-spacing:-0.05em;">$1M</h1>
+          </div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:500; color:rgba(255,255,255,0.62); max-width:360px; line-height:1.45; text-align:right; padding-bottom:14px;">On a SAFE &middot; 20% discount<br/>~18 months of runway.</div>
+        </div>
+
+        <!-- Use of funds — proportional allocation bar -->
+        <div>
+          <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:18px;">
+            <span style="font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.45);">Use of funds</span>
+          </div>
+          <!-- the bar -->
+          <div style="display:flex; gap:8px; height:168px;">
+            <div style="flex:65; background:#E3C18A; color:#2E2412; border-radius:8px; padding:24px 32px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div style="display:flex; align-items:baseline; gap:16px;">
+                <span class="figure display" style="font-size:60px; line-height:0.85; letter-spacing:-0.02em;">65%</span>
+                <span style="font-family:'Plus Jakarta Sans',sans-serif; font-size:26px; font-weight:700;">Distribution</span>
+              </div>
+              <div style="font-size:19px; line-height:1.35; color:rgba(46,36,18,0.72); max-width:640px;">Creator incentives, referrals, program management &amp; strategy.</div>
+            </div>
+            <div style="flex:35; background:#BFA0B0; color:#2A1E26; border-radius:8px; padding:24px 32px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div style="display:flex; align-items:baseline; gap:16px;">
+                <span class="figure display" style="font-size:60px; line-height:0.85; letter-spacing:-0.02em;">35%</span>
+                <span style="font-family:'Plus Jakarta Sans',sans-serif; font-size:26px; font-weight:700;">Engineering</span>
+              </div>
+              <div style="font-size:19px; line-height:1.35; color:rgba(42,30,38,0.72);">Trust, depth &amp; connection. Driving observer &rarr; buyer &rarr; seller.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom-left: contact -->
+      <div style="position:absolute; left:100px; bottom:56px; font-family:'Plus Jakarta Sans',sans-serif; font-size:22px; letter-spacing:0.04em;">
+        <a href="https://trymadam.com" target="_blank" rel="noopener" style="color:#fff; font-weight:600; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.4); padding-bottom:2px;">trymadam.com</a>
+      </div>
+    </section>
+
+  </deck-stage>
+
+  <div id="tweaks-panel" style="
+    position:fixed; right:20px; bottom:70px; width:320px; z-index:2147483647;
+    background:#0A0A0A; color:#fff; border:1px solid rgba(255,255,255,0.12);
+    border-radius:16px; padding:18px; font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    box-shadow:0 30px 60px rgba(0,0,0,0.55); display:none;">
+    <style>
+      #tweaks-panel .tw-seg{ display:flex; gap:4px; background:#161616; border:1px solid rgba(255,255,255,0.10); border-radius:9px; padding:3px; }
+      #tweaks-panel .tw-seg button{ flex:1; appearance:none; cursor:pointer; border:0; border-radius:6px; background:transparent; color:rgba(255,255,255,0.62); font-family:inherit; font-size:12px; font-weight:600; letter-spacing:0.01em; padding:7px 4px; transition:background .15s,color .15s; }
+      #tweaks-panel .tw-seg button[aria-pressed="true"]{ background:#fff; color:#0A0A0A; }
+      #tweaks-panel .tw-grouplabel{ font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55); }
+      #tweaks-panel .tw-divider{ height:1px; background:rgba(255,255,255,0.08); margin:2px 0; }
+      #tweaks-panel summary{ list-style:none; cursor:pointer; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.4); }
+      #tweaks-panel summary::-webkit-details-marker{ display:none; }
+    </style>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <span style="font-size:14px; font-weight:600;">Madam · Tweaks</span>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:15px;">
+
+      <label style="display:flex; flex-direction:column; gap:7px;">
+        <span class="tw-grouplabel">Typeface</span>
+        <div class="tw-seg" id="tw-seg-face">
+          <button data-val="geometric">Geometric</button>
+          <button data-val="editorial">Editorial</button>
+          <button data-val="grotesque">Grotesque</button>
+        </div>
+      </label>
+
+      <label style="display:flex; flex-direction:column; gap:7px;">
+        <span class="tw-grouplabel">Accent</span>
+        <div class="tw-seg" id="tw-seg-accent">
+          <button data-val="mono">Mono</button>
+          <button data-val="amber">Amber</button>
+          <button data-val="plum">Plum</button>
+        </div>
+      </label>
+
+      <label style="display:flex; flex-direction:column; gap:7px;">
+        <span class="tw-grouplabel">Paper tone</span>
+        <div class="tw-seg" id="tw-seg-tone">
+          <button data-val="bright">Bright</button>
+          <button data-val="cream">Cream</button>
+          <button data-val="slate">Slate</button>
+        </div>
+      </label>
+
+      <div class="tw-divider"></div>
+
+      <details>
+        <summary>Copy &amp; content</summary>
+        <div style="display:flex; flex-direction:column; gap:14px; margin-top:14px;">
+      <label style="display:flex; flex-direction:column; gap:6px;">
+        <span style="font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55);">Cover headline</span>
+        <textarea id="tw-input-title" rows="3" style="background:#1A1A1A; color:#fff; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:9px 10px; font-size:13px; font-family:inherit; resize:none;"></textarea>
+      </label>
+      <label style="display:flex; flex-direction:column; gap:6px;">
+        <span style="font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55);">Founder line</span>
+        <input id="tw-input-founder" type="text" style="background:#1A1A1A; color:#fff; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit;" />
+      </label>
+      <label style="display:flex; flex-direction:column; gap:6px;">
+        <span style="font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55);">Ask amount</span>
+        <input id="tw-input-ask" type="text" style="background:#1A1A1A; color:#fff; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit;" />
+      </label>
+        </div>
+      </details>
+    </div>
+  </div>
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "coverTitle": "Build the worlds\nyou care about.",
+      "founderLine": "Built by people who love her.",
+      "askAmount": "$1M",
+      "closePhoto": true,
+      "face": "geometric",
+      "accent": "mono",
+      "tone": "bright"
+    }/*EDITMODE-END*/;
+    const state = { ...TWEAK_DEFAULTS };
+    function applyState(){
+      const q = (id) => document.getElementById(id);
+      if (q('tw-cover-title')) q('tw-cover-title').innerHTML = String(state.coverTitle).split('\n').map(s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;')).join('<br/>');
+      if (q('tw-founder-line')) q('tw-founder-line').textContent = state.founderLine;
+      if (q('tw-ask-amount')) q('tw-ask-amount').innerHTML = String(state.askAmount).split('\n').map((s,i)=>{ const t=s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); return i===0 ? t : '<span style="color:rgba(255,255,255,0.55); font-size:120px; letter-spacing:-0.04em;">'+t+'</span>'; }).join('<br/>');
+      const root = document.documentElement;
+      root.className = root.className.replace(/\b(face|acc|tone)-\S+/g,'').trim();
+      root.classList.add('face-'+state.face, 'acc-'+state.accent, 'tone-'+state.tone);
+      document.querySelectorAll('#tw-seg-face button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.val===state.face));
+      document.querySelectorAll('#tw-seg-accent button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.val===state.accent));
+      document.querySelectorAll('#tw-seg-tone button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.val===state.tone));
+    }
+    function persist(p){ try { window.parent.postMessage({type:'__edit_mode_set_keys', edits:p}, '*'); } catch(e){} }
+    function bind(id, key){
+      const el = document.getElementById(id);
+      el.value = state[key];
+      el.addEventListener('input', () => { state[key] = el.value; applyState(); });
+      el.addEventListener('change', () => persist({[key]: el.value}));
+    }
+    applyState();
+    bind('tw-input-title','coverTitle'); bind('tw-input-founder','founderLine'); bind('tw-input-ask','askAmount');
+    function bindToggle(id, key){ const el = document.getElementById(id); if(!el) return; el.checked = !!state[key]; el.addEventListener('change', () => { state[key] = el.checked; applyState(); persist({[key]: el.checked}); }); }
+    function bindSeg(segId, key){ const seg = document.getElementById(segId); if(!seg) return; seg.querySelectorAll('button').forEach(b=>{ b.addEventListener('click', ()=>{ state[key] = b.dataset.val; applyState(); persist({[key]: b.dataset.val}); }); }); }
+    bindSeg('tw-seg-face','face'); bindSeg('tw-seg-accent','accent'); bindSeg('tw-seg-tone','tone');
+    window.addEventListener('message', (e) => {
+      const d = e.data || {};
+      if (d.type === '__activate_edit_mode') document.getElementById('tweaks-panel').style.display = 'block';
+      else if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display = 'none';
+    });
+    try { window.parent.postMessage({type:'__edit_mode_available'}, '*'); } catch(e){}
+  </script>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "Madam Business Pitch";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Project support.js may predate runtime default-seeding; push via bridge.
+  if (isDc && window.__dcSetProps && window.__dcRootName) {
+    try {
+      const dpEl = document.querySelector('script[data-dc-script]');
+      const meta = JSON.parse((dpEl && dpEl.getAttribute('data-props')) || '{}');
+      const bag = {};
+      for (const k in meta)
+        if (k[0] !== '$' && meta[k] && meta[k].default !== undefined)
+          bag[k] = meta[k].default;
+      if (Object.keys(bag).length) {
+        window.__dcSetProps(window.__dcRootName(), bag);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    } catch (e) {}
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // Size the PDF page to the rendered design unless the file opted into
+  // standard paper via @page{size:letter|A4|…}. Decks own their own @page.
+  // Wrappers (body, …) lose padding+margin so the frame sits at (0,0); the
+  // frame itself loses only margin — its padding is INSIDE the measured
+  // rect and must stay, or content shifts and leaves a gap at bottom/right.
+  var __m = null;
+  try { __m = (() => {
+  var STAMP = true;
+  var docEl = document.documentElement;
+  var doc = { width: docEl.scrollWidth, height: docEl.scrollHeight };
+
+  var ds = document.querySelector('deck-stage');
+  if (ds) {
+    var dw = Number(ds.getAttribute('width')) || 1920;
+    var dh = Number(ds.getAttribute('height')) || 1080;
+    var n = typeof ds.length === 'number' ? ds.length : ds.children.length;
+    var idx = typeof ds.index === 'number' ? ds.index : 0;
+    var frames = [];
+    for (var i = 0; i < n; i++) frames.push({ left: 0, top: 0, width: dw, height: dh });
+    return { kind: 'deck', source: 'declared', doc: doc, frames: frames,
+      authored: frames.map(function(){return{width:true,height:true}}),
+      deck: { width: dw, height: dh, slideCount: n, index: idx },
+      signals: { paperPage: false, pxPage: false } };
+  }
+
+  // Declared kind: a doc-page tag names the kind outright, so no signal
+  // heuristics run (like the deck branch above, signals report false —
+  // they describe inferred classifications only). The tag alone is not
+  // trusted: the element must have upgraded (shadowRoot present), so a
+  // leftover tag whose script was deleted falls through to the heuristics
+  // that handle plain markup.
+  var stageSx = window.scrollX || 0, stageSy = window.scrollY || 0;
+  var dp = document.querySelector('doc-page');
+  if (dp && dp.shadowRoot) {
+    // Crop to the sheet, not the host — the desk around it is screen-only
+    // chrome that must not land in PNG exports.
+    var sheet = dp.shadowRoot.querySelector('.sheet');
+    var sr = (sheet || dp).getBoundingClientRect();
+    return { kind: 'paper-doc', source: 'declared', doc: doc,
+      frames: [{ left: sr.left + stageSx, top: sr.top + stageSy,
+        width: sr.width, height: sr.height }],
+      authored: [{ width: false, height: false }],
+      signals: { paperPage: false, pxPage: false } };
+  }
+  var paperPage = false, pxPage = false;
+  var eachRule = function (fn) {
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var rs; try { rs = document.styleSheets[s].cssRules; } catch (e) { continue; }
+      for (var r = 0; r < rs.length; r++) {
+        fn(rs[r]);
+        if (rs[r].cssRules) for (var n = 0; n < rs[r].cssRules.length; n++) fn(rs[r].cssRules[n]);
+      }
+    }
+  };
+  eachRule(function (r) {
+    if (r.type !== 6) return;
+    var m = /\bsize\s*:\s*([^;}]+)/i.exec(r.cssText || '');
+    if (!m) return;
+    if (/\b(letter|a[3-5]|legal|ledger)\b/i.test(m[1])) paperPage = true;
+    if (/\d+(?:\.\d+)?px\b/i.test(m[1])) pxPage = true;
+  });
+  var signals = { paperPage: paperPage, pxPage: pxPage };
+
+  var pxVal = function (v) {
+    var m = /^(\d+(?:\.\d+)?)px$/.exec(v || ''); return m ? +m[1] : 0;
+  };
+  var authoredPx = function (el, prop) {
+    if (pxVal(el.style[prop])) return true;
+    var attr = el.getAttribute(prop);
+    if (attr && /^\d+$/.test(attr)) return true;
+    var hit = false;
+    eachRule(function (r) {
+      if (hit || r.type !== 1 || !r.style) return;
+      try { if (el.matches(r.selectorText) && pxVal(r.style[prop])) hit = true; } catch (e) {}
+    });
+    return hit;
+  };
+
+  var el = document.body, rootPxW = false;
+  for (;;) {
+    var kids = [];
+    for (var c = 0; c < el.children.length; c++) {
+      var t = el.children[c].tagName;
+      if (t !== 'SCRIPT' && t !== 'STYLE' && t !== 'TEMPLATE') kids.push(el.children[c]);
+    }
+    if (kids.length !== 1 || !(kids[0] instanceof HTMLElement)) break;
+    if (STAMP) el.setAttribute('data-om-frame-wrap', '');
+    el = kids[0];
+    rootPxW = authoredPx(el, 'width');
+    if (rootPxW) break;
+  }
+  if (!rootPxW) rootPxW = authoredPx(el, 'width');
+
+  // @page{size:letter} alone is a flowing doc; with a px-width root it's a
+  // fixed sheet pretending to be paper — fall through and size to render.
+  if (paperPage && !rootPxW) {
+    return { kind: 'paper-doc', source: 'inferred', doc: doc, signals: signals,
+      frames: [{ left: 0, top: 0, width: doc.width, height: doc.height }],
+      authored: [{ width: false, height: false }] };
+  }
+
+  var sx = window.scrollX || 0, sy = window.scrollY || 0;
+  var rectOf = function (e) {
+    var r = e.getBoundingClientRect();
+    var oy; try { oy = getComputedStyle(e).overflowY; } catch (err) {}
+    var h = oy === 'visible' ? Math.max(r.height, e.scrollHeight || 0) : r.height;
+    return { left: r.left + sx, top: r.top + sy, width: r.width, height: h };
+  };
+
+  // Multi-frame: ≥2 visible non-fixed children, each with authored px width
+  // AND height, all within ±2px of each other. Off unless the page opts in
+  // via data-om-multi-frame on the stop element — guards against card grids
+  // and pricing tables that match the geometry but aren't separate canvases.
+  if (el.hasAttribute('data-om-multi-frame')) {
+    var cands = [];
+    for (var k = 0; k < el.children.length; k++) {
+      var ch = el.children[k];
+      var cs; try { cs = getComputedStyle(ch); } catch (e) { continue; }
+      if (cs.display === 'none' || cs.visibility === 'hidden' || cs.position === 'fixed') continue;
+      var rc = rectOf(ch);
+      if (rc.width < 2 || rc.height < 2) continue;
+      if (!authoredPx(ch, 'width') || !authoredPx(ch, 'height')) continue;
+      cands.push(rc);
+    }
+    if (cands.length >= 2) {
+      var w0 = cands[0].width, h0 = cands[0].height, ok = true;
+      for (var q = 1; q < cands.length; q++)
+        if (Math.abs(cands[q].width - w0) > 2 || Math.abs(cands[q].height - h0) > 2) ok = false;
+      if (ok) return { kind: 'multi-frame', source: 'inferred', doc: doc, signals: signals,
+        frames: cands, authored: cands.map(function(){return{width:true,height:true}}) };
+    }
+  }
+
+  if (STAMP) el.setAttribute('data-om-frame', '');
+  return { kind: 'single-canvas', source: 'inferred', doc: doc, signals: signals,
+    frames: [rectOf(el)],
+    authored: [{ width: rootPxW, height: authoredPx(el, 'height') }] };
+})(); } catch (e) {}
+  var frame = null;
+  if (__m && __m.kind === 'single-canvas') {
+    var f = __m.frames && __m.frames[0];
+    if (f && f.width >= 200 && f.height >= 200) {
+      frame = f;
+      var fst = document.createElement('style');
+      fst.textContent = '@media print{@page{size:' + Math.ceil(f.width) + 'px ' +
+        Math.ceil(f.height) + 'px;margin:0}' +
+        'html,body,[data-om-frame-wrap]{padding:0!important;margin:0!important;background:none!important}' +
+        '[data-om-frame]{margin:0!important}}';
+      document.body.appendChild(fst);
+    }
+  }
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks (slides
+  // are sized to the page) and for fixed-size canvases (frame set, or an author
+  // px-based @page) — runs as before for flowing docs on letter/A4.
+  try {
+    if (!ds && !frame && !(__m && __m.signals && __m.signals.pxPage)) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          if (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always') {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>
