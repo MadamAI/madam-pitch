@@ -1029,19 +1029,19 @@ body {
   overscroll-behavior-x: contain;
   scrollbar-width: none;
   /* Side padding leaves a clear peek of the next phone. */
-  padding-inline: 18vw;
+  padding-inline: 14vw;
   touch-action: pan-x;
   /* Soft edge fade so the peek reads as "more this way". */
   -webkit-mask-image: linear-gradient(90deg,
-    transparent 0%, #000 6%, #000 94%, transparent 100%);
+    transparent 0%, #000 5%, #000 95%, transparent 100%);
   mask-image: linear-gradient(90deg,
-    transparent 0%, #000 6%, #000 94%, transparent 100%);
+    transparent 0%, #000 5%, #000 95%, transparent 100%);
 }
 .product-row::-webkit-scrollbar { display: none; }
 
 .product-item {
   flex: none;
-  width: 64vw;
+  width: 72vw;
   max-height: 100%;
   display: flex;
   flex-direction: column;
@@ -1052,19 +1052,21 @@ body {
   padding-inline: clamp(8px, 2vw, 14px);
   scroll-snap-align: center;
   scroll-snap-stop: always;
-  opacity: 0.42;
-  transform: scale(0.92);
+  opacity: 0.38;
+  transform: scale(0.9);
   transition: opacity 280ms ease, transform 280ms ease;
+  cursor: pointer;
 }
 .product-item.is-current {
   opacity: 1;
   transform: scale(1);
+  cursor: default;
 }
 
 .product-phone {
   position: relative;
   /* Width from viewport, but never taller than the room left for copy/chrome. */
-  width: min(52vw, 190px, calc((100svh - 16.5rem) * 313 / 640));
+  width: min(58vw, 230px, calc((100svh - 15rem) * 313 / 640));
   margin-inline: auto;
   aspect-ratio: 313 / 640;
   border-radius: 14%;
@@ -1134,21 +1136,23 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-height: 1.2em;
   font-size: clamp(11px, 2.8vw, 13px);
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(244,237,227,0.55);
-  transition: opacity 320ms ease;
+  transition: opacity 220ms ease, color 220ms ease;
   pointer-events: none;
 }
-.product-hint.is-hidden { opacity: 0; }
+.product-hint.is-end { color: var(--gold); }
 .product-hint svg {
   width: 16px;
   height: 16px;
   display: block;
   animation: productHintNudge 1.4s ease-in-out infinite;
 }
+.product-hint.is-end svg { animation: none; }
 @keyframes productHintNudge {
   0%, 100% { transform: translateX(0); opacity: 0.55; }
   50%      { transform: translateX(5px); opacity: 1; }
@@ -1161,17 +1165,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 10px;
   width: 100%;
-  max-width: 22rem;
+  max-width: 26rem;
 }
 
 .product-arrow {
   -webkit-appearance: none;
   appearance: none;
   flex: none;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 1px solid rgba(244,237,227,0.22);
   background: rgba(0,0,0,0.35);
@@ -1180,7 +1184,7 @@ body {
   place-items: center;
   cursor: pointer;
   padding: 0;
-  transition: background 160ms ease, border-color 160ms ease, opacity 160ms ease;
+  transition: background 160ms ease, border-color 160ms ease, opacity 160ms ease, color 160ms ease;
 }
 .product-arrow svg {
   width: 16px;
@@ -1195,6 +1199,15 @@ body {
   opacity: 0.28;
   cursor: default;
 }
+.product-arrow--continue {
+  border-color: rgba(201,138,60,0.55);
+  color: var(--gold);
+  background: rgba(201,138,60,0.12);
+}
+.product-arrow--continue:hover {
+  background: rgba(201,138,60,0.22);
+  border-color: rgba(201,138,60,0.75);
+}
 .product-arrow:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
@@ -1204,26 +1217,34 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex: 1;
+  flex-wrap: wrap;
 }
 .product-pager button {
   -webkit-appearance: none;
   appearance: none;
-  border: 0;
-  padding: 0;
+  border: 1px solid transparent;
+  padding: 6px 9px;
   cursor: pointer;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(244,237,227,0.28);
-  transition: background 200ms ease, transform 200ms ease, width 200ms ease;
+  width: auto;
+  height: auto;
+  min-height: 28px;
+  border-radius: 9999px;
+  background: rgba(244,237,227,0.08);
+  color: rgba(244,237,227,0.55);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(10px, 2.5vw, 11px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
 }
 .product-pager button[aria-current="true"] {
-  background: var(--gold);
-  transform: scale(1.15);
-  width: 22px;
-  border-radius: 999px;
+  background: rgba(201,138,60,0.18);
+  border-color: rgba(201,138,60,0.55);
+  color: var(--gold);
 }
 .product-pager button:focus-visible {
   outline: 2px solid var(--gold);
@@ -3246,7 +3267,7 @@ body {
 
       <div class="product-chrome">
         <div class="product-hint" id="productHint">
-          <span>Swipe</span>
+          <span class="product-hint__text">Swipe for next</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="9 6 15 12 9 18"></polyline>
@@ -3700,6 +3721,14 @@ body {
   prev.addEventListener('click', function () { go(index - 1); });
   next.addEventListener('click', function () { go(index + 1); });
 
+  /* Product carousel can hand off to the next/prev deck slide. */
+  window.MadamDeck = {
+    go: go,
+    next: function () { go(index + 1); },
+    prev: function () { go(index - 1); },
+    getIndex: function () { return index; }
+  };
+
   var FORWARD = ['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'];
   var BACK    = ['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'];
 
@@ -3712,22 +3741,43 @@ body {
       return;
     }
 
+    /* On product, arrows step features first — carousel owns those keys. */
+    if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') &&
+        slides[index] && slides[index].id === 'product') {
+      return;
+    }
+
     if (FORWARD.indexOf(e.key) > -1)      { e.preventDefault(); go(index + 1); }
     else if (BACK.indexOf(e.key) > -1)    { e.preventDefault(); go(index - 1); }
     else if (e.key === 'Home')            { e.preventDefault(); go(0); }
     else if (e.key === 'End')             { e.preventDefault(); go(slides.length - 1); }
   });
 
+  /* Tap left / right thirds of a slide to step the deck. Interactive
+     controls and the product carousel handle their own taps. */
+  deck.addEventListener('click', function (e) {
+    if (!e.isTrusted) { return; }
+    if (e.target.closest && e.target.closest(
+      'button, a, input, textarea, select, [role="slider"], ' +
+      '.demo-phone, .demo-bar, .demo-cta, .product-rail, .product-chrome, ' +
+      '.deck-dots, .deck-arrow'
+    )) {
+      return;
+    }
+    var x = e.clientX / window.innerWidth;
+    if (x >= 0.62) { go(index + 1); }
+    else if (x <= 0.38) { go(index - 1); }
+  });
+
   /* Touch: horizontal swipe changes slide. Vertical is left alone so a
-     slide that scrolls internally still can. Swipes that begin inside an
-     in-slide carousel (product phones) are ignored so they don't steal
-     the snap scroll. */
+     slide that scrolls internally still can. Product carousel handles its
+     own swipes (and advances the deck past the last feature). */
   var x0 = null, y0 = null, swipeIgnore = false;
   deck.addEventListener('touchstart', function (e) {
     var t = e.changedTouches[0];
     x0 = t.clientX; y0 = t.clientY;
     swipeIgnore = !!(e.target && e.target.closest &&
-      e.target.closest('.product-rail, .product-chrome, .demo-phone, .demo-bar'));
+      e.target.closest('.product-rail, .product-chrome, .demo-phone, .demo-bar, .demo-cta'));
   }, { passive: true });
 
   deck.addEventListener('touchend', function (e) {
@@ -3950,8 +4000,8 @@ body {
   }());
 
   /* ── Slide 04: product carousel (narrow) ──────────────────────────────
-     Dots, arrows, 01/04 counter, swipe hint, and a one-time nudge so the
-     peek of the next phone is obvious the first time you land here. */
+     Named tabs, arrows, counter, swipe/tap through features. Forward past
+     the last feature (and back past the first) hands off to the deck. */
   (function () {
     var slide = document.getElementById('product');
     var row = document.getElementById('productRow');
@@ -3960,6 +4010,7 @@ body {
     var next = document.getElementById('productNext');
     var count = document.getElementById('productCount');
     var hint = document.getElementById('productHint');
+    var hintText = hint ? hint.querySelector('.product-hint__text') : null;
     if (!slide || !row || !pager) { return; }
 
     var items = Array.prototype.slice.call(row.querySelectorAll('.product-item'));
@@ -3967,20 +4018,42 @@ body {
 
     var wideMq = window.matchMedia('(min-width: 860px) and (orientation: landscape)');
     var nudged = false;
-    var hintGone = false;
     var index = 0;
+    var px0 = null, py0 = null;
 
     items.forEach(function (item, i) {
+      var name = ((item.querySelector('.product-name') || {}).textContent ||
+        ('Feature ' + (i + 1))).trim();
       var b = document.createElement('button');
       b.type = 'button';
-      b.setAttribute('aria-label', 'Show ' +
-        ((item.querySelector('.product-name') || {}).textContent || ('product ' + (i + 1))));
-      b.addEventListener('click', function () { goTo(i); });
+      b.textContent = name;
+      b.setAttribute('aria-label', 'Show ' + name);
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        goTo(i);
+      });
       pager.appendChild(b);
+
+      /* Tap a non-current card to jump there; tap current right/left to step. */
+      item.addEventListener('click', function (e) {
+        if (e.target.closest && e.target.closest('button, a')) { return; }
+        e.stopPropagation();
+        if (i !== index) { goTo(i); return; }
+        var rect = item.getBoundingClientRect();
+        var mid = rect.left + rect.width / 2;
+        step(e.clientX >= mid ? 1 : -1);
+      });
     });
-    var dots = Array.prototype.slice.call(pager.children);
+    var tabs = Array.prototype.slice.call(pager.children);
 
     function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+    function deckNext() {
+      if (window.MadamDeck) { window.MadamDeck.next(); }
+    }
+    function deckPrev() {
+      if (window.MadamDeck) { window.MadamDeck.prev(); }
+    }
 
     function nearest() {
       var mid = row.scrollLeft + row.clientWidth / 2;
@@ -4001,7 +4074,13 @@ body {
         block: 'nearest'
       });
       sync(i);
-      dismissHint();
+    }
+
+    function step(dir) {
+      var at = nearest();
+      if (dir > 0 && at >= items.length - 1) { deckNext(); return; }
+      if (dir < 0 && at <= 0) { deckPrev(); return; }
+      goTo(at + dir);
     }
 
     function sync(at) {
@@ -4010,26 +4089,35 @@ body {
       items.forEach(function (item, i) {
         item.classList.toggle('is-current', i === at);
       });
-      dots.forEach(function (d, i) {
+      tabs.forEach(function (d, i) {
         d.setAttribute('aria-current', i === at ? 'true' : 'false');
       });
       if (count) {
         count.innerHTML = '<strong>' + pad(at + 1) + '</strong> / ' + pad(items.length);
       }
-      if (prev) { prev.disabled = at === 0; }
-      if (next) { next.disabled = at === items.length - 1; }
-    }
-
-    function dismissHint() {
-      if (hintGone || !hint) { return; }
-      hintGone = true;
-      hint.classList.add('is-hidden');
+      if (prev) {
+        prev.disabled = false;
+        prev.setAttribute('aria-label',
+          at === 0 ? 'Previous slide' : 'Previous feature');
+      }
+      if (next) {
+        var atEnd = at === items.length - 1;
+        next.disabled = false;
+        next.classList.toggle('product-arrow--continue', atEnd);
+        next.setAttribute('aria-label',
+          atEnd ? 'Next slide' : 'Next feature');
+      }
+      if (hint && hintText) {
+        var end = at === items.length - 1;
+        hint.classList.toggle('is-end', end);
+        hintText.textContent = end ? 'Next slide' : 'Swipe for next';
+      }
     }
 
     function nudge() {
       if (nudged || wideMq.matches || !slide.classList.contains('is-active')) { return; }
       nudged = true;
-      var max = Math.min(36, Math.max(24, row.clientWidth * 0.08));
+      var max = Math.min(40, Math.max(28, row.clientWidth * 0.09));
       var start = row.scrollLeft;
       row.scrollTo({ left: start + max, behavior: 'smooth' });
       setTimeout(function () {
@@ -4039,30 +4127,67 @@ body {
     }
 
     if (prev) {
-      prev.addEventListener('click', function () { goTo(index - 1); });
+      prev.addEventListener('click', function (e) {
+        e.stopPropagation();
+        step(-1);
+      });
     }
     if (next) {
-      next.addEventListener('click', function () { goTo(index + 1); });
+      next.addEventListener('click', function (e) {
+        e.stopPropagation();
+        step(1);
+      });
     }
 
-    row.addEventListener('scroll', function () {
-      sync();
-      if (row.scrollLeft > 8) { dismissHint(); }
-    }, { passive: true });
+    row.addEventListener('scroll', function () { sync(); }, { passive: true });
 
     row.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowRight') {
         e.preventDefault();
         e.stopPropagation();
-        goTo(index + 1);
+        step(1);
       } else if (e.key === 'ArrowLeft') {
         e.preventDefault();
         e.stopPropagation();
-        goTo(index - 1);
+        step(-1);
       }
     });
 
-    /* When the product slide becomes active, sync and offer the peek nudge. */
+    /* While this slide is active, arrow keys step features (then the deck). */
+    document.addEventListener('keydown', function (e) {
+      if (!slide.classList.contains('is-active') || wideMq.matches) { return; }
+      if (e.metaKey || e.ctrlKey || e.altKey) { return; }
+      if (e.target && e.target.closest &&
+          e.target.closest('input, textarea, [role="slider"]')) {
+        return;
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        step(1);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        step(-1);
+      }
+    });
+
+    /* Swipe past the last/first feature advances the deck. */
+    row.addEventListener('touchstart', function (e) {
+      var t = e.changedTouches[0];
+      px0 = t.clientX; py0 = t.clientY;
+    }, { passive: true });
+
+    row.addEventListener('touchend', function (e) {
+      if (px0 === null || wideMq.matches) { px0 = py0 = null; return; }
+      var t = e.changedTouches[0];
+      var dx = t.clientX - px0;
+      var dy = t.clientY - py0;
+      px0 = py0 = null;
+      if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy) * 1.2) { return; }
+      var at = nearest();
+      if (dx < 0 && at >= items.length - 1) { deckNext(); }
+      else if (dx > 0 && at <= 0) { deckPrev(); }
+    }, { passive: true });
+
     var observer = new MutationObserver(function () {
       if (!slide.classList.contains('is-active')) { return; }
       sync();
