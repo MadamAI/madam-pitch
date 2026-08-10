@@ -292,15 +292,72 @@ body {
            calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(16px, 3svh, 28px));
 }
 
+.demo-main {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(12px, 2svh, 18px);
+  flex: none;
+  max-width: 100%;
+}
+
 .demo-phone {
   position: relative;
   z-index: 2;
-  width: min(56vw, 280px, calc((100svh - 11rem) * 402 / 874));
+  width: min(56vw, 280px, calc((100svh - 14rem) * 402 / 874));
   aspect-ratio: 402 / 874;
   border-radius: 14%;
   overflow: hidden;
   background: #000;
   box-shadow: 0 24px 60px rgba(0,0,0,0.65);
+  flex: none;
+}
+
+.demo-stores {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.demo-stores__live {
+  font-size: clamp(10px, 2.6vw, 12px);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244,237,227,0.5);
+}
+
+.demo-stores__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.demo-store {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  background: rgba(244,237,227,0.06);
+  border: 1px solid rgba(244,237,227,0.14);
+  color: rgba(244,237,227,0.88);
+  font-size: clamp(11px, 2.8vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.demo-store img {
+  width: 16px;
+  height: 16px;
+  display: block;
   flex: none;
 }
 
@@ -362,6 +419,61 @@ body {
 .demo-play__pause { display: none; }
 .demo-phone.is-playing .demo-play__play { display: none; }
 .demo-phone.is-playing .demo-play__pause { display: block; }
+
+/* Idle play cue — big enough to read as the primary action. */
+.demo-cta {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(0,0,0,0.38);
+  color: #fff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: opacity 220ms ease, background 220ms ease;
+}
+.demo-cta:hover { background: rgba(0,0,0,0.48); }
+.demo-cta:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -10px;
+}
+.demo-phone.is-playing .demo-cta {
+  opacity: 0;
+  pointer-events: none;
+}
+.demo-cta__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.28);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+}
+.demo-cta__icon svg {
+  width: 26px;
+  height: 26px;
+  margin-left: 3px;
+  display: block;
+}
+.demo-cta__label {
+  font-size: clamp(13px, 3.4vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 10px rgba(0,0,0,0.45);
+}
 
 /* Visual bar is thin; the hit target is tall enough for thumbs. */
 .demo-track {
@@ -504,6 +616,7 @@ body {
   color: rgba(255,255,255,0.82);
   margin-bottom: 0.35em;
   text-shadow: 0 1px 12px rgba(0,0,0,0.55);
+  white-space: nowrap;
 }
 
 /* 'Madam' in ExtraBold advances ~3.43em after tracking. Against a measure of
@@ -1269,6 +1382,8 @@ body {
   line-height: 1.45;
   color: rgba(223,205,180,0.75);
   text-wrap: pretty;
+  /* Match the tallest card copy so fee rules sit on one line. */
+  min-height: 4.35em;
 }
 
 .bizmodel .tag {
@@ -1861,11 +1976,30 @@ body {
     gap: 0;
   }
 
+  .demo-main {
+    gap: 1.25cqw;
+  }
+
   .demo-phone {                    /* authored 402x874, scaled ~1.15 → ~462 */
-    width: 24.063cqw;
-    border-radius: 2.917cqw;       /* 56 */
+    width: 22.5cqw;                /* slightly shorter stack to fit store badges */
+    border-radius: 2.708cqw;
     box-shadow: 0 2.083cqw 5.208cqw rgba(0,0,0,0.6);
   }
+
+  .demo-stores { gap: 0.521cqw; }
+  .demo-stores__live { font-size: 0.729cqw; letter-spacing: 0.22em; }
+  .demo-stores__row { gap: 0.625cqw; }
+  .demo-store {
+    gap: 0.521cqw;
+    padding: 0.521cqw 0.833cqw;
+    font-size: 0.781cqw;
+  }
+  .demo-store img { width: 0.938cqw; height: 0.938cqw; }
+
+  .demo-cta { gap: 0.729cqw; }
+  .demo-cta__icon { width: 3.646cqw; height: 3.646cqw; }   /* 70 */
+  .demo-cta__icon svg { width: 1.458cqw; height: 1.458cqw; margin-left: 0.156cqw; }
+  .demo-cta__label { font-size: 0.833cqw; letter-spacing: 0.18em; }
 
   .demo-bar {
     left: 0.625cqw;
@@ -1939,12 +2073,17 @@ body {
     position: absolute;
     left: 4.115cqw;
     top: 27.552cqw;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.615cqw;
-    font-weight: 100;
-    color: var(--fg-3);
+    font-weight: 200;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+    color: rgba(244,237,227,0.78);
     margin: 0;
     text-shadow: none;
-    z-index: 2;
+    white-space: nowrap;
+    /* Above the wordmark so “connect. belong” isn’t painted over. */
+    z-index: 3;
   }
 
   .cover-wordmark {                /* left 46, top 541, 520px */
@@ -2206,19 +2345,23 @@ body {
 
   .product-rail {
     position: absolute;
-    left: 4.167cqw;
-    right: 4.167cqw;
-    bottom: 7.5cqw;
+    left: 5.208cqw;                /* 100 */
+    right: 5.208cqw;
+    top: 8.854cqw;                 /* 170 */
+    bottom: 6.25cqw;               /* 120 — room for tag */
     flex: none;
     min-height: 0;
     width: auto;
+    display: flex;
+    align-items: center;
   }
 
   .product-row {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     align-items: start;
-    column-gap: 2.604cqw;
+    column-gap: 3.333cqw;          /* 64 */
+    width: 100%;
     overflow-x: visible;
     overflow-y: visible;
     scroll-snap-type: none;
@@ -2236,7 +2379,7 @@ body {
     align-items: flex-start;
     justify-content: flex-start;
     text-align: left;
-    gap: 0;
+    gap: 1.146cqw;                  /* 22 */
     padding-inline: 0;
     scroll-snap-stop: normal;
     opacity: 1;
@@ -2244,29 +2387,35 @@ body {
     transition: none;
   }
 
+  /* Authored 313×640 — wide only; narrow keeps its own phone clamp. */
   .product-phone {
-    width: 10.417cqw;
-    margin: 0 0 1.563cqw;
-    box-shadow: 0 3.125cqw 6.25cqw rgba(0,0,0,0.55);
+    width: 16.302cqw;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 2.292cqw;       /* 44 */
+    box-shadow: 0 1.25cqw 3.125cqw rgba(0,0,0,0.6);
   }
 
   .product-meta {
     margin: 0;
     text-align: left;
+    max-width: none;
   }
 
   .product-kicker {
-    font-size: 0.781cqw;
-    letter-spacing: 0.18em;
+    font-size: 1.25cqw;            /* 24 */
+    letter-spacing: 0.14em;
   }
 
   .product-name {
-    font-size: 2.5cqw;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 2.396cqw;           /* 46 */
   }
 
   .product-copy {
     margin-top: 0.35em;
-    font-size: 1.094cqw;
+    font-size: 1.25cqw;            /* 24 */
     line-height: 1.4;
   }
 
@@ -2326,7 +2475,10 @@ body {
     font-size: 1.563cqw;
   }
 
-  .biz-card__copy { font-size: 1.25cqw; }           /* 24 */
+  .biz-card__copy {
+    font-size: 1.25cqw;                             /* 24 */
+    min-height: 5.4em;                              /* ~3 lines → fee aligns */
+  }
 
   .bizmodel .tag {                 /* right 80, bottom 48 */
     position: absolute;
@@ -2747,31 +2899,56 @@ body {
       <div class="glow"></div>
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
-      <div class="demo-phone" id="demoPhone">
-        <video id="demoVideo"
-               src="assets/madam-demo.mp4"
-               playsinline
-               muted
-               loop
-               preload="metadata"
-               aria-label="Madam product walkthrough"></video>
+      <div class="demo-main">
+        <div class="demo-phone" id="demoPhone">
+          <video id="demoVideo"
+                 src="assets/madam-demo.mp4"
+                 playsinline
+                 muted
+                 loop
+                 preload="metadata"
+                 aria-label="Madam product walkthrough"></video>
 
-        <div class="demo-bar" id="demoBar">
-          <button class="demo-play" id="demoPlay" type="button" aria-label="Play demo">
-            <svg class="demo-play__icon demo-play__play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M8 5v14l11-7z"></path>
-            </svg>
-            <svg class="demo-play__icon demo-play__pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M6 5h4v14H6zm8 0h4v14h-4z"></path>
-            </svg>
+          <button class="demo-cta" id="demoCta" type="button" aria-label="Play product demo">
+            <span class="demo-cta__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"></path>
+              </svg>
+            </span>
+            <span class="demo-cta__label">Play demo</span>
           </button>
-          <div class="demo-track" id="demoTrack" role="slider" aria-label="Demo progress"
-               aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
-            <div class="demo-track__fill" id="demoFill"></div>
-            <div class="demo-track__thumb" id="demoThumb"></div>
+
+          <div class="demo-bar" id="demoBar">
+            <button class="demo-play" id="demoPlay" type="button" aria-label="Play demo">
+              <svg class="demo-play__icon demo-play__play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5v14l11-7z"></path>
+              </svg>
+              <svg class="demo-play__icon demo-play__pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6 5h4v14H6zm8 0h4v14h-4z"></path>
+              </svg>
+            </button>
+            <div class="demo-track" id="demoTrack" role="slider" aria-label="Demo progress"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+              <div class="demo-track__fill" id="demoFill"></div>
+              <div class="demo-track__thumb" id="demoThumb"></div>
+            </div>
+            <div class="demo-time" id="demoTime">0:00</div>
+            <div class="demo-speed" aria-hidden="true">2×</div>
           </div>
-          <div class="demo-time" id="demoTime">0:00</div>
-          <div class="demo-speed" aria-hidden="true">2×</div>
+        </div>
+
+        <div class="demo-stores" aria-label="Live on the App Store and Google Play">
+          <span class="demo-stores__live">Live on</span>
+          <div class="demo-stores__row">
+            <span class="demo-store">
+              <img src="assets/s09/apple.svg" alt="" width="24" height="24">
+              <span>App Store</span>
+            </span>
+            <span class="demo-store">
+              <img src="assets/play-store.svg" alt="" width="24" height="24">
+              <span>Google Play</span>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -3037,7 +3214,7 @@ body {
             <div class="product-meta">
               <div class="product-kicker">02 · The arc</div>
               <h3 class="product-name">Journeys</h3>
-              <p class="product-copy">A story that unfolds over days, not a single post.</p>
+              <p class="product-copy">A story that unfolds over a period of time — days, weeks, months — not a single post.</p>
             </div>
           </div>
 
@@ -3582,6 +3759,7 @@ body {
     var video = document.getElementById('demoVideo');
     var bar = document.getElementById('demoBar');
     var playBtn = document.getElementById('demoPlay');
+    var cta = document.getElementById('demoCta');
     var track = document.getElementById('demoTrack');
     var fill = document.getElementById('demoFill');
     var thumb = document.getElementById('demoThumb');
@@ -3666,9 +3844,17 @@ body {
       toggle();
     });
 
-    /* Tap the phone (outside the bar) to play/pause. */
+    if (cta) {
+      cta.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        play();
+      });
+    }
+
+    /* Tap the phone (outside the bar / CTA) to play/pause. */
     phone.addEventListener('click', function (e) {
-      if (e.target.closest && e.target.closest('.demo-bar')) { return; }
+      if (e.target.closest && e.target.closest('.demo-bar, .demo-cta')) { return; }
       e.preventDefault();
       e.stopPropagation();
       toggle();
@@ -3746,24 +3932,20 @@ body {
     });
     video.addEventListener('pause', function () { setPlaying(false); });
 
+    var wasActive = slide.classList.contains('is-active');
     var observer = new MutationObserver(function () {
-      if (slide.classList.contains('is-active')) {
-        reset();
-        play();
-      } else {
-        pause();
-        reset();
-      }
+      var active = slide.classList.contains('is-active');
+      if (active === wasActive) { return; }
+      wasActive = active;
+      /* Never autoplay — return to idle poster on enter or leave. */
+      pause();
+      reset();
     });
     observer.observe(slide, { attributes: true, attributeFilter: ['class'] });
 
     ensureRate();
-    if (slide.classList.contains('is-active')) {
-      reset();
-      play();
-    } else {
-      reset();
-    }
+    pause();
+    reset();
     updateProgress();
   }());
 
