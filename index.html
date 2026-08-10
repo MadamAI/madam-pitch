@@ -239,17 +239,24 @@ body {
   height: 120vh;
 }
 
+.demo .logo {
+  /* Smaller corner mark so the larger phone has room. */
+  width: clamp(40px, 11vw, 64px);
+  top: max(14px, env(safe-area-inset-top));
+  left: max(14px, env(safe-area-inset-left), calc(var(--pad) * 0.65));
+}
+
 .demo .stage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(14px, 2.5svh, 22px);
+  gap: clamp(10px, 1.8svh, 16px);
   height: 100%;
   overflow: hidden;
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(40px, 7svh, 64px))
-           var(--pad)
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(16px, 3svh, 28px));
+  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(28px, 5svh, 44px))
+           max(12px, calc(var(--pad) * 0.55))
+           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(12px, 2svh, 20px));
 }
 
 .demo-main {
@@ -258,7 +265,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(12px, 2svh, 18px);
+  gap: clamp(10px, 1.6svh, 14px);
   flex: none;
   max-width: 100%;
 }
@@ -268,15 +275,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(10px, 2.5vw, 18px);
+  gap: clamp(12px, 3vw, 20px);
   flex: none;
   max-width: 100%;
+  /* Leave a right gutter so the tip never crowds the phone. */
+  padding-right: clamp(4px, 1vw, 8px);
 }
 
 .demo-phone {
   position: relative;
   z-index: 2;
-  width: min(52vw, 260px, calc((100svh - 14rem) * 402 / 874));
+  width: min(68vw, 340px, calc((100svh - 10.5rem) * 402 / 874));
   aspect-ratio: 402 / 874;
   border-radius: 14%;
   overflow: hidden;
@@ -289,12 +298,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex: none;
 }
 
 .demo-stores__live {
-  font-size: clamp(10px, 2.6vw, 12px);
+  font-size: clamp(9px, 2.4vw, 11px);
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -306,27 +315,27 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .demo-store {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 6px;
+  padding: 6px 10px;
   border-radius: 9999px;
   background: rgba(244,237,227,0.06);
   border: 1px solid rgba(244,237,227,0.14);
   color: rgba(244,237,227,0.88);
-  font-size: clamp(11px, 2.8vw, 13px);
+  font-size: clamp(10px, 2.6vw, 12px);
   font-weight: 600;
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
 
 .demo-store img {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   display: block;
   flex: none;
 }
@@ -528,15 +537,15 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   margin: 0;
-  padding: 0;
+  padding: 4px 2px;
   border: 0;
   background: transparent;
-  color: rgba(244,237,227,0.55);
+  color: rgba(244,237,227,0.58);
   cursor: pointer;
   opacity: 0;
-  transform: translateX(-6px);
+  transform: translateX(-8px);
   pointer-events: none;
   transition: opacity 420ms ease, transform 420ms ease, color 180ms ease;
 }
@@ -547,50 +556,62 @@ body {
 }
 .nav-tip.is-gone {
   opacity: 0;
-  transform: translateX(4px);
+  transform: translateX(6px);
   pointer-events: none;
   visibility: hidden;
   transition: opacity 240ms ease, transform 240ms ease, visibility 0s linear 240ms;
 }
-.nav-tip:hover { color: rgba(244,237,227,0.82); }
+.nav-tip:hover { color: rgba(244,237,227,0.88); }
+.nav-tip:hover .nav-tip__rule { background: rgba(201,138,60,0.85); }
+.nav-tip:hover .nav-tip__icon { border-color: rgba(201,138,60,0.7); }
 .nav-tip:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 4px;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
-.nav-tip__icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(201,138,60,0.45);
-  background: rgba(201,138,60,0.08);
-  color: var(--gold);
-  animation: navTipPulse 1.8s ease-in-out infinite;
+.nav-tip__rule {
+  width: 1px;
+  height: clamp(28px, 6svh, 48px);
+  background: rgba(201,138,60,0.45);
+  border-radius: 99px;
+  transition: background 180ms ease;
 }
-.nav-tip__icon svg {
-  width: 14px;
-  height: 14px;
-  display: block;
-  margin-left: 1px;
-}
+
 .nav-tip__label {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-size: clamp(10px, 2.5vw, 12px);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(11px, 2.7vw, 13px);
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   line-height: 1;
 }
-@keyframes navTipPulse {
-  0%, 100% { transform: translateX(0); box-shadow: 0 0 0 0 rgba(201,138,60,0); }
-  50%      { transform: translateX(3px); box-shadow: 0 0 0 6px rgba(201,138,60,0.08); }
+
+.nav-tip__icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(201,138,60,0.4);
+  background: transparent;
+  color: var(--gold);
+}
+.nav-tip__icon svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+  margin-left: 1px;
+  animation: navTipNudge 1.6s ease-in-out infinite;
+}
+@keyframes navTipNudge {
+  0%, 100% { transform: translateX(0); opacity: 0.7; }
+  50%      { transform: translateX(3px); opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nav-tip__icon { animation: none; }
+  .nav-tip__icon svg { animation: none; }
 }
 
 .demo .tag {
@@ -2045,7 +2066,11 @@ body {
     transform: none;
   }
 
-  .demo .logo { width: 5.208cqw; }             /* 100 */
+  .demo .logo {
+    width: 4.167cqw;                           /* 80 — lighter than other slides */
+    top: 2.917cqw;
+    left: 3.646cqw;
+  }
 
   .demo .stage {
     display: grid;
@@ -2055,31 +2080,35 @@ body {
   }
 
   .demo-main {
-    gap: 1.25cqw;
+    gap: 1.042cqw;
   }
 
-  .demo-focus { gap: 1.458cqw; }   /* 28 */
+  .demo-focus {
+    gap: 1.667cqw;                 /* 32 */
+    padding-right: 0;
+  }
 
-  .demo-phone {                    /* authored 402x874, scaled ~1.15 → ~462 */
-    width: 22.5cqw;                /* slightly shorter stack to fit store badges */
-    border-radius: 2.708cqw;
+  .demo-phone {                    /* larger hero phone on desktop */
+    width: 26.042cqw;              /* 500 */
+    border-radius: 2.917cqw;       /* 56 */
     box-shadow: 0 2.083cqw 5.208cqw rgba(0,0,0,0.6);
   }
 
-  .demo-stores { gap: 0.521cqw; }
-  .demo-stores__live { font-size: 0.729cqw; letter-spacing: 0.22em; }
-  .demo-stores__row { gap: 0.625cqw; }
+  .demo-stores { gap: 0.417cqw; }
+  .demo-stores__live { font-size: 0.677cqw; letter-spacing: 0.22em; }
+  .demo-stores__row { gap: 0.521cqw; }
   .demo-store {
-    gap: 0.521cqw;
-    padding: 0.521cqw 0.833cqw;
-    font-size: 0.781cqw;
+    gap: 0.417cqw;
+    padding: 0.417cqw 0.729cqw;
+    font-size: 0.729cqw;
   }
-  .demo-store img { width: 0.938cqw; height: 0.938cqw; }
+  .demo-store img { width: 0.833cqw; height: 0.833cqw; }
 
-  .nav-tip { gap: 0.729cqw; }
-  .nav-tip__icon { width: 2.083cqw; height: 2.083cqw; }   /* 40 */
-  .nav-tip__icon svg { width: 0.833cqw; height: 0.833cqw; }
-  .nav-tip__label { font-size: 0.677cqw; letter-spacing: 0.22em; }
+  .nav-tip { gap: 0.833cqw; }
+  .nav-tip__rule { height: 2.5cqw; }
+  .nav-tip__label { font-size: 0.729cqw; letter-spacing: 0.28em; }
+  .nav-tip__icon { width: 1.667cqw; height: 1.667cqw; }   /* 32 */
+  .nav-tip__icon svg { width: 0.729cqw; height: 0.729cqw; }
 
   .demo-cta { gap: 0.729cqw; }
   .demo-cta__icon { width: 3.646cqw; height: 3.646cqw; }   /* 70 */
@@ -3028,13 +3057,14 @@ body {
           </div>
 
           <button class="nav-tip" id="navTip" type="button" aria-label="Tap to next">
+            <span class="nav-tip__rule" aria-hidden="true"></span>
+            <span class="nav-tip__label">Tap to next</span>
             <span class="nav-tip__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
                    stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 6 15 12 9 18"></polyline>
               </svg>
             </span>
-            <span class="nav-tip__label">Tap to next</span>
           </button>
         </div>
 
