@@ -234,11 +234,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(12px, 3vw, 20px);
   flex: none;
   max-width: 100%;
-  /* Leave a right gutter so the tip never crowds the phone. */
-  padding-right: clamp(4px, 1vw, 8px);
 }
 
 .demo-phone {
@@ -490,12 +487,20 @@ body {
 .nav-tip {
   -webkit-appearance: none;
   appearance: none;
-  position: relative;
+  /* Out of flow, so the phone centres on the slide instead of being pushed
+     left to make room. translateX is reserved for the show/hide transition,
+     so vertical centring goes through inset + justify-content, not transform. */
+  position: absolute;
+  left: 100%;
+  top: 0;
+  bottom: 0;
+  margin-left: clamp(12px, 3vw, 20px);
   z-index: 3;
   flex: none;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 14px;
   margin: 0;
   padding: 4px 2px;
@@ -621,7 +626,7 @@ body {
   position: absolute;
   left: var(--pad);
   right: var(--pad);
-  bottom: max(var(--pad), env(safe-area-inset-bottom));
+  bottom: calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(18px, 4.5svh, 48px));
   z-index: 3;
 }
 
@@ -630,7 +635,7 @@ body {
 .cover-tagline {
   font-family: 'Poppins', sans-serif;
   font-weight: 200;
-  font-size: clamp(15px, 4.4vw, 31px);
+  font-size: clamp(12px, 3.9vw, 31px);
   line-height: 1.4;
   letter-spacing: 0.01em;
   color: rgba(255,255,255,0.82);
@@ -1894,11 +1899,6 @@ body {
     gap: 1.667cqw;
   }
 
-  .demo-focus {
-    gap: 1.667cqw;                 /* 32 */
-    padding-right: 0;
-  }
-
   .demo-phone {                    /* larger hero phone on desktop */
     /* Width-capped on wide windows, height-capped at 16:9 and taller, where
        24cqw alone overflowed the stage and clipped the store badges. The
@@ -1918,7 +1918,7 @@ body {
   }
   .demo-store img { width: 0.833cqw; height: 0.833cqw; }
 
-  .nav-tip { gap: 0.833cqw; }
+  .nav-tip { gap: 0.833cqw; margin-left: 1.667cqw; }
   .nav-tip__rule { height: 2.5cqw; }
   .nav-tip__label { font-size: 0.729cqw; letter-spacing: 0.28em; }
   .nav-tip__icon { width: 1.667cqw; height: 1.667cqw; }   /* 32 */
