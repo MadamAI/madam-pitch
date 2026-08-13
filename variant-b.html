@@ -4,53 +4,37 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Madam Pitch</title>
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#080404">
 <meta name="description" content="Madam. Community and commerce for Black women. Live on the Apple App Store and Google Play.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Plus+Jakarta+Sans:wght@200;400;600;700;800&family=Poppins:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════════════════════════════════════════
-   Madam pitch — static site
-
-   Two modes, one document, no layout JS:
-
-   WIDE   .stage becomes a letterboxed 16:9 canvas with container-type:size,
-          and every value inside is expressed in cqw. The deck is authored at
-          1920x1080, so 1cqw == 19.2 authored px and the composition is
-          proportionally identical to the original slide at any window size.
-          Authored pixel values are kept in comments beside each rule.
-
-   NARROW the canvas constraint is dropped and each slide reflows on its own
-          terms. Mobile-first, so narrow is the default and wide is the
-          override at (min-width: 860px) and (orientation: landscape).
-   ══════════════════════════════════════════════════════════════════════════ */
-
 :root {
-  --black:        #000000;
+  --black:        #080404;
   --maroon-900:   #3D0813;
-  --card:         #150303;
+  --card:         #150807;
   --card-line:    rgba(244,237,227,0.14);
   --fg:           #F4EDE3;
   --fg-3:         #9A7F74;
   --gold:         #C98A3C;
   --rose:         #D4838F;
+  --ring:         #EFE6D8;
 
   --pad: clamp(20px, 6vw, 64px);
 
-  /* Cover photo insets on narrow. The source is square and cover-scaled, so
-     the box HEIGHT drives render size — tightening these shrinks her face. */
   --photo-top: 11svh;
   --photo-bottom: 7svh;
 
-  /* Problem chain, narrow. Driven by svh, not vw: 9 steps have to fit the
-     screen height now that slides don't scroll. Width-based sizing overflowed
-     a 667px-tall phone by ~150px. */
   --thumb: clamp(32px, 4.6svh, 56px);
   --chain-gap: clamp(11px, 2svh, 20px);
-  /* Corridor the road zigzags inside. Wider than a thumb so the connectors
-     slope steeply, and it keeps the curve away from the labels. */
   --spine: calc(var(--thumb) * 2.5);
+
+  --circle-gold: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100' preserveAspectRatio='none'%3E%3Cpath d='M36 52 C 30 20 116 8 176 15 C 224 21 232 50 210 71 C 182 94 76 97 44 82 C 16 68 20 40 64 27' fill='none' stroke='%23C98A3C' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  --circle-cream: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100' preserveAspectRatio='none'%3E%3Cpath d='M36 52 C 30 20 116 8 176 15 C 224 21 232 50 210 71 C 182 94 76 97 44 82 C 16 68 20 40 64 27' fill='none' stroke='%23F4EDE3' stroke-width='4' stroke-linecap='round' opacity='0.9'/%3E%3C/svg%3E");
+  --circle-rose: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 100' preserveAspectRatio='none'%3E%3Cpath d='M36 52 C 30 20 116 8 176 15 C 224 21 232 50 210 71 C 182 94 76 97 44 82 C 16 68 20 40 64 27' fill='none' stroke='%23D4838F' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  --line-gold: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cpath d='M6 12 C 84 4 218 4 294 9' fill='none' stroke='%23C98A3C' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M20 17 C 102 11 200 11 280 15' fill='none' stroke='%23C98A3C' stroke-width='3' stroke-linecap='round' opacity='0.55'/%3E%3C/svg%3E");
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -69,16 +53,22 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Deck: slides stacked, one shown at a time ──────────────────────────── */
-
 .deck {
   position: fixed;
   inset: 0;
-  /* clip, not hidden: the incoming slide's translateX(3%) overflows to the
-     right, and a scrollable box lets the browser scroll the #hash target
-     into view — which shifted the whole deck 11px left. clip cannot scroll. */
   overflow: hidden;
   overflow: clip;
+}
+
+.deck::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 44;
+  pointer-events: none;
+  opacity: 0.05;
+  background: var(--noise);
+  background-size: 170px 170px;
 }
 
 .slide {
@@ -103,7 +93,6 @@ body {
   z-index: 1;
 }
 
-/* Leaving backwards, so the pair slides the other way. */
 .slide.is-prev { transform: translateX(-3%); }
 
 /* Narrow advances on the vertical axis, so the motion matches the
@@ -117,7 +106,6 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  /* Pitch slides never scroll — content must fit the viewport. */
   overflow: hidden;
   overscroll-behavior: none;
   touch-action: manipulation;
@@ -131,27 +119,26 @@ body {
 }
 
 @keyframes mdBetRise {
-  from { opacity: 0; transform: translateY(34px); filter: blur(10px); }
-  to   { opacity: 1; transform: none; filter: blur(0); }
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none; }
 }
 @keyframes mdBetIn {
-  from { opacity: 0; transform: translateX(-28px); filter: blur(8px); }
-  to   { opacity: 1; transform: none; filter: blur(0); }
+  from { opacity: 0; transform: translateX(-22px); }
+  to   { opacity: 1; transform: none; }
 }
 @keyframes mdBetPop {
-  0%   { opacity: 0; transform: scale(0.86) translateY(20px); }
-  70%  { opacity: 1; transform: scale(1.03) translateY(0); }
-  100% { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: none; }
 }
 
-.slide.is-active .anim-rise { animation: mdBetRise 900ms cubic-bezier(0.16,0.84,0.32,1) both; }
-.slide.is-active .anim-rise-d1 { animation-delay: 120ms; }
-.slide.is-active .anim-rise-d2 { animation-delay: 240ms; }
-.slide.is-active .anim-rise-d3 { animation-delay: 360ms; }
-.slide.is-active .anim-rise-d4 { animation-delay: 480ms; }
-.slide.is-active .anim-rise-d5 { animation-delay: 600ms; }
-.slide.is-active .anim-in   { animation: mdBetIn 700ms cubic-bezier(0.16,0.84,0.32,1) both; }
-.slide.is-active .anim-pop  { animation: mdBetPop 1000ms cubic-bezier(0.16,0.84,0.32,1) 200ms both; }
+.slide.is-active .anim-rise { animation: mdBetRise 700ms cubic-bezier(0.2,0.7,0.3,1) both; }
+.slide.is-active .anim-rise-d1 { animation-delay: 100ms; }
+.slide.is-active .anim-rise-d2 { animation-delay: 200ms; }
+.slide.is-active .anim-rise-d3 { animation-delay: 300ms; }
+.slide.is-active .anim-rise-d4 { animation-delay: 400ms; }
+.slide.is-active .anim-rise-d5 { animation-delay: 500ms; }
+.slide.is-active .anim-in   { animation: mdBetIn 600ms cubic-bezier(0.2,0.7,0.3,1) both; }
+.slide.is-active .anim-pop  { animation: mdBetPop 800ms cubic-bezier(0.2,0.7,0.3,1) 150ms both; }
 
 @media (prefers-reduced-motion: reduce) {
   .slide.is-active .anim-rise,
@@ -159,8 +146,6 @@ body {
   .slide.is-active .anim-pop { animation: none; }
 }
 
-
-/* Shared maroon bloom. Repositioned per slide. */
 .glow {
   position: absolute;
   left: 50%;
@@ -186,10 +171,74 @@ body {
   z-index: 3;
 }
 
+.scribble {
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.01em;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
 
-/* ─────────────────────────────────────────────────────────────────────────
-   00 — Demo
-   ───────────────────────────────────────────────────────────────────────── */
+.tape {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(236,225,206,0.16);
+  border: 1px solid rgba(236,225,206,0.07);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.18);
+  z-index: 6;
+}
+
+.deck-dots {
+  position: fixed;
+  right: clamp(8px, 2vw, 22px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(9px, 1.6vw, 13px);
+}
+
+.deck-dots button {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  width: clamp(11px, 2vw, 16px);
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(244,237,227,0.3);
+  transform: rotate(-24deg);
+  transition: background 200ms ease, transform 200ms ease;
+}
+.deck-dots button:hover { background: rgba(244,237,227,0.55); }
+.deck-dots button[aria-current="true"] {
+  background: var(--gold);
+  transform: rotate(-24deg) scaleX(1.55);
+}
+.deck-dots button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 2.4vw, 18px);
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(15px, 4vw, 28px);
+  letter-spacing: 0.02em;
+  color: rgba(244,237,227,0.55);
+}
+.tag .sep { opacity: 0.5; }
+
+
+/* ── 00 Demo ─────────────────────────────────────────────────────────── */
 
 .demo .glow {
   top: 10%;
@@ -199,7 +248,6 @@ body {
 }
 
 .demo .logo {
-  /* Smaller corner mark so the larger phone has room. */
   width: clamp(40px, 11vw, 64px);
   top: max(14px, env(safe-area-inset-top));
   left: max(14px, env(safe-area-inset-left), calc(var(--pad) * 0.65));
@@ -237,19 +285,51 @@ body {
   gap: clamp(12px, 3vw, 20px);
   flex: none;
   max-width: 100%;
-  /* Leave a right gutter so the tip never crowds the phone. */
   padding-right: clamp(4px, 1vw, 8px);
+}
+
+.demo-focus::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 16%;
+  width: 54px;
+  height: 15px;
+  background: rgba(236,225,206,0.16);
+  border: 1px solid rgba(236,225,206,0.07);
+  transform: rotate(-6deg);
+  z-index: 6;
+  pointer-events: none;
+}
+
+.demo-note {
+  position: absolute;
+  top: -34px;
+  left: -6px;
+  z-index: 6;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: clamp(17px, 4.6vw, 22px);
+  transform: rotate(-6deg);
+}
+.demo-note__arrow {
+  width: 32px;
+  height: auto;
+  margin-top: 12px;
+  flex: none;
 }
 
 .demo-phone {
   position: relative;
   z-index: 2;
-  width: min(68vw, 340px, calc((100svh - 10.5rem) * 402 / 874));
+  width: min(68vw, 340px, calc((100svh - 11rem) * 402 / 874));
   aspect-ratio: 402 / 874;
-  border-radius: 14%;
+  border-radius: clamp(12px, 3.4vw, 22px);
   overflow: hidden;
   background: #000;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.65);
+  box-shadow: 0 0 0 5px var(--ring), 0 24px 60px rgba(0,0,0,0.65);
+  transform: rotate(-2deg);
   flex: none;
 }
 
@@ -262,11 +342,11 @@ body {
 }
 
 .demo-stores__live {
-  font-size: clamp(9px, 2.4vw, 11px);
+  font-family: 'Caveat', cursive;
   font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(244,237,227,0.5);
+  font-size: clamp(14px, 3.8vw, 18px);
+  letter-spacing: 0.02em;
+  color: rgba(201,138,60,0.92);
 }
 
 .demo-stores__row {
@@ -274,19 +354,15 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 16px;
 }
 
 .demo-store {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 10px;
-  border-radius: 9999px;
-  background: rgba(244,237,227,0.06);
-  border: 1px solid rgba(244,237,227,0.14);
-  color: rgba(244,237,227,0.88);
-  font-size: clamp(10px, 2.6vw, 12px);
+  color: rgba(244,237,227,0.85);
+  font-size: clamp(11px, 2.8vw, 13px);
   font-weight: 600;
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -306,7 +382,6 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
-  /* Let taps reach the control bar / phone toggle, not the media element. */
   pointer-events: none;
 }
 
@@ -321,10 +396,8 @@ body {
   gap: 10px;
   padding: 7px 10px;
   border-radius: 9999px;
-  background: rgba(20,20,20,0.62);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  backdrop-filter: blur(14px) saturate(160%);
-  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(14,9,7,0.85);
+  border: 1px solid rgba(244,237,227,0.12);
   pointer-events: auto;
   touch-action: manipulation;
   user-select: none;
@@ -358,7 +431,6 @@ body {
 .demo-phone.is-playing .demo-play__play { display: none; }
 .demo-phone.is-playing .demo-play__pause { display: block; }
 
-/* Idle play cue — big enough to read as the primary action. */
 .demo-cta {
   position: absolute;
   inset: 0;
@@ -405,15 +477,14 @@ body {
   display: block;
 }
 .demo-cta__label {
-  font-size: clamp(13px, 3.4vw, 16px);
+  font-family: 'Caveat', cursive;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.92);
+  font-size: clamp(17px, 4.4vw, 21px);
+  letter-spacing: 0.03em;
+  color: rgba(255,255,255,0.94);
   text-shadow: 0 1px 10px rgba(0,0,0,0.45);
 }
 
-/* Visual bar is thin; the hit target is tall enough for thumbs. */
 .demo-track {
   position: relative;
   flex: 1;
@@ -467,7 +538,6 @@ body {
   flex: none;
   min-width: 2.6em;
   text-align: right;
-  font-family: 'Poppins', sans-serif;
   font-size: 10px;
   color: rgba(255,255,255,0.75);
   font-variant-numeric: tabular-nums;
@@ -486,7 +556,6 @@ body {
   pointer-events: none;
 }
 
-/* One-shot cue to the right of the demo phone — never over video/copy. */
 .nav-tip {
   -webkit-appearance: none;
   appearance: none;
@@ -501,7 +570,7 @@ body {
   padding: 4px 2px;
   border: 0;
   background: transparent;
-  color: rgba(244,237,227,0.58);
+  color: rgba(244,237,227,0.62);
   cursor: pointer;
   opacity: 0;
   transform: translateX(-8px);
@@ -540,11 +609,10 @@ body {
 .nav-tip__label {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(11px, 2.7vw, 13px);
+  font-family: 'Caveat', cursive;
   font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
+  font-size: clamp(15px, 3.8vw, 18px);
+  letter-spacing: 0.06em;
   line-height: 1;
 }
 
@@ -563,24 +631,17 @@ body {
   height: 12px;
   display: block;
   margin-left: 1px;
-  animation: navTipNudge 1.6s ease-in-out infinite;
 }
-@keyframes navTipNudge {
-  0%, 100% { transform: translateX(0); opacity: 0.7; }
-  50%      { transform: translateX(3px); opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .nav-tip__icon svg { animation: none; }
+
+.demo .tag {
+  justify-content: center;
+  margin-top: 0;
+  flex: none;
 }
 
 
-/* ─────────────────────────────────────────────────────────────────────────
-   01 — Cover
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── 01 Cover ────────────────────────────────────────────────────────── */
 
-/* Photo runs full width, inset top and bottom so the maroon ground reads at
-   both ends; the mask softens those edges so it dissolves rather than
-   stopping on a line. */
 .cover-photo {
   position: absolute;
   top: var(--photo-top);
@@ -605,8 +666,6 @@ body {
   display: block;
 }
 
-/* Darkens the lower half for type, then washes maroon back over it so the
-   image doesn't go flat grey. */
 .cover-scrim {
   position: absolute;
   inset: 0;
@@ -617,6 +676,8 @@ body {
     linear-gradient(180deg, rgba(61,8,19,0) 45%, rgba(61,8,19,0.45) 100%);
 }
 
+.cover .tape { display: none; }
+
 .cover-body {
   position: absolute;
   left: var(--pad);
@@ -625,23 +686,20 @@ body {
   z-index: 3;
 }
 
-/* Near-white on narrow: the deck's --fg-3 is a muted brown that vanishes
-   over a photo. Restored to brown in wide mode. */
 .cover-tagline {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 200;
-  font-size: clamp(15px, 4.4vw, 31px);
-  line-height: 1.4;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(16px, 4.8vw, 32px);
+  line-height: 1.25;
   letter-spacing: 0.01em;
-  color: rgba(255,255,255,0.82);
+  color: rgba(244,237,227,0.92);
   margin-bottom: 0.35em;
   text-shadow: 0 1px 12px rgba(0,0,0,0.55);
   white-space: nowrap;
+  transform: rotate(-1.4deg);
+  transform-origin: left bottom;
 }
 
-/* 'Madam' in ExtraBold advances ~3.43em after tracking. Against a measure of
-   100vw - 2*pad, anything above ~25vw overflows — 22vw leaves headroom for
-   wider fallback fonts while the webfont loads. */
 .cover-wordmark {
   font-size: min(22vw, 520px);
   font-weight: 800;
@@ -652,7 +710,21 @@ body {
   text-shadow: 0 2px 28px rgba(0,0,0,0.5);
 }
 
-/* The little m at the foot of a slide. Hidden on narrow. */
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(8px, 2.6vw, 20px);
+  margin-top: clamp(16px, 4.6vw, 36px);
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(16px, 4.4vw, 28px);
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.88);
+}
+.cover-meta .dim { color: rgba(255,255,255,0.55); }
+.cover-meta .sep { opacity: 0.5; }
+
 .stage-mark {
   display: none;
   position: absolute;
@@ -668,13 +740,7 @@ body {
 }
 
 
-/* ─────────────────────────────────────────────────────────────────────────
-   02 — The problem
-
-   Desktop is a 5-column serpentine of 9 cards with hand-drawn arrows. That
-   has no portrait equivalent, so narrow becomes a vertical numbered chain —
-   which suits the slide, since the length is the point.
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── 02 The problem ──────────────────────────────────────────────────── */
 
 .problem .glow {
   top: 12%;
@@ -697,9 +763,19 @@ body {
   margin-bottom: clamp(14px, 2.6svh, 32px);
 }
 
+.eyebrow {
+  display: inline-block;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(15px, min(4.4vw, 2.2svh), 34px);
+  letter-spacing: 0.01em;
+  color: var(--gold);
+  margin-bottom: clamp(6px, 1.2svh, 16px);
+  transform: rotate(-1.2deg);
+  transform-origin: left bottom;
+}
+
 .problem-head h2 {
-  /* Constrained by height as well as width so tall copy can't push the
-     chain off a short screen. */
   font-size: clamp(21px, min(7.4vw, 3.6svh), 54px);
   font-weight: 800;
   line-height: 1.08;
@@ -708,8 +784,9 @@ body {
 }
 .problem-head h2 .accent { color: var(--rose); }
 
-/* The desktop connector arrows. Meaningless once stacked. */
 .flow { display: none; }
+
+.problem-note { display: none; }
 
 .chain {
   position: relative;
@@ -722,9 +799,6 @@ body {
   margin-inline: auto;
 }
 
-/* The road itself. Geometry is measured and drawn in JS because the curve
-   has to land exactly on each thumbnail whatever the screen size — a fixed
-   viewBox stretched to fit would skew the arrowheads. */
 .chain-wrap {
   position: relative;
 }
@@ -732,8 +806,6 @@ body {
 .chain-path {
   position: absolute;
   inset: 0;
-  /* An absolutely positioned svg with width:auto takes its intrinsic
-     300x150 rather than the inset constraint, so it must be sized. */
   width: 100%;
   height: 100%;
   z-index: 0;
@@ -750,23 +822,21 @@ body {
   gap: clamp(10px, 2.6vw, 16px);
 }
 
-/* Stops alternate within the spine so the road switches back on itself and
-   reads as a route. Spanning the full width instead would drag every
-   connector diagonally across the labels. */
 .step:nth-child(even) .step__thumb { justify-self: end; }
 
 .step__thumb {
   justify-self: start;
   width: var(--thumb);
   height: var(--thumb);
-  border-radius: 50%;
+  border-radius: 26%;
   overflow: hidden;
   background: var(--card);
-  border: 1px solid rgba(201,138,60,0.45);
-  box-shadow: 0 0 0 4px rgba(61,8,19,0.85);
+  box-shadow: 0 0 0 3px var(--ring), 0 0 0 6px rgba(61,8,19,0.9);
+  transform: rotate(-2.5deg);
   position: relative;
   z-index: 2;
 }
+.step:nth-child(even) .step__thumb { transform: rotate(2.5deg); }
 
 .step__thumb img {
   width: 100%;
@@ -776,7 +846,6 @@ body {
   display: block;
 }
 
-/* Step 5 has no photo on the deck either — it's a CSS chat mock. */
 .chat-mock {
   position: absolute;
   inset: 0;
@@ -801,32 +870,31 @@ body {
 
 .step__n {
   display: block;
-  font-size: clamp(9px, 2.4vw, 11px);
-  font-weight: 700;
-  letter-spacing: 0.22em;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(12px, 3vw, 15px);
+  letter-spacing: 0.02em;
   color: var(--gold);
-  margin-bottom: 0.35em;
+  margin-bottom: 0.2em;
 }
 
 .step__label {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: clamp(13px, min(4.1vw, 2.1svh), 20px);
   line-height: 1.3;
   color: var(--fg);
 }
 
-/* Desktop-only icon inside each card. */
 .step__icon { display: none; }
 
+.problem .tag {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(16px, 3svh, 40px);
+}
 
-/* ───────────────────────────────────────────────────────────────
-   03 — The founder
 
-   Wide is name left, portrait bottom-right, with a hand-drawn arrow running
-   between them. Narrow keeps that gesture by pairing the portrait and the
-   handwritten note side by side with a short arrow of their own.
-   ─────────────────────────────────────────────────────────────── */
+/* ── 03 The founder ──────────────────────────────────────────────────── */
 
 .founder .glow {
   top: -10%;
@@ -847,24 +915,22 @@ body {
 .founder-head { position: relative; z-index: 2; }
 
 .founder-name {
-  font-size: clamp(56px, min(21vw, 12svh), 190px);
+  font-size: clamp(46px, min(17vw, 9svh), 150px);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.03em;
   color: #fff;
+  margin-top: clamp(8px, 1.4svh, 18px);
 }
 
 .founder-rule {
   display: block;
   width: clamp(120px, 42vw, 360px);
-  height: clamp(5px, 0.9svh, 10px);
-  margin-top: clamp(10px, 1.8svh, 22px);
-  border-radius: 99px;
-  background: var(--gold);
+  height: clamp(8px, 1.2svh, 14px);
+  margin-top: clamp(8px, 1.6svh, 20px);
+  background: var(--line-gold) no-repeat center / 100% 100%;
 }
 
-/* Portrait and note sit on one row so the note still reads as pointing at
-   him, the way the arrow does on the wide composition. */
 .founder-who {
   position: relative;
   z-index: 2;
@@ -874,20 +940,33 @@ body {
 }
 
 .founder-who__col {
+  position: relative;
   flex: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(8px, 1.6svh, 18px);
+  gap: clamp(10px, 1.8svh, 20px);
+}
+
+.tape--founder {
+  display: block;
+  top: -8px;
+  left: 50%;
+  width: 54px;
+  height: 15px;
+  margin-left: -27px;
+  transform: rotate(-5deg);
+  z-index: 4;
 }
 
 .founder-portrait {
   flex: none;
   width: clamp(92px, 30vw, 170px);
   aspect-ratio: 1;
-  border-radius: 999px;
+  border-radius: clamp(8px, 2vw, 14px);
   overflow: hidden;
-  border: clamp(3px, 0.9vw, 5px) solid var(--gold);
+  box-shadow: 0 0 0 4px var(--ring), 0 14px 30px rgba(0,0,0,0.5);
+  transform: rotate(-3deg);
 }
 
 .founder-portrait img {
@@ -968,13 +1047,10 @@ body {
   flex: none;
 }
 
-/* The authored 1920x1080 connector only makes sense on the wide canvas. */
 .founder-sketch { display: none; }
 
 
-/* ─────────────────────────────────────────────────────────────────────────
-   04 — The product
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── 04 The product ──────────────────────────────────────────────────── */
 
 .product .glow {
   top: -10%;
@@ -987,15 +1063,12 @@ body {
   justify-content: center;
   align-items: stretch;
   gap: clamp(8px, 1.2svh, 12px);
-  /* Fit phone + copy + tag in one screen — no vertical scroll on narrow. */
   height: 100%;
   overflow: hidden;
   padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(28px, 5svh, 44px)) 0
            calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(8px, 1.5svh, 14px));
 }
 
-/* Four phones won't stack in a phone viewport, so narrow becomes a
-   horizontal snap carousel — one product per stop, next card peeking. */
 .product-rail {
   position: relative;
   z-index: 2;
@@ -1014,11 +1087,8 @@ body {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   scrollbar-width: none;
-  /* Side padding leaves a clear peek of the next phone. */
   padding-inline: 16vw;
-  /* Horizontal carousel only — never vertical page scroll. */
   touch-action: pan-x;
-  /* Soft edge fade so the peek reads as "more this way". */
   -webkit-mask-image: linear-gradient(90deg,
     transparent 0%, #000 5%, #000 95%, transparent 100%);
   mask-image: linear-gradient(90deg,
@@ -1027,6 +1097,7 @@ body {
 .product-row::-webkit-scrollbar { display: none; }
 
 .product-item {
+  position: relative;
   flex: none;
   width: 68vw;
   max-height: 100%;
@@ -1037,6 +1108,7 @@ body {
   text-align: center;
   gap: clamp(6px, 1svh, 10px);
   padding-inline: clamp(6px, 1.5vw, 12px);
+  padding-top: 12px;
   scroll-snap-align: center;
   scroll-snap-stop: always;
   opacity: 0.38;
@@ -1050,18 +1122,33 @@ body {
   cursor: default;
 }
 
+.product-item::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 52px;
+  height: 15px;
+  transform: translateX(-50%) rotate(-6deg);
+  background: rgba(236,225,206,0.16);
+  border: 1px solid rgba(236,225,206,0.07);
+  z-index: 5;
+  pointer-events: none;
+}
+
 .product-phone {
   position: relative;
-  /* More room for the phone — copy/chrome are compacted below. */
-  width: min(62vw, 250px, calc((100svh - 12.5rem) * 313 / 640));
+  width: min(62vw, 250px, calc((100svh - 14.5rem) * 313 / 640));
   margin-inline: auto;
   aspect-ratio: 313 / 640;
-  border-radius: 14%;
+  border-radius: clamp(10px, 3vw, 18px);
   overflow: hidden;
   background: #000;
-  box-shadow: 0 20px 48px rgba(0,0,0,0.7);
+  box-shadow: 0 0 0 4px var(--ring), 0 20px 48px rgba(0,0,0,0.7);
+  transform: rotate(-1.8deg);
   flex: none;
 }
+.product-item:nth-child(even) .product-phone { transform: rotate(1.6deg); }
 
 .product-phone img {
   position: absolute;
@@ -1070,7 +1157,6 @@ body {
   max-width: none;
 }
 
-/* Daia's frame is authored as a white bezel, not a cropped screenshot. */
 .product-phone--daia {
   background: #fff;
   border: 2.5% solid #1C1C1E;
@@ -1085,7 +1171,6 @@ body {
   padding-inline: 4px;
 }
 
-/* Neighbors only peek the phone — hide their copy so text doesn’t crowd. */
 .product-item:not(.is-current) .product-meta {
   visibility: hidden;
   height: 0;
@@ -1094,9 +1179,10 @@ body {
   overflow: hidden;
 }
 
+.product-kicker { display: none; }
+
 .product-name {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(20px, 5vw, 26px);
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -1114,7 +1200,6 @@ body {
   overflow: hidden;
 }
 
-/* Carousel chrome: one compact controls row. Wide hides these. */
 .product-chrome {
   position: relative;
   z-index: 2;
@@ -1126,7 +1211,6 @@ body {
   padding-inline: var(--pad);
 }
 
-/* Tabs replace the swipe hint on narrow. */
 .product-hint { display: none; }
 
 .product-controls {
@@ -1185,7 +1269,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 10px;
   flex: 1;
   flex-wrap: nowrap;
   min-width: 0;
@@ -1193,39 +1277,41 @@ body {
 .product-pager button {
   -webkit-appearance: none;
   appearance: none;
-  border: 1px solid transparent;
-  padding: 5px 7px;
+  border: 0;
+  padding: 3px 4px 6px;
   cursor: pointer;
   width: auto;
   height: auto;
   min-height: 26px;
-  border-radius: 9999px;
-  background: rgba(244,237,227,0.08);
+  border-radius: 4px;
+  background: transparent;
   color: rgba(244,237,227,0.55);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(9px, 2.3vw, 10px);
+  font-family: 'Caveat', cursive;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-size: clamp(15px, 4vw, 18px);
+  letter-spacing: 0.03em;
   line-height: 1;
   white-space: nowrap;
-  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+  transition: color 160ms ease;
 }
 .product-pager button[aria-current="true"] {
-  background: rgba(201,138,60,0.18);
-  border-color: rgba(201,138,60,0.55);
   color: var(--gold);
+  background: var(--line-gold) no-repeat left bottom / 100% 6px;
 }
 .product-pager button:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
 }
 
-/* Counter is redundant with the active tab on mobile. */
 .product-count { display: none; }
 
-/* Short landscape (phone rotated, still below the wide canvas breakpoint):
-   put the phone beside the copy so neither collapses to a stub. */
+.product .tag {
+  justify-content: center;
+  margin-top: 0;
+  flex: none;
+  font-size: clamp(14px, 3.6vw, 20px);
+}
+
 @media (orientation: landscape) and (max-height: 520px) and (max-width: 859px) {
   .product .stage {
     padding: max(12px, env(safe-area-inset-top))
@@ -1254,7 +1340,7 @@ body {
   .product-phone {
     width: min(22vw, calc((100svh - 3rem) * 313 / 640));
     margin-inline: 0;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.65);
+    box-shadow: 0 0 0 3px var(--ring), 0 12px 28px rgba(0,0,0,0.65);
   }
 
   .product-meta {
@@ -1268,9 +1354,7 @@ body {
 }
 
 
-/* ─────────────────────────────────────────────────────────────────────────
-   05 — Business model
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── 05 Business model ───────────────────────────────────────────────── */
 
 .bizmodel .glow {
   top: 18%;
@@ -1283,34 +1367,34 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(10px, 1.6svh, 18px);
+  gap: clamp(12px, 2svh, 20px);
   height: 100%;
   overflow: hidden;
-  /* Clear the absolute logo (pad + logo height + breathing room). */
   padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(72px, 20vw, 110px))
            var(--pad)
            calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(16px, 2.5svh, 28px));
 }
 
-.bizmodel-headline {
+.bizmodel-kicker {
   position: relative;
   z-index: 2;
   flex: none;
-  font-size: clamp(24px, min(6.6vw, 3.4svh), 34px);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: #fff;
-  text-wrap: pretty;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(24px, min(6.5vw, 3.4svh), 36px);
+  letter-spacing: 0.01em;
+  color: var(--gold);
+  transform: rotate(-1.5deg);
+  transform-origin: left bottom;
+  align-self: flex-start;
 }
-.bizmodel-headline .accent { color: var(--rose); }
 
 .bizmodel-row {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: clamp(8px, 1.4svh, 12px);
+  gap: clamp(12px, 2.2svh, 20px);
   flex: 1 1 auto;
   min-height: 0;
   justify-content: center;
@@ -1319,38 +1403,103 @@ body {
 .biz-card {
   display: flex;
   flex-direction: column;
-  gap: clamp(6px, 1svh, 10px);
+  gap: clamp(4px, 0.8svh, 8px);
   color: #DFCDB4;
   flex: 0 1 auto;
   min-height: 0;
 }
 
+.biz-card--jars {
+  position: relative;
+  background: #2B0709;
+  border-radius: 6px;
+  padding: clamp(16px, 2.6svh, 26px) clamp(16px, 4.5vw, 26px);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.45);
+  transform: rotate(-1.2deg);
+  gap: clamp(8px, 1.4svh, 12px);
+}
+
+.biz-card--jars::before,
+.biz-card--jars::after {
+  content: '';
+  position: absolute;
+  top: -9px;
+  width: 56px;
+  height: 15px;
+  background: rgba(236,225,206,0.18);
+  border: 1px solid rgba(236,225,206,0.08);
+  pointer-events: none;
+}
+.biz-card--jars::before { left: 12%; transform: rotate(-7deg); }
+.biz-card--jars::after  { right: 10%; transform: rotate(5deg); }
+
+.biz-note {
+  position: absolute;
+  top: -14px;
+  right: 6%;
+  z-index: 7;
+  font-size: clamp(16px, min(4.4vw, 2.4svh), 22px);
+  transform: rotate(4deg);
+}
+
 .biz-card__name {
-  font-size: clamp(22px, min(6.2vw, 3.4svh), 32px);
+  font-size: clamp(17px, min(5vw, 2.6svh), 24px);
   font-weight: 700;
   line-height: 1.1;
+  color: var(--fg);
+}
+
+.biz-card--jars .biz-card__name {
+  font-size: clamp(26px, min(7.4vw, 3.8svh), 38px);
   color: #fff;
 }
 
 .biz-card__copy {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(12px, min(3.4vw, 1.85svh), 16px);
+  font-size: clamp(12px, min(3.2vw, 1.75svh), 15px);
   line-height: 1.35;
-  color: rgba(223,205,180,0.75);
+  color: rgba(223,205,180,0.68);
   text-wrap: pretty;
+  flex: 1;
+}
+
+.biz-card--jars .biz-card__copy {
+  font-size: clamp(13px, min(3.5vw, 1.9svh), 16px);
+  color: rgba(223,205,180,0.82);
 }
 
 .biz-card__fee {
-  font-size: clamp(14px, min(3.8vw, 2.1svh), 18px);
-  font-weight: 700;
+  margin-top: 2px;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(16px, min(4.4vw, 2.3svh), 21px);
   color: var(--gold);
 }
 
+.biz-card--jars .biz-card__fee {
+  margin-top: clamp(6px, 1svh, 12px);
+  align-self: flex-start;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: clamp(15px, min(4vw, 2.2svh), 19px);
+  color: #fff;
+  padding: 0.4em 1em;
+  background: var(--circle-gold) no-repeat center / 100% 100%;
+}
+
+.biz-card--outline {
+  padding-left: clamp(14px, 4vw, 20px);
+  border-left: 1px solid rgba(244,237,227,0.16);
+}
+
+.bizmodel .tag {
+  justify-content: center;
+  margin-top: 0;
+  flex: none;
+  font-size: clamp(14px, 3.6vw, 20px);
+}
 
 
-/* ─────────────────────────────────────────────────────────────────────────
-   06 — The bet
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── 06 The bet ──────────────────────────────────────────────────────── */
 
 .bet .glow {
   top: 8%;
@@ -1362,7 +1511,7 @@ body {
 .bet .stage {
   display: flex;
   flex-direction: column;
-  gap: clamp(20px, 3.5svh, 32px);
+  gap: clamp(18px, 3svh, 30px);
   padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
            var(--pad)
            calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
@@ -1378,63 +1527,82 @@ body {
   z-index: 2;
   font-size: clamp(26px, 7vw, 36px);
   font-weight: 700;
-  line-height: 1.22;
+  line-height: 1.26;
   letter-spacing: -0.01em;
   color: #fff;
   text-wrap: pretty;
   max-width: 22rem;
 }
-.bet-headline .accent { color: var(--gold); }
+.bet-headline .accent {
+  color: inherit;
+  background: var(--line-gold) no-repeat left bottom / 100% 0.16em;
+  padding-bottom: 0.12em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
 
 .bet-stats {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: clamp(18px, 3svh, 28px);
+  gap: clamp(14px, 2.4svh, 24px);
 }
 
 .bet-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: clamp(12px, 3.4vw, 18px);
+  row-gap: 2px;
+  align-items: start;
 }
+.bet-stat:nth-child(2) { margin-left: clamp(14px, 6vw, 40px); }
+.bet-stat:nth-child(3) { margin-left: clamp(6px, 3vw, 20px); }
+
 .bet-stat__num {
-  font-size: clamp(40px, 11vw, 52px);
-  font-weight: 700;
+  grid-row: 1 / 3;
+  font-size: clamp(30px, min(8vw, 4svh), 44px);
+  font-weight: 800;
   line-height: 1;
   letter-spacing: -0.02em;
   color: #fff;
+  padding: 0.3em 0.5em;
+  background: var(--circle-gold) no-repeat center / 100% 100%;
 }
 .bet-stat__num--gold { color: var(--gold); }
+
 .bet-stat__label {
-  font-size: clamp(13px, 3.4vw, 15px);
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(17px, min(4.6vw, 2.5svh), 23px);
+  letter-spacing: 0.01em;
   color: var(--gold);
+  transform: rotate(-2deg);
+  transform-origin: left bottom;
 }
+
 .bet-stat__copy {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(13px, 3.4vw, 15px);
+  font-size: clamp(13px, min(3.4vw, 1.9svh), 15px);
   line-height: 1.4;
-  color: rgba(244,237,227,0.55);
+  color: rgba(244,237,227,0.68);
   text-wrap: pretty;
 }
 
 .bet-sources {
   position: relative;
   z-index: 2;
-  font-family: 'Poppins', sans-serif;
   font-size: clamp(11px, 2.8vw, 13px);
   line-height: 1.5;
   color: rgba(244,237,227,0.45);
 }
 
+.bet .tag {
+  justify-content: center;
+  margin-top: clamp(8px, 2svh, 16px);
+}
 
-/* ─────────────────────────────────────────────────────────────────────────
-   07 — Reason one (competition)
-   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── 07 Reason one ───────────────────────────────────────────────────── */
 
 .reason .glow {
   top: 18%;
@@ -1460,7 +1628,7 @@ body {
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.01em;
-  color: var(--rose);
+  color: #fff;
   text-wrap: pretty;
 }
 
@@ -1478,14 +1646,14 @@ body {
   gap: 4px;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(223,205,180,0.35);
+  border-bottom: 1px solid rgba(244,237,227,0.14);
 }
 .reason-row--head {
-  border-bottom: 2px solid #200505;
+  border-bottom: 1px solid rgba(244,237,227,0.3);
   padding-bottom: 12px;
 }
 .reason-row--madam {
-  background: rgba(166,39,63,0.14);
+  background: rgba(166,39,63,0.1);
   margin: 0 -8px;
   padding-left: 8px;
   padding-right: 8px;
@@ -1493,8 +1661,10 @@ body {
 }
 
 .reason-colhead {
-  font-size: clamp(9px, 2.3vw, 12px);
-  font-weight: 600;
+  font-size: clamp(8px, 2.1vw, 10px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: rgba(244,237,227,0.6);
   text-align: center;
   line-height: 1.25;
@@ -1510,8 +1680,14 @@ body {
   font-weight: 700;
   color: #fff;
 }
+.reason-row--madam .reason-brand__name {
+  display: inline-block;
+  align-self: flex-start;
+  background: var(--circle-rose) no-repeat center / 100% 100%;
+  padding: 2px 12px;
+  margin-left: -12px;
+}
 .reason-brand__meta {
-  font-family: 'Poppins', sans-serif;
   font-size: clamp(10px, 2.4vw, 12px);
   color: var(--gold);
   line-height: 1.3;
@@ -1521,21 +1697,27 @@ body {
 .reason-cell {
   text-align: center;
   font-size: clamp(16px, 4.2vw, 20px);
-  font-weight: 400;
-  color: rgba(201,181,154,0.4);
+  font-weight: 700;
+  color: rgba(201,181,154,0.5);
 }
 .reason-cell--yes {
-  color: var(--rose);
+  font-family: 'Caveat', cursive;
   font-weight: 700;
+  font-size: clamp(19px, 5vw, 24px);
+  color: var(--gold);
+}
+.reason-row--madam .reason-cell--yes { color: var(--rose); }
+
+.reason .tag {
+  justify-content: center;
+  margin-top: clamp(8px, 2svh, 16px);
 }
 
 
-/* ─────────────────────────────────────────────────────────────────────────
-   08 — The team
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── 08 The team ─────────────────────────────────────────────────────── */
 
 .team .glow {
-  top: 18%;
+  top: 30%;
   left: -20%;
   width: 160vw;
   height: 110vh;
@@ -1544,59 +1726,83 @@ body {
 .team .stage {
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 4svh, 40px);
+  justify-content: center;
+  gap: clamp(18px, 3.4svh, 32px);
   padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
            var(--pad)
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
+           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(20px, 3.5svh, 36px));
   overflow: hidden;
 }
 
 .team-headline {
   position: relative;
   z-index: 2;
-  font-size: clamp(26px, 7vw, 34px);
+  font-size: clamp(24px, min(6.6vw, 3.6svh), 34px);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.18;
   letter-spacing: -0.01em;
-  color: var(--rose);
+  color: #fff;
   text-wrap: pretty;
+  max-width: 21rem;
+}
+.team-headline::after {
+  content: '';
+  display: block;
+  width: min(46vw, 240px);
+  height: 9px;
+  margin-top: 10px;
+  background: var(--line-gold) no-repeat center / 100% 100%;
 }
 
 .team-grid {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(22px, 4svh, 36px) clamp(16px, 4vw, 28px);
-  align-items: center;
-  flex: 1;
-  align-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(10px, 2.2svh, 20px);
 }
 
 .team-logo {
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
+  flex-direction: row;
   align-items: center;
-  gap: 10px;
-  text-align: center;
+  gap: 0.5em;
+  text-align: left;
+  font-size: clamp(22px, min(6.4vw, 3.4svh), 34px);
 }
+.team-logo:nth-child(2) { margin-left: 1.2em; }
+.team-logo:nth-child(3) { margin-left: 0.4em; }
+.team-logo:nth-child(4) { margin-left: 1.8em; }
+.team-logo:nth-child(5) { margin-left: 0.7em; }
+.team-logo:nth-child(6) { margin-left: 1.4em; }
+
 .team-logo img {
-  height: clamp(36px, 8vw, 52px);
+  height: 0.9em;
   width: auto;
   max-width: 100%;
   display: block;
-  opacity: 0.9;
+  opacity: 1;
 }
 .team-logo span {
-  font-size: clamp(12px, 3vw, 14px);
-  font-weight: 600;
-  color: rgba(244,237,227,0.55);
+  font-size: 1em;
+  font-weight: 700;
+  color: var(--fg);
+}
+.team-logo:nth-child(3) span,
+.team-logo:nth-child(6) span {
+  background: var(--line-gold) no-repeat left bottom / 100% 7px;
+  padding-bottom: 5px;
+}
+.team-logo::after { display: none; }
+
+.team .tag {
+  justify-content: center;
+  margin-top: 0;
 }
 
 
-/* ─────────────────────────────────────────────────────────────────────────
-   09 — Roadmap
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── 09 Roadmap ──────────────────────────────────────────────────────── */
 
 .roadmap .glow {
   top: 18%;
@@ -1622,7 +1828,7 @@ body {
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.01em;
-  color: var(--rose);
+  color: #fff;
   text-wrap: pretty;
 }
 
@@ -1631,7 +1837,7 @@ body {
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: clamp(18px, 3svh, 26px);
+  gap: clamp(16px, 2.8svh, 24px);
 }
 
 .mile {
@@ -1644,7 +1850,7 @@ body {
 .mile__rail { display: none; }
 
 .mile__mark {
-  grid-row: 1 / span 2;
+  grid-row: 1 / span 3;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1652,20 +1858,44 @@ body {
   padding-top: 4px;
 }
 .mile__dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: rgba(244,237,227,0.85);
+  background: rgba(244,237,227,0.75);
   flex: none;
 }
 .mile--now .mile__dot { background: var(--gold); }
 .mile__line {
-  width: 2px;
+  width: 0;
   flex: 1;
   min-height: 28px;
-  background: rgba(244,237,227,0.18);
+  border-left: 2px dashed rgba(244,237,227,0.22);
 }
 .mile:last-child .mile__line { display: none; }
+
+.mile__id {
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(15px, 4vw, 19px);
+  letter-spacing: 0.04em;
+  color: rgba(244,237,227,0.85);
+}
+.mile--now .mile__id { color: var(--gold); }
+.mile--far .mile__id { color: rgba(244,237,227,0.5); }
+
+.mile__idtxt { display: inline-block; }
+.mile--now .mile__idtxt {
+  background: var(--circle-gold) no-repeat center / 100% 100%;
+  padding: 2px 10px;
+  margin-left: -10px;
+}
+
+.mile-note {
+  display: inline-block;
+  font-size: clamp(15px, 4vw, 19px);
+  margin-left: 10px;
+  transform: rotate(-3deg);
+}
 
 .mile__title {
   font-size: clamp(16px, 4.2vw, 20px);
@@ -1677,16 +1907,18 @@ body {
 .mile--now .mile__title { color: var(--gold); }
 
 .mile__sub {
-  font-family: 'Poppins', sans-serif;
   font-size: clamp(13px, 3.4vw, 15px);
   line-height: 1.4;
   color: rgba(244,237,227,0.5);
 }
 
+.roadmap .tag {
+  justify-content: center;
+  margin-top: clamp(8px, 2svh, 16px);
+}
 
-/* ─────────────────────────────────────────────────────────────────────────
-   10 — Traction
-   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── 10 Traction ─────────────────────────────────────────────────────── */
 
 .traction .glow {
   top: 18%;
@@ -1698,7 +1930,7 @@ body {
 .traction .stage {
   display: flex;
   flex-direction: column;
-  gap: clamp(22px, 3.5svh, 36px);
+  gap: clamp(12px, 2.2svh, 24px);
   padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
            var(--pad)
            calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
@@ -1708,21 +1940,30 @@ body {
 .traction-headline {
   position: relative;
   z-index: 2;
-  font-size: clamp(34px, 9vw, 48px);
-  font-weight: 700;
+  font-size: clamp(30px, min(9vw, 5svh), 48px);
+  font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.02em;
   color: #fff;
 }
-.traction-headline .accent { color: var(--gold); }
+.traction-headline .accent { color: inherit; }
 
 .traction-channels {
   position: relative;
   z-index: 2;
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(13px, 3.4vw, 15px);
-  line-height: 1.4;
-  color: rgba(244,237,227,0.5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(16px, 4.4vw, 20px);
+  color: rgba(244,237,227,0.75);
+}
+.traction-channels .sep { color: rgba(244,237,227,0.3); }
+.traction-channels .shipped {
+  letter-spacing: 0.01em;
+  color: var(--gold);
 }
 
 .traction-stats {
@@ -1730,15 +1971,15 @@ body {
   z-index: 2;
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(18px, 3svh, 26px);
+  gap: clamp(11px, 2svh, 20px);
   border-top: 1px solid rgba(244,237,227,0.15);
-  padding-top: clamp(18px, 3svh, 28px);
+  padding-top: clamp(12px, 2.2svh, 22px);
 }
 
 .trac {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 .trac__numrow {
   display: flex;
@@ -1747,7 +1988,7 @@ body {
   flex-wrap: wrap;
 }
 .trac__num {
-  font-size: clamp(56px, 16vw, 72px);
+  font-size: clamp(40px, min(13vw, 6svh), 64px);
   font-weight: 800;
   line-height: 0.92;
   letter-spacing: -0.03em;
@@ -1755,13 +1996,13 @@ body {
 }
 .trac__num--gold { color: var(--gold); }
 .trac__unit {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(16px, 4vw, 18px);
-  color: rgba(244,237,227,0.45);
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(17px, 4.4vw, 21px);
+  color: var(--gold);
 }
 .trac__copy {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(13px, 3.4vw, 15px);
+  font-size: clamp(13px, min(3.4vw, 1.9svh), 15px);
   line-height: 1.45;
   color: rgba(244,237,227,0.6);
   text-wrap: pretty;
@@ -1770,19 +2011,28 @@ body {
 .traction-note {
   position: relative;
   z-index: 2;
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(13px, 3.4vw, 15px);
-  color: rgba(244,237,227,0.4);
+  align-self: flex-start;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(17px, 4.6vw, 22px);
+  color: var(--gold);
   margin-top: auto;
+  padding-bottom: 6px;
+  background: var(--line-gold) no-repeat left bottom / 100% 7px;
+  transform: rotate(-1.5deg);
+  transform-origin: left bottom;
+}
+
+.traction .tag {
+  justify-content: center;
+  margin-top: clamp(8px, 2svh, 16px);
 }
 
 
-/* ─────────────────────────────────────────────────────────────────────────
-   11 — The raise
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── 11 The raise ────────────────────────────────────────────────────── */
 
 .raise .glow {
-  top: 0;
+  top: 26%;
   left: -20%;
   width: 160vw;
   height: 120vh;
@@ -1792,7 +2042,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(12px, 2svh, 20px);
+  align-items: flex-start;
+  gap: 0;
   overflow: hidden;
   padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
            var(--pad)
@@ -1802,36 +2053,58 @@ body {
 .raise-kicker {
   position: relative;
   z-index: 2;
-  font-size: clamp(22px, 5.6vw, 30px);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: rgba(244,237,227,0.9);
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: clamp(26px, 7.5vw, 38px);
+  letter-spacing: 0.01em;
+  color: rgba(244,237,227,0.92);
+  transform: rotate(-2.5deg);
+  transform-origin: left bottom;
+  margin-bottom: clamp(6px, 1.4svh, 14px);
+  margin-left: clamp(2px, 1vw, 8px);
 }
 
 .raise-amount {
   position: relative;
   z-index: 2;
-  font-size: clamp(56px, 18vw, 96px);
+  display: inline-block;
+  align-self: flex-start;
+  font-size: clamp(48px, 15vw, 88px);
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.03em;
   color: var(--gold);
+  padding: 0.22em 0.34em;
+  background: var(--circle-cream) no-repeat center / 100% 100%;
+}
+
+.raise-arrow {
+  position: relative;
+  z-index: 2;
+  width: clamp(36px, 10vw, 52px);
+  height: auto;
+  margin: clamp(8px, 1.6svh, 14px) 0 0 clamp(48px, 24vw, 130px);
+  transform: rotate(12deg);
 }
 
 .raise-sub {
   position: relative;
   z-index: 2;
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(16px, 4.2vw, 20px);
+  font-size: clamp(17px, 4.6vw, 21px);
   line-height: 1.5;
-  color: rgba(244,237,227,0.55);
+  color: rgba(244,237,227,0.7);
+  margin-top: clamp(4px, 1svh, 10px);
+  margin-left: clamp(24px, 12vw, 80px);
+}
+
+.raise .tag {
+  justify-content: center;
+  align-self: stretch;
+  margin-top: clamp(28px, 6svh, 48px);
 }
 
 
-/* ═════════════════════════════════════════════════════════════════════════
-   WIDE — the authored 1920x1080 compositions. px / 19.2 = cqw.
-   ═════════════════════════════════════════════════════════════════════════ */
+/* ═══ WIDE — authored 1920x1080 canvas, px / 19.2 = cqw ═══ */
 
 @media (min-width: 860px) and (orientation: landscape) {
 
@@ -1842,9 +2115,6 @@ body {
 
   .stage {
     width: min(100vw, calc(100svh * 16 / 9));
-    /* height must be auto or aspect-ratio is ignored — narrow sets 100%,
-       which silently made the canvas the full viewport height and pushed
-       every bottom-anchored element below the authored 1080 frame. */
     height: auto;
     min-height: 0;
     aspect-ratio: 16 / 9;
@@ -1852,15 +2122,19 @@ body {
     overflow: hidden;
   }
 
-  .logo {                          /* 100 wide, top 64, left 80 */
+  .logo {
     top: 3.333cqw;
     left: 4.167cqw;
     width: 5.208cqw;
     z-index: 2;
   }
 
-  /* The cover is authored with a larger mark than the interior slides. */
-  .cover .logo { width: 7.292cqw; }   /* 140 */
+  .cover .logo { width: 7.292cqw; }
+
+  .tag {
+    gap: 1cqw;
+    font-size: 1.5cqw;
+  }
 
   /* ── 00 Demo ── */
 
@@ -1874,7 +2148,7 @@ body {
   }
 
   .demo .logo {
-    width: 4.167cqw;                           /* 80 — lighter than other slides */
+    width: 4.167cqw;
     top: 2.917cqw;
     left: 3.646cqw;
   }
@@ -1882,52 +2156,67 @@ body {
   .demo .stage {
     display: grid;
     place-items: center;
-    padding: 0 0 2.5cqw;
+    padding: 0;
     gap: 0;
   }
 
-  /* Only slide whose content reaches the foot of the canvas; the mark would
-     land on the store badges. */
-  .demo .stage-mark { display: none; }
-
   .demo-main {
-    gap: 1.667cqw;
+    gap: 1cqw;
+    transform: translateX(4cqw);
   }
 
   .demo-focus {
-    gap: 1.667cqw;                 /* 32 */
+    gap: 1.667cqw;
     padding-right: 0;
   }
 
-  .demo-phone {                    /* larger hero phone on desktop */
-    /* Width-capped on wide windows, height-capped at 16:9 and taller, where
-       24cqw alone overflowed the stage and clipped the store badges. The
-       9cqw subtrahend is the chrome below the phone: gap + badges + pad. */
-    width: min(24cqw, calc((100cqh - 9cqw) * 402 / 874));
-    border-radius: 2.917cqw;       /* 56 */
-    box-shadow: 0 2.083cqw 5.208cqw rgba(0,0,0,0.6);
+  .demo-focus::before {
+    top: -0.6cqw;
+    left: 5.5cqw;
+    width: 4.6cqw;
+    height: 1.25cqw;
+    transform: rotate(-6deg);
   }
 
-  .demo-stores { gap: 0.417cqw; }
-  .demo-stores__live { font-size: 0.677cqw; letter-spacing: 0.22em; }
-  .demo-stores__row { gap: 0.521cqw; }
+  .demo-note {
+    top: 5cqw;
+    left: -17cqw;
+    gap: 0.5cqw;
+    font-size: 2.4cqw;
+    transform: rotate(-5deg);
+  }
+  .demo-note__arrow {
+    width: 4cqw;
+    margin-top: 1.6cqw;
+    transform: rotate(-12deg);
+  }
+
+  .demo-phone {
+    width: 26.5cqw;
+    border-radius: 2.4cqw;
+    box-shadow: 0 0 0 0.36cqw var(--ring), 0 2.083cqw 5.208cqw rgba(0,0,0,0.6);
+    transform: rotate(-3.2deg);
+  }
+
+  .demo-stores { gap: 0.5cqw; }
+  .demo-stores__live { font-size: 1.15cqw; letter-spacing: 0.02em; }
+  .demo-stores__row { gap: 1.1cqw; }
   .demo-store {
     gap: 0.417cqw;
-    padding: 0.417cqw 0.729cqw;
-    font-size: 0.729cqw;
+    font-size: 0.85cqw;
   }
-  .demo-store img { width: 0.833cqw; height: 0.833cqw; }
+  .demo-store img { width: 0.9cqw; height: 0.9cqw; }
 
   .nav-tip { gap: 0.833cqw; }
   .nav-tip__rule { height: 2.5cqw; }
-  .nav-tip__label { font-size: 0.729cqw; letter-spacing: 0.28em; }
-  .nav-tip__icon { width: 1.667cqw; height: 1.667cqw; }   /* 32 */
+  .nav-tip__label { font-size: 1.15cqw; letter-spacing: 0.06em; }
+  .nav-tip__icon { width: 1.667cqw; height: 1.667cqw; }
   .nav-tip__icon svg { width: 0.729cqw; height: 0.729cqw; }
 
   .demo-cta { gap: 0.729cqw; }
-  .demo-cta__icon { width: 3.646cqw; height: 3.646cqw; }   /* 70 */
+  .demo-cta__icon { width: 3.646cqw; height: 3.646cqw; }
   .demo-cta__icon svg { width: 1.458cqw; height: 1.458cqw; margin-left: 0.156cqw; }
-  .demo-cta__label { font-size: 0.833cqw; letter-spacing: 0.18em; }
+  .demo-cta__label { font-size: 1.3cqw; letter-spacing: 0.03em; }
 
   .demo-bar {
     left: 0.833cqw;
@@ -1938,18 +2227,26 @@ body {
     border-radius: 9999px;
   }
 
-  .demo-play { width: 1.667cqw; height: 1.667cqw; }     /* 32 */
+  .demo-play { width: 1.667cqw; height: 1.667cqw; }
   .demo-play__icon { width: 0.677cqw; height: 0.677cqw; }
-  .demo-track { height: 1.354cqw; }                      /* 26 hit area */
+  .demo-track { height: 1.354cqw; }
   .demo-track::before,
-  .demo-track__fill { height: 0.156cqw; }                /* 3 */
+  .demo-track__fill { height: 0.156cqw; }
   .demo-track__thumb { width: 0.625cqw; height: 0.625cqw; }
   .demo-time { font-size: 0.573cqw; min-width: 2.4cqw; }
   .demo-speed { font-size: 0.521cqw; padding: 0.156cqw 0.365cqw; }
 
+  .demo .tag {
+    position: absolute;
+    right: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    justify-content: flex-start;
+  }
+
   /* ── 01 Cover ── */
 
-  .cover .glow {                   /* -200,200  1400x1100  r1000 */
+  .cover .glow {
     left: -10.417cqw;
     top: 10.417cqw;
     width: 72.917cqw;
@@ -1958,31 +2255,45 @@ body {
     transform: none;
   }
 
-  .cover .logo { width: 7.292cqw; }         /* 140 */
+  .cover .logo { width: 7.292cqw; }
 
-  .cover-photo {                   /* inset 48, width 880, radius 32 */
-    top: 2.5cqw;
-    right: 2.5cqw;
-    bottom: 2.5cqw;
+  .cover-photo {
+    top: 3cqw;
+    right: 3cqw;
+    bottom: 3cqw;
     left: auto;
-    width: 45.833cqw;
-    border-radius: 1.667cqw;
+    width: 44.5cqw;
+    border-radius: 0.8cqw;
     background: #0A0A0A;
-    box-shadow: 0 0 4.167cqw 1.563cqw rgba(0,0,0,0.85),
-                0 0 8.333cqw 3.125cqw rgba(0,0,0,0.55);
-    /* No edge fade on desktop — it's a defined card there. */
+    box-shadow: 0 0 0 0.4cqw var(--ring),
+                0 2cqw 5cqw rgba(0,0,0,0.7);
+    transform: rotate(1.3deg);
     -webkit-mask-image: none;
     mask-image: none;
   }
 
-  .cover-scrim {                   /* deck vignette + edge falloff */
+  .cover-scrim {
     background:
       radial-gradient(ellipse at center,
-        rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%),
-      linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 18%,
-        rgba(0,0,0,0) 70%, rgba(0,0,0,0.55) 100%),
-      linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 14%,
-        rgba(0,0,0,0) 86%, rgba(0,0,0,0.35) 100%);
+        rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%),
+      linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 18%,
+        rgba(0,0,0,0) 70%, rgba(0,0,0,0.5) 100%);
+  }
+
+  .cover .tape { display: block; }
+  .tape--cover1 {
+    left: 51cqw;
+    top: 1.9cqw;
+    width: 5.2cqw;
+    height: 1.5cqw;
+    transform: rotate(-8deg);
+  }
+  .tape--cover2 {
+    right: 1.6cqw;
+    bottom: 2.2cqw;
+    width: 5.2cqw;
+    height: 1.5cqw;
+    transform: rotate(6deg);
   }
 
   .cover-body {
@@ -1990,24 +2301,21 @@ body {
     left: auto; right: auto; bottom: auto;
   }
 
-  .cover-tagline {                 /* left 79, top 529, 31px */
+  .cover-tagline {
     position: absolute;
     left: 4.115cqw;
-    top: 27.552cqw;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.615cqw;
-    font-weight: 200;
-    letter-spacing: 0.01em;
-    line-height: 1.4;
-    color: rgba(244,237,227,0.78);
+    top: 26.4cqw;
+    font-size: 2.3cqw;
+    line-height: 1.2;
+    color: rgba(244,237,227,0.9);
     margin: 0;
     text-shadow: none;
     white-space: nowrap;
-    /* Above the wordmark so “connect. belong” isn’t painted over. */
+    transform: rotate(-1.6deg);
     z-index: 3;
   }
 
-  .cover-wordmark {                /* left 46, top 541, 520px */
+  .cover-wordmark {
     position: absolute;
     left: 2.396cqw;
     top: 28.177cqw;
@@ -2018,7 +2326,18 @@ body {
     z-index: 2;
   }
 
-  .stage-mark {                    /* bottom 34, 58x26 */
+  .cover-meta {
+    position: absolute;
+    left: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    flex-wrap: nowrap;
+    gap: 1cqw;
+    font-size: 1.6cqw;
+    z-index: 2;
+  }
+
+  .stage-mark {
     display: block;
     bottom: 1.771cqw;
     width: 3.021cqw;
@@ -2037,27 +2356,32 @@ body {
     transform: none;
   }
 
-  .problem .logo { width: 5.208cqw; }       /* 100 */
+  .problem .logo { width: 5.208cqw; }
 
   .problem .stage {
     display: block;
     padding: 0;
   }
 
-  .problem-head {                  /* left 80, top 158, width 1560 */
+  .problem-head {
     position: absolute;
     left: 4.167cqw;
-    top: 8.229cqw;
+    top: 7.6cqw;
     width: 81.25cqw;
     margin-bottom: 0;
   }
 
-  .problem-head h2 {               /* 54px */
-    font-size: 2.813cqw;
-    text-wrap: balance;
+  .eyebrow {
+    font-size: 1.9cqw;
+    margin-bottom: 0.5cqw;
   }
 
-  .flow {                          /* connector arrows, authored viewBox */
+  .problem-head h2 {
+    font-size: 2.813cqw;
+    white-space: nowrap;
+  }
+
+  .flow {
     display: block;
     position: absolute;
     inset: 0;
@@ -2067,7 +2391,16 @@ body {
     z-index: 1;
   }
 
-  /* Cards return to absolute serpentine placement. */
+  .problem-note {
+    display: block;
+    position: absolute;
+    left: 81.4cqw;
+    top: 33.6cqw;
+    font-size: 2cqw;
+    transform: rotate(-5deg);
+    z-index: 2;
+  }
+
   .chain-wrap,
   .chain {
     position: static;
@@ -2079,52 +2412,55 @@ body {
 
   .chain-path { display: none; }
 
-  .step {                          /* 272 wide, radius 20 */
+  .step {
     position: absolute;
     display: block;
     width: 14.167cqw;
-    border-radius: 1.042cqw;
+    border-radius: 0.45cqw;
     overflow: hidden;
-    background: var(--card);
-    border: 1px solid var(--card-line);
+    background: #140807;
+    box-shadow: 0 0 0 0.22cqw var(--ring), 0 0.9cqw 2.2cqw rgba(0,0,0,0.5);
     text-align: left;
     z-index: 2;
   }
+  .step:nth-child(odd)  { transform: rotate(-1.3deg); }
+  .step:nth-child(even) { transform: rotate(1.1deg); }
   .step:nth-child(even) .step__thumb { order: 0; }
 
-  .step:nth-child(1) { left: 4.167cqw;  top: 34.375cqw; }   /* 80,  660 */
-  .step:nth-child(2) { left: 4.167cqw;  top: 17.708cqw; }   /* 80,  340 */
-  .step:nth-child(3) { left: 23.542cqw; top: 34.375cqw; }   /* 452, 660 */
-  .step:nth-child(4) { left: 23.542cqw; top: 17.708cqw; }   /* 452, 340 */
-  .step:nth-child(5) { left: 42.917cqw; top: 34.375cqw; }   /* 824, 660 */
-  .step:nth-child(6) { left: 42.917cqw; top: 17.708cqw; }   /* 824, 340 */
-  .step:nth-child(7) { left: 62.292cqw; top: 34.375cqw; }   /* 1196,660 */
-  .step:nth-child(8) { left: 62.292cqw; top: 17.708cqw; }   /* 1196,340 */
-  .step:nth-child(9) { left: 81.667cqw; top: 17.708cqw; }   /* 1568,340 */
+  .step:nth-child(1) { left: 4.167cqw;  top: 34.375cqw; }
+  .step:nth-child(2) { left: 4.167cqw;  top: 17.708cqw; }
+  .step:nth-child(3) { left: 23.542cqw; top: 34.375cqw; }
+  .step:nth-child(4) { left: 23.542cqw; top: 17.708cqw; }
+  .step:nth-child(5) { left: 42.917cqw; top: 34.375cqw; }
+  .step:nth-child(6) { left: 42.917cqw; top: 17.708cqw; }
+  .step:nth-child(7) { left: 62.292cqw; top: 34.375cqw; }
+  .step:nth-child(8) { left: 62.292cqw; top: 17.708cqw; }
+  .step:nth-child(9) { left: 81.667cqw; top: 17.708cqw; }
 
-  .step__thumb {                   /* 172 tall, square top corners */
+  .step__thumb,
+  .step:nth-child(even) .step__thumb {
     width: 100%;
     height: 8.958cqw;
     border: 0;
     border-radius: 0;
     box-shadow: none;
+    transform: none;
   }
 
   .step__n { display: none; }
 
-  /* Label row: icon + text, or centred text where the deck has no icon. */
   .step__text {
     display: flex;
     align-items: center;
-    gap: 0.729cqw;                 /* 14 */
-    padding: 0.833cqw 0.938cqw 0.938cqw;   /* 16 18 18 */
+    gap: 0.729cqw;
+    padding: 0.833cqw 0.938cqw 0.938cqw;
   }
   .step--center .step__text {
     justify-content: center;
     text-align: center;
   }
 
-  .step__icon {                    /* 60x60 */
+  .step__icon {
     display: block;
     width: 3.125cqw;
     height: 3.125cqw;
@@ -2132,11 +2468,19 @@ body {
     object-fit: contain;
   }
 
-  .step__label { font-size: 1.302cqw; }     /* 25 */
+  .step__label { font-size: 1.302cqw; }
+
+  .problem .tag {
+    position: absolute;
+    right: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    z-index: 2;
+  }
 
   /* ── 03 Founder ── */
 
-  .founder .glow {                 /* -360,-160  2000x1600  r1200 */
+  .founder .glow {
     left: -18.75cqw;
     top: -8.333cqw;
     width: 104.167cqw;
@@ -2145,43 +2489,41 @@ body {
     transform: none;
   }
 
-  .founder .stage {                /* text column: left 100, centred */
+  .founder .stage {
     display: block;
     gap: 0;
     padding: 0;
   }
 
-  /* Pinned rather than centred so the hand-drawn arrow, which is authored
-     in absolute coordinates, still meets the name and the portrait. */
   .founder-head {
     position: absolute;
     left: 5.208cqw;
-    top: 17.969cqw;                /* 345 */
+    top: 17.969cqw;
   }
 
-  .founder-name {                  /* 182 */
-    font-size: 9.5cqw;
+  .founder-name {
+    font-size: 7.813cqw;
+    margin-top: 1.771cqw;
   }
 
-  .founder-rule {                  /* 360x10, 6 below the name */
+  .founder-rule {
     width: 18.75cqw;
-    height: 0.521cqw;
-    margin-top: 0.313cqw;
+    height: 0.7cqw;
+    margin-top: 0.4cqw;
   }
 
-  .founder-quote {                 /* 940 wide, gap 26 */
+  .founder-quote {
     position: absolute;
     left: 5.208cqw;
-    top: 31.354cqw;                /* 602 */
+    top: 34cqw;
     width: 48.958cqw;
     gap: 1.354cqw;
   }
 
-  .founder-quote__mark { font-size: 7.813cqw; }   /* 150 */
-  .founder-quote p     { font-size: 2.708cqw; }   /* 52  */
+  .founder-quote__mark { font-size: 7.813cqw; }
+  .founder-quote p     { font-size: 2.708cqw; }
 
-  /* Portrait, note and credentials cluster, bottom right. */
-  .founder-who {                   /* right 80, bottom 72 */
+  .founder-who {
     position: absolute;
     right: 4.167cqw;
     bottom: 3.75cqw;
@@ -2189,19 +2531,26 @@ body {
     z-index: 4;
   }
 
-  .founder-who__col { gap: 0.938cqw; }            /* 18 */
+  .founder-who__col { gap: 0.938cqw; }
 
-  .founder-portrait {              /* 170 inside a 5px ring */
-    width: 9.375cqw;
-    border-width: 0.26cqw;
+  .tape--founder {
+    top: -0.55cqw;
+    width: 3cqw;
+    height: 0.9cqw;
+    margin-left: -1.5cqw;
   }
 
-  .founder-note {                  /* 76, to the right of him */
+  .founder-portrait {
+    width: 9.375cqw;
+    border-radius: 0.7cqw;
+    box-shadow: 0 0 0 0.28cqw var(--ring), 0 1.2cqw 2.6cqw rgba(0,0,0,0.5);
+  }
+
+  .founder-note {
     font-size: 3.958cqw;
     white-space: nowrap;
   }
 
-  /* The narrow arrow is replaced by the authored hand-drawn one. */
   .founder-arrow { display: none; }
 
   .founder-sketch {
@@ -2215,20 +2564,21 @@ body {
     pointer-events: none;
   }
 
-  /* These scale with the canvas, so cqw rather than the narrow clamps. */
-  .founder-creds { gap: 1.146cqw; }               /* 22 */
+  .founder-creds { gap: 1.146cqw; }
 
-  .founder-creds svg {                           /* 38 */
+  .founder-creds svg {
     width: 1.979cqw;
     height: 1.979cqw;
   }
 
-  .founder-creds img { height: 2.396cqw; }       /* 46 */
+  .founder-creds img { height: 2.396cqw; }
 
-  .founder-creds__sep {                          /* 1x30 */
+  .founder-creds__sep {
     width: 0.052cqw;
     height: 1.563cqw;
   }
+
+  /* ── 04 Product ── */
 
   .product .stage {
     display: block;
@@ -2239,10 +2589,10 @@ body {
 
   .product-rail {
     position: absolute;
-    left: 5.208cqw;                /* 100 */
+    left: 5.208cqw;
     right: 5.208cqw;
-    top: 8.854cqw;                 /* 170 */
-    bottom: 6.25cqw;               /* 120 — room for tag */
+    top: 8.854cqw;
+    bottom: 6.25cqw;
     flex: none;
     min-height: 0;
     width: auto;
@@ -2254,7 +2604,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     align-items: start;
-    column-gap: 3.333cqw;          /* 64 */
+    column-gap: 3.333cqw;
     width: 100%;
     overflow-x: visible;
     overflow-y: visible;
@@ -2273,22 +2623,33 @@ body {
     align-items: flex-start;
     justify-content: flex-start;
     text-align: left;
-    gap: 1.146cqw;                  /* 22 */
+    gap: 1.146cqw;
     padding-inline: 0;
+    padding-top: 1cqw;
     scroll-snap-stop: normal;
     opacity: 1;
     transform: none;
     transition: none;
   }
 
-  /* Authored 313×640 — wide only; narrow keeps its own phone clamp. */
-  .product-phone {
+  .product-item::before {
+    top: 0.35cqw;
+    width: 3.2cqw;
+    height: 0.9cqw;
+  }
+
+  .product-phone,
+  .product-item:nth-child(even) .product-phone {
     width: 16.302cqw;
     max-width: 100%;
     margin: 0 auto;
-    border-radius: 2.292cqw;       /* 44 */
-    box-shadow: 0 1.25cqw 3.125cqw rgba(0,0,0,0.6);
+    border-radius: 1.1cqw;
+    box-shadow: 0 0 0 0.3cqw var(--ring), 0 1.25cqw 3.125cqw rgba(0,0,0,0.6);
   }
+  .product-item:nth-child(1) .product-phone { transform: rotate(-1.6deg); }
+  .product-item:nth-child(2) .product-phone { transform: rotate(1.4deg) translateY(1.2cqw); }
+  .product-item:nth-child(3) .product-phone { transform: rotate(-1.1deg); }
+  .product-item:nth-child(4) .product-phone { transform: rotate(1.8deg) translateY(1.2cqw); }
 
   .product-meta {
     margin: 0;
@@ -2308,15 +2669,26 @@ body {
     overflow: visible;
   }
 
+  .product-kicker {
+    display: block;
+    font-family: 'Caveat', cursive;
+    font-weight: 600;
+    font-size: 1.55cqw;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: var(--gold);
+    transform: rotate(-1.2deg);
+    transform-origin: left bottom;
+  }
+
   .product-name {
-    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 700;
-    font-size: 2.396cqw;           /* 46 */
+    font-size: 2.396cqw;
   }
 
   .product-copy {
     margin-top: 0.35em;
-    font-size: 1.25cqw;            /* 24 */
+    font-size: 1.25cqw;
     line-height: 1.4;
     display: block;
     -webkit-line-clamp: unset;
@@ -2325,9 +2697,17 @@ body {
 
   .product-chrome { display: none; }
 
+  .product .tag {
+    position: absolute;
+    right: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    font-size: 1.5cqw;
+  }
+
   /* ── 05 Business model ── */
 
-  .bizmodel .glow {                /* -200, 200  1400x1100 */
+  .bizmodel .glow {
     left: -10.417cqw;
     top: 10.417cqw;
     width: 72.917cqw;
@@ -2336,48 +2716,94 @@ body {
     transform: none;
   }
 
-  .bizmodel .logo { width: 5.208cqw; }      /* 100 */
+  .bizmodel .logo { width: 5.208cqw; }
 
-  .bizmodel .stage {               /* top clears absolute logo */
+  .bizmodel .stage {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 2.5cqw;
+    gap: 2.2cqw;
     height: auto;
     overflow: hidden;
-    padding: 8.333cqw 5.208cqw 6.042cqw;  /* 160 / 100 / 116 */
+    padding: 8.333cqw 5.208cqw 6.042cqw;
   }
 
-  .bizmodel-headline {             /* 64 */
-    font-size: 3.333cqw;
+  .bizmodel-kicker {
+    font-size: 2.6cqw;
   }
 
-  .bizmodel-row {                  /* 3 cols, gap 80 */
+  .bizmodel-row {
     flex: 1;
     min-height: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4.167cqw;
-    align-items: center;
+    grid-template-columns: 1.35fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2cqw 3.8cqw;
+    align-items: stretch;
+    justify-content: stretch;
   }
 
   .biz-card {
-    gap: 0.833cqw;
+    flex: 1;
+    min-height: 0;
+    gap: 0.7cqw;
   }
 
-  .biz-card__name { font-size: 3.125cqw; }          /* 60 */
-
-  .biz-card__fee { font-size: 1.563cqw; }           /* 30 */
-
-  .biz-card__copy {
-    font-size: 1.25cqw;                             /* 24 */
-    max-width: 22.917cqw;
+  .biz-card--jars {
+    grid-row: 1 / 3;
+    gap: 1.1cqw;
+    padding: 2.6cqw 2.4cqw;
+    border-radius: 0.5cqw;
+    transform: rotate(-1deg);
+    justify-content: center;
   }
 
+  .biz-card--jars::before,
+  .biz-card--jars::after {
+    top: -0.7cqw;
+    width: 4.4cqw;
+    height: 1.2cqw;
+  }
+
+  .biz-note {
+    top: -2cqw;
+    right: 1.2cqw;
+    font-size: 2cqw;
+    transform: rotate(5deg);
+  }
+
+  .biz-card__name { font-size: 2cqw; }
+  .biz-card--jars .biz-card__name { font-size: 3.4cqw; }
+
+  .biz-card__copy { font-size: 1.15cqw; }
+  .biz-card--jars .biz-card__copy { font-size: 1.4cqw; flex: none; }
+
+  .biz-card__fee { font-size: 1.35cqw; }
+  .biz-card--jars .biz-card__fee {
+    margin-top: 0.6cqw;
+    font-size: 1.55cqw;
+    padding: 0.5cqw 1.3cqw;
+  }
+
+  .biz-card--outline {
+    padding-left: 1.7cqw;
+    border-left: 1px solid rgba(244,237,227,0.16);
+    justify-content: center;
+  }
+  .biz-card--outline .biz-card__copy { flex: none; }
+
+  .bizmodel .tag {
+    position: absolute;
+    right: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    justify-content: flex-start;
+    font-size: 1.5cqw;
+  }
 
   /* ── 06 The bet ── */
 
-  .bet .glow {                     /* -260, 120  1600x1200 */
+  .bet .glow {
     left: -13.542cqw;
     top: 6.25cqw;
     width: 83.333cqw;
@@ -2386,7 +2812,7 @@ body {
     transform: none;
   }
 
-  .bet .logo { width: 5.208cqw; }             /* 100 */
+  .bet .logo { width: 5.208cqw; }
 
   .bet .stage {
     display: block;
@@ -2394,14 +2820,17 @@ body {
     overflow: hidden;
   }
 
-  .bet-photo {                     /* right panel 660 */
+  .bet-photo {
     display: block;
     position: absolute;
-    right: 0;
-    top: 0;
-    width: 34.375cqw;
-    height: 100%;
+    right: 3.5cqw;
+    top: 7cqw;
+    width: 25cqw;
+    height: 40cqw;
     overflow: hidden;
+    border-radius: 0.5cqw;
+    box-shadow: 0 0 0 0.4cqw var(--ring), 0 2cqw 4.5cqw rgba(0,0,0,0.6);
+    transform: rotate(2deg);
     pointer-events: none;
     z-index: 1;
   }
@@ -2411,46 +2840,59 @@ body {
     object-fit: cover;
     object-position: center 22%;
     display: block;
-    filter: grayscale(0.15) brightness(0.92);
+    filter: grayscale(0.15) brightness(0.94);
   }
   .bet-photo__scrim {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right,
-      #000 0%, rgba(0,0,0,0.85) 22%, rgba(0,0,0,0.15) 62%, rgba(0,0,0,0.35) 100%);
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%);
   }
 
-  .bet-headline {                  /* left 100, top 272, 1080, 52 */
+  .bet-headline {
     position: absolute;
     left: 5.208cqw;
-    top: 14.167cqw;
-    width: 56.25cqw;
+    top: 11.5cqw;
+    width: 52cqw;
     max-width: none;
     font-size: 2.708cqw;
     margin: 0;
   }
 
-  .bet-stats {                     /* left 100, top 492, gap 72 */
+  .bet-stats {
     position: absolute;
     left: 5.208cqw;
-    top: 25.625cqw;
-    width: 58.333cqw;
+    top: 23.5cqw;
+    width: 60cqw;
     max-width: none;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 3.75cqw;
+    flex-direction: column;
+    gap: 1.9cqw;
   }
 
-  .bet-stat { gap: 0.729cqw; }               /* 14 */
-  .bet-stat__num { font-size: 2.917cqw; }    /* 56 */
-  .bet-stat__label { font-size: 1.354cqw; }  /* 26 */
-  .bet-stat__copy { font-size: 1.25cqw; }    /* 24 */
+  .bet-stat {
+    column-gap: 1.4cqw;
+    row-gap: 0.2cqw;
+  }
+  .bet-stat:nth-child(2) { margin-left: 4cqw; }
+  .bet-stat:nth-child(3) { margin-left: 1.8cqw; }
 
-  .bet-sources {                   /* left 100, bottom 100, 18 */
+  .bet-stat__num { font-size: 2.7cqw; padding: 0.28em 0.5em; }
+  .bet-stat__label { font-size: 1.7cqw; }
+  .bet-stat__copy { font-size: 1.2cqw; max-width: 42cqw; }
+
+  .bet-sources {
     position: absolute;
     left: 5.208cqw;
-    bottom: 5.208cqw;
+    bottom: 4.5cqw;
     font-size: 0.938cqw;
+  }
+
+  .bet .tag {
+    position: absolute;
+    right: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    justify-content: flex-start;
   }
 
   /* ── 07 Reason one ── */
@@ -2469,16 +2911,16 @@ body {
   .reason .stage {
     display: flex;
     flex-direction: column;
-    gap: 2.292cqw;                 /* 44 */
+    gap: 2.292cqw;
     padding: 5.208cqw 5.208cqw 4.167cqw;
     overflow: hidden;
   }
 
-  .reason-headline { font-size: 3.333cqw; }  /* 64 */
+  .reason-headline { font-size: 3.1cqw; }
 
   .reason-table {
     display: grid;
-    grid-template-columns: 21.875cqw 1fr 1fr 1fr 1fr;  /* 420 */
+    grid-template-columns: 21.875cqw 1fr 1fr 1fr 1fr;
     gap: 0;
   }
 
@@ -2487,8 +2929,8 @@ body {
   }
 
   .reason-row > * {
-    padding: 0.417cqw 1.458cqw;    /* 8 28 */
-    border-bottom: 1px solid #DFCDB4;
+    padding: 0.417cqw 1.458cqw;
+    border-bottom: 1px solid rgba(244,237,227,0.16);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2504,7 +2946,7 @@ body {
 
   .reason-row--head > * {
     padding: 0 1.458cqw 1.042cqw;
-    border-bottom: 2px solid #200505;
+    border-bottom: 1px solid rgba(244,237,227,0.35);
     align-items: flex-end;
   }
   .reason-row--head > :first-child {
@@ -2512,23 +2954,36 @@ body {
   }
 
   .reason-colhead {
-    font-size: 1.25cqw;            /* 24 */
+    font-size: 1.15cqw;
+    letter-spacing: 0.12em;
   }
 
-  .reason-brand__name { font-size: 1.979cqw; }   /* 38 */
-  .reason-brand__meta { font-size: 1.25cqw; }    /* 24 */
+  .reason-brand__name { font-size: 1.979cqw; }
+  .reason-row--madam .reason-brand__name {
+    padding: 0.15cqw 0.9cqw;
+    margin-left: -0.9cqw;
+  }
+  .reason-brand__meta { font-size: 1.25cqw; }
 
-  .reason-cell { font-size: 1.563cqw; }          /* 30 */
-  .reason-cell--yes { font-size: 1.771cqw; }     /* 34 */
+  .reason-cell { font-size: 1.563cqw; }
+  .reason-cell--yes { font-size: 2cqw; }
 
   .reason-row--madam > * {
-    background: rgba(166,39,63,0.14);
+    background: rgba(166,39,63,0.1);
   }
   .reason-row--madam {
     background: transparent;
     margin: 0;
     padding: 0;
     border-radius: 0;
+  }
+
+  .reason .tag {
+    position: absolute;
+    right: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    justify-content: flex-start;
   }
 
   /* ── 08 The team ── */
@@ -2547,26 +3002,72 @@ body {
   .team .stage {
     display: flex;
     flex-direction: column;
-    gap: 2.917cqw;                 /* 56 */
-    padding: 5.208cqw 5.208cqw 4.167cqw;
+    justify-content: flex-start;
+    gap: 2.917cqw;
+    padding: 7.4cqw 5.208cqw 4.167cqw;
     overflow: hidden;
   }
 
-  .team-headline { font-size: 3.333cqw; }        /* 64 */
+  .team-headline {
+    font-size: 3.1cqw;
+    max-width: none;
+  }
+  .team-headline::after {
+    width: 16cqw;
+    height: 0.55cqw;
+    margin-top: 0.8cqw;
+  }
 
   .team-grid {
     flex: 1;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4.167cqw 2.5cqw;          /* 80 48 */
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
     align-content: center;
+    column-gap: 2.2cqw;
+    row-gap: 3cqw;
+    max-width: 82cqw;
+    font-size: 3.1cqw;
   }
 
-  .team-logo { gap: 0.833cqw; }                  /* 16 */
-  .team-logo img {
-    height: 5cqw;                  /* 96 */
-    filter: none;
+  .team-logo,
+  .team-logo:nth-child(2),
+  .team-logo:nth-child(3),
+  .team-logo:nth-child(4),
+  .team-logo:nth-child(5),
+  .team-logo:nth-child(6) {
+    margin-left: 0;
+    gap: 0.8cqw;
+    font-size: 3.1cqw;
   }
-  .team-logo span { font-size: 1.25cqw; }        /* 24 */
+
+  .team-logo img { height: 2.5cqw; }
+  .team-logo span { font-size: 3.1cqw; }
+  .team-logo:nth-child(3) span,
+  .team-logo:nth-child(6) span {
+    background-size: 100% 0.45cqw;
+    padding-bottom: 0.4cqw;
+  }
+
+  .team-logo:not(:last-child)::after {
+    content: '·';
+    display: block;
+    font-family: 'Caveat', cursive;
+    font-weight: 600;
+    font-size: 2.8cqw;
+    color: var(--gold);
+    opacity: 0.65;
+    margin-left: 1.4cqw;
+  }
+  .team-logo:nth-last-child(2)::after { content: '&'; }
+
+  .team .tag {
+    position: absolute;
+    right: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    justify-content: flex-start;
+  }
 
   /* ── 09 Roadmap ── */
 
@@ -2589,34 +3090,36 @@ body {
     overflow: hidden;
   }
 
-  .roadmap-headline { font-size: 3.333cqw; }
+  .roadmap-headline { font-size: 3.1cqw; }
 
   .roadmap-track {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 2.083cqw;                 /* 40 */
+    gap: 2.083cqw;
     align-content: center;
   }
 
   .mile {
     display: flex;
     flex-direction: column;
-    gap: 1.354cqw;                 /* 26 */
+    align-items: stretch;
+    gap: 1.354cqw;
   }
   .mile__mark { display: none; }
 
   .mile__rail {
     display: block;
-    height: 0.156cqw;              /* 3 */
-    background: rgba(244,237,227,0.18);
+    height: 0;
+    border-top: 0.26cqw dashed rgba(244,237,227,0.45);
+    background: none;
     position: relative;
   }
   .mile__rail::before {
     content: '';
     position: absolute;
     left: 0;
-    top: -0.365cqw;
+    top: -0.5cqw;
     width: 0.885cqw;
     height: 0.885cqw;
     border-radius: 50%;
@@ -2628,7 +3131,7 @@ body {
     content: '';
     position: absolute;
     left: 0.104cqw;
-    top: -0.99cqw;
+    top: -1.12cqw;
     width: 0;
     height: 0;
     border-left: 0.365cqw solid transparent;
@@ -2636,10 +3139,24 @@ body {
     border-top: 0.521cqw solid var(--gold);
   }
 
-  .mile__title { font-size: 2.292cqw; }          /* 44 */
+  .mile__id { font-size: 1.6cqw; }
+  .mile--now .mile__idtxt {
+    padding: 0.2cqw 0.7cqw;
+    margin-left: -0.7cqw;
+  }
+  .mile-note { font-size: 1.5cqw; margin-left: 0.5cqw; }
+  .mile__title { font-size: 1.979cqw; }
   .mile__sub {
     margin-top: auto;
     font-size: 1.25cqw;
+  }
+
+  .roadmap .tag {
+    position: absolute;
+    right: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    justify-content: flex-start;
   }
 
   /* ── 10 Traction ── */
@@ -2663,26 +3180,37 @@ body {
     overflow: hidden;
   }
 
-  .traction-headline { font-size: 4.583cqw; }    /* 88 */
+  .traction-headline { font-size: 4.583cqw; }
 
   .traction-channels {
-    font-size: 1.25cqw;
+    gap: 1.042cqw;
+    font-size: 1.55cqw;
   }
 
   .traction-stats {
-    flex: 1;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 2.5cqw;
     padding-top: 2.5cqw;
-    align-content: center;
   }
 
   .trac { gap: 0.729cqw; }
-  .trac__num { font-size: 7.083cqw; }            /* 136 */
-  .trac__unit { font-size: 1.458cqw; }           /* 28 */
+  .trac__num { font-size: 7.083cqw; }
+  .trac__unit { font-size: 1.7cqw; }
   .trac__copy { font-size: 1.25cqw; }
 
-  .traction-note { font-size: 1.25cqw; }
+  .traction-note {
+    font-size: 1.7cqw;
+    background-size: 100% 0.45cqw;
+    padding-bottom: 0.45cqw;
+  }
+
+  .traction .tag {
+    position: absolute;
+    right: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    justify-content: flex-start;
+  }
 
   /* ── 11 The raise ── */
 
@@ -2702,25 +3230,46 @@ body {
     padding: 0;
   }
 
-  .raise-kicker {                  /* left 100, top 318, 40 */
+  .raise-kicker {
     position: absolute;
-    left: 5.208cqw;
-    top: 16.563cqw;
-    font-size: 2.083cqw;
+    left: 5.5cqw;
+    top: 14.5cqw;
+    font-size: 3cqw;
+    margin: 0;
+    transform: rotate(-2deg);
   }
 
-  .raise-amount {                  /* left 92, top 392, 280 */
+  .raise-amount {
     position: absolute;
-    left: 4.792cqw;
-    top: 20.417cqw;
-    font-size: 14.583cqw;
+    left: 4.2cqw;
+    top: 18.8cqw;
+    font-size: 12.5cqw;
+    padding: 0.2em 0.3em;
   }
 
-  .raise-sub {                     /* left 100, top 700, 28 */
+  .raise-arrow {
     position: absolute;
-    left: 5.208cqw;
-    top: 36.458cqw;
-    font-size: 1.458cqw;
+    left: 24.5cqw;
+    top: 36.6cqw;
+    width: 4cqw;
+    margin: 0;
+    transform: rotate(18deg);
+  }
+
+  .raise-sub {
+    position: absolute;
+    left: 30cqw;
+    top: 39.5cqw;
+    font-size: 1.7cqw;
+    margin: 0;
+  }
+
+  .raise .tag {
+    position: absolute;
+    right: 4.167cqw;
+    bottom: 2.5cqw;
+    margin-top: 0;
+    justify-content: flex-start;
   }
 
 }
@@ -2738,6 +3287,13 @@ body {
 
       <div class="demo-main">
         <div class="demo-focus">
+          <div class="scribble demo-note" aria-hidden="true">
+            <span>watch this</span>
+            <svg class="demo-note__arrow" viewBox="0 0 70 46" fill="none" aria-hidden="true">
+              <path d="M6 8 C 26 6 50 16 60 36" stroke="#C98A3C" stroke-width="4" stroke-linecap="round"></path>
+              <path d="M48 32 L61 39 L64 24" stroke="#C98A3C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </div>
           <div class="demo-phone" id="demoPhone">
             <video id="demoVideo"
                    src="assets/madam-demo.mp4"
@@ -2802,6 +3358,11 @@ body {
         </div>
       </div>
 
+      <div class="tag">
+        <span>00</span>
+        <span class="sep">&middot;</span>
+        <span>Demo</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -2815,12 +3376,21 @@ body {
         <img src="assets/cover-portrait.jpg" alt="" width="1520" height="1520" fetchpriority="high">
         <div class="cover-scrim"></div>
       </div>
+      <span class="tape tape--cover1" aria-hidden="true"></span>
+      <span class="tape tape--cover2" aria-hidden="true"></span>
 
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
       <div class="cover-body">
         <p class="cover-tagline">a place where you share. connect. belong.</p>
         <h1 class="cover-wordmark">Madam</h1>
+        <div class="cover-meta">
+          <span>Aug 2026</span>
+          <span class="sep">&middot;</span>
+          <span class="dim">Angel Pitch</span>
+          <span class="sep">&middot;</span>
+          <span class="dim">Pre-seed</span>
+        </div>
       </div>
 
       <div class="stage-mark" aria-hidden="true"></div>
@@ -2854,7 +3424,8 @@ body {
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
       <div class="problem-head">
-        <h2>For Black and brown women, connecting, sharing and belonging <span class="accent">is complex.</span></h2>
+        <span class="eyebrow">For black and brown women</span>
+        <h2>Connecting, sharing and belonging <span class="accent">is complex.</span></h2>
       </div>
 
       <div class="chain-wrap">
@@ -2957,6 +3528,13 @@ body {
       </ol>
       </div>
 
+      <span class="scribble problem-note" aria-hidden="true">the long way round</span>
+
+      <div class="tag">
+        <span>02</span>
+        <span class="sep">&middot;</span>
+        <span>The problem</span>
+      </div>
     </div>
   </section>
 
@@ -2968,12 +3546,14 @@ body {
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
       <div class="founder-head">
+        <span class="eyebrow">Meet the founder</span>
         <h2 class="founder-name">Caston</h2>
         <span class="founder-rule" aria-hidden="true"></span>
       </div>
 
       <div class="founder-who">
         <div class="founder-who__col">
+          <span class="tape tape--founder" aria-hidden="true"></span>
           <div class="founder-portrait">
             <img src="assets/s03/caston.webp" alt="Caston, founder of Madam"
                  width="410" height="512" loading="lazy">
@@ -3031,6 +3611,7 @@ body {
                    style="width:124.6%;left:-10.54%;top:-6.25%">
             </div>
             <div class="product-meta">
+              <div class="product-kicker">01 · The container</div>
               <h3 class="product-name">Jars</h3>
               <p class="product-copy">Save looks, products and posts into one collection she can share.</p>
             </div>
@@ -3042,6 +3623,7 @@ body {
                    style="width:114.4%;left:-3.51%;top:-2.5%">
             </div>
             <div class="product-meta">
+              <div class="product-kicker">02 · The arc</div>
               <h3 class="product-name">Journeys</h3>
               <p class="product-copy">A story that unfolds over a period of time — days, weeks, months — not a single post.</p>
             </div>
@@ -3053,6 +3635,7 @@ body {
                    style="width:116.6%;left:-9.58%;top:-4.22%">
             </div>
             <div class="product-meta">
+              <div class="product-kicker">03 · The home</div>
               <h3 class="product-name">Feed</h3>
               <p class="product-copy">The creators she trusts, in one place. Watch, save, shop.</p>
             </div>
@@ -3064,6 +3647,7 @@ body {
                    style="width:94.9%;left:0;bottom:-0.625%">
             </div>
             <div class="product-meta">
+              <div class="product-kicker">04 · The co-pilot</div>
               <h3 class="product-name">Daia</h3>
               <p class="product-copy">Ask her anything happening on the platform, she knows.</p>
             </div>
@@ -3099,6 +3683,12 @@ body {
         </div>
       </div>
 
+      <div class="tag">
+        <span>03</span>
+        <span class="sep">&middot;</span>
+        <span>The product</span>
+      </div>
+
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3110,26 +3700,33 @@ body {
 
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
-      <h2 class="bizmodel-headline">Madam earns <span class="accent">when she earns.</span></h2>
+      <div class="bizmodel-kicker">How we make money</div>
 
       <div class="bizmodel-row">
-        <div class="biz-card">
+        <div class="biz-card biz-card--jars">
+          <span class="scribble biz-note" aria-hidden="true">the engine</span>
           <div class="biz-card__name">Jars</div>
-          <div class="biz-card__fee">5% transaction fee</div>
           <p class="biz-card__copy">A creator sells a $60 hair kit from her Jar. She keeps $57, Madam keeps $3.</p>
+          <div class="biz-card__fee">5% transaction fee</div>
         </div>
 
-        <div class="biz-card">
+        <div class="biz-card biz-card--outline">
           <div class="biz-card__name">Affiliate</div>
-          <div class="biz-card__fee">Share of commissions</div>
           <p class="biz-card__copy">A user buys a $40 product Madam recommended. The brand pays a $6 commission, Madam keeps part of it.</p>
+          <div class="biz-card__fee">Share of commissions</div>
         </div>
 
-        <div class="biz-card">
+        <div class="biz-card biz-card--outline">
           <div class="biz-card__name">Advertising</div>
-          <div class="biz-card__fee">Ad revenue</div>
           <p class="biz-card__copy">A brand pays to put its product in front of the community. Madam keeps the ad spend.</p>
+          <div class="biz-card__fee">Ad revenue</div>
         </div>
+      </div>
+
+      <div class="tag">
+        <span>04</span>
+        <span class="sep">&middot;</span>
+        <span>Business model</span>
       </div>
 
       <div class="stage-mark" aria-hidden="true"></div>
@@ -3154,22 +3751,27 @@ body {
         <div class="bet-stat">
           <div class="bet-stat__num">13%</div>
           <div class="bet-stat__label">Creator</div>
-          <p class="bet-stat__copy">growth in Black women-owned businesses, vs 4.4% for women overall</p>
+          <p class="bet-stat__copy">growth in Black women-owned businesses, vs 4.4% for women overall*</p>
         </div>
         <div class="bet-stat">
           <div class="bet-stat__num">86%</div>
           <div class="bet-stat__label">Attention</div>
-          <p class="bet-stat__copy">more Black women spend 5+ hours a day on social than average</p>
+          <p class="bet-stat__copy">more Black women spend 5+ hours a day on social than average†</p>
         </div>
         <div class="bet-stat">
           <div class="bet-stat__num bet-stat__num--gold">47%</div>
           <div class="bet-stat__label">Commerce</div>
-          <p class="bet-stat__copy">of Black women say people ask them for advice before buying</p>
+          <p class="bet-stat__copy">of Black women say people ask them for advice before buying†</p>
         </div>
       </div>
 
-      <p class="bet-sources">Wells Fargo, Impact of Women-Owned Businesses, 2025<br>Nielsen Diverse Intelligence Series</p>
+      <p class="bet-sources">*Wells Fargo Impact of Women-Owned Businesses, 2025<br>†Nielsen Diverse Intelligence Series</p>
 
+      <div class="tag">
+        <span>05</span>
+        <span class="sep">&middot;</span>
+        <span>The bet</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3194,7 +3796,7 @@ body {
         <div class="reason-row" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">Instagram</span>
-            <span class="reason-brand__meta">Meta, $1.8T, 2B users</span>
+            <span class="reason-brand__meta">Meta · $1.8T · 2B users</span>
           </div>
           <div class="reason-cell" role="cell">—</div>
           <div class="reason-cell reason-cell--yes" role="cell">✓</div>
@@ -3205,7 +3807,7 @@ body {
         <div class="reason-row" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">TikTok</span>
-            <span class="reason-brand__meta">ByteDance, $300B, 1.6B users</span>
+            <span class="reason-brand__meta">ByteDance · $300B · 1.6B users</span>
           </div>
           <div class="reason-cell" role="cell">—</div>
           <div class="reason-cell" role="cell">—</div>
@@ -3216,7 +3818,7 @@ body {
         <div class="reason-row" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">Pinterest</span>
-            <span class="reason-brand__meta">$23B, 570M users</span>
+            <span class="reason-brand__meta">$23B · 570M users</span>
           </div>
           <div class="reason-cell" role="cell">—</div>
           <div class="reason-cell" role="cell">—</div>
@@ -3227,7 +3829,7 @@ body {
         <div class="reason-row" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">Substack</span>
-            <span class="reason-brand__meta">$1.1B, 5M subscribers</span>
+            <span class="reason-brand__meta">$1.1B · 5M subscribers</span>
           </div>
           <div class="reason-cell" role="cell">—</div>
           <div class="reason-cell" role="cell">—</div>
@@ -3238,7 +3840,7 @@ body {
         <div class="reason-row reason-row--madam" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">Madam</span>
-            <span class="reason-brand__meta">Raising $750K, 66 users</span>
+            <span class="reason-brand__meta">Raising $750K · 66 users</span>
           </div>
           <div class="reason-cell reason-cell--yes" role="cell">✓</div>
           <div class="reason-cell reason-cell--yes" role="cell">✓</div>
@@ -3247,6 +3849,11 @@ body {
         </div>
       </div>
 
+      <div class="tag">
+        <span>06</span>
+        <span class="sep">&middot;</span>
+        <span>Why Madam</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3286,6 +3893,11 @@ body {
         </div>
       </div>
 
+      <div class="tag">
+        <span>07</span>
+        <span class="sep">&middot;</span>
+        <span>The team</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3301,36 +3913,46 @@ body {
       <div class="roadmap-track">
         <div class="mile mile--now anim-rise anim-rise-d1">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
+          <div class="mile__id"><span class="mile__idtxt">M1</span><span class="scribble mile-note" aria-hidden="true">we're here!</span></div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">1,000 users, 250 monthly active</div>
           <div class="mile__sub">Activate the first 1,000</div>
         </div>
         <div class="mile anim-rise anim-rise-d2">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
+          <div class="mile__id">M2</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">10,000 users, transactions proven</div>
           <div class="mile__sub">Turn on transactions</div>
         </div>
         <div class="mile anim-rise anim-rise-d3">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
+          <div class="mile__id">M3</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">100,000 monthly active, affiliate proven</div>
           <div class="mile__sub">Scale distribution</div>
         </div>
         <div class="mile anim-rise anim-rise-d4">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
+          <div class="mile__id">M4</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">1,000,000 monthly active, ads on</div>
           <div class="mile__sub">Expand the revenue engine</div>
         </div>
         <div class="mile mile--far anim-rise anim-rise-d5">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
+          <div class="mile__id">M5</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">Lead the category</div>
           <div class="mile__sub">Deepen the network</div>
         </div>
       </div>
 
+      <div class="tag">
+        <span>08</span>
+        <span class="sep">&middot;</span>
+        <span>Roadmap</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3343,7 +3965,13 @@ body {
 
       <h2 class="traction-headline anim-rise anim-rise-d1">Launched, and <span class="accent">growing.</span></h2>
 
-      <p class="traction-channels anim-in">Live on the App Store and Google Play since May 2026.</p>
+      <div class="traction-channels anim-in">
+        <span>App Store</span>
+        <span class="sep">·</span>
+        <span>Google Play</span>
+        <span class="sep">·</span>
+        <span class="shipped">Shipped May 2026</span>
+      </div>
 
       <div class="traction-stats">
         <div class="trac anim-rise anim-rise-d1">
@@ -3378,6 +4006,11 @@ body {
 
       <p class="traction-note">No marketing or distribution spend.</p>
 
+      <div class="tag">
+        <span>09</span>
+        <span class="sep">&middot;</span>
+        <span>Traction</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3390,21 +4023,43 @@ body {
 
       <div class="raise-kicker anim-in">We are raising</div>
       <div class="raise-amount anim-pop">$750,000</div>
+      <svg class="raise-arrow anim-in" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M54 54 C 36 50 22 36 20 14" stroke="#F4EDE3" stroke-width="4" stroke-linecap="round" opacity="0.8"></path>
+        <path d="M10 24 L20 9 L31 21" stroke="#F4EDE3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"></path>
+      </svg>
       <p class="raise-sub anim-in">for the next level of growth.</p>
 
+      <div class="tag">
+        <span>10</span>
+        <span class="sep">&middot;</span>
+        <span>The raise</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
 
+  <nav class="deck-dots" id="dots" aria-label="Slides"></nav>
+
 </div>
 
 <script>
-/* Deck navigation. Keyboard, swipe, tap left/right, and #hash deep links.
+/* Deck navigation. Keyboard, swipe, tap left/right, dots, and #hash deep links.
    Deliberately small — no framework, no dependencies. */
 (function () {
   var deck   = document.getElementById('deck');
   var slides = Array.prototype.slice.call(deck.querySelectorAll('.slide'));
+  var dots   = document.getElementById('dots');
   var index  = 0;
+
+  slides.forEach(function (slide, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Slide ' + (i + 1) + ': ' +
+      (slide.getAttribute('aria-label') || ''));
+    b.addEventListener('click', function () { go(i); });
+    dots.appendChild(b);
+  });
+  var buttons = Array.prototype.slice.call(dots.children);
 
   function go(to, viaHash) {
     to = Math.max(0, Math.min(slides.length - 1, to));
@@ -3427,6 +4082,10 @@ body {
     /* Belt and braces for browsers without overflow:clip, where jumping to a
        hash can scroll the deck sideways. */
     deck.scrollLeft = 0;
+
+    buttons.forEach(function (b, i) {
+      b.setAttribute('aria-current', i === to ? 'true' : 'false');
+    });
 
     index = to;
 
@@ -3515,7 +4174,8 @@ body {
       window.matchMedia('(min-width: 860px) and (orientation: landscape)').matches;
     var blockSel =
       'button, a, input, textarea, select, [role="slider"], ' +
-      '.demo-phone, .demo-bar, .demo-cta, .product-chrome';
+      '.demo-phone, .demo-bar, .demo-cta, .product-chrome, ' +
+      '.deck-dots';
     if (!wideProduct) { blockSel += ', .product-rail'; }
     if (e.target.closest && e.target.closest(blockSel)) {
       return;

@@ -33,8 +33,8 @@
   --card-line:    rgba(244,237,227,0.14);
   --fg:           #F4EDE3;
   --fg-3:         #9A7F74;
-  --gold:         #C98A3C;
-  --rose:         #D4838F;
+  --gold:         #E8C9A0;
+  --rose:         #E8C9A0;
 
   --pad: clamp(20px, 6vw, 64px);
 
@@ -170,7 +170,7 @@ body {
   transform: translateX(-50%);
   border-radius: 50%;
   background: radial-gradient(ellipse at center,
-              var(--maroon-900) 0%, rgba(61,8,19,0) 70%);
+              var(--maroon-900) 0%, rgba(0,0,0,0) 70%);
   pointer-events: none;
   z-index: -2;
 }
@@ -614,7 +614,7 @@ body {
   background:
     linear-gradient(180deg, rgba(0,0,0,0) 34%, rgba(0,0,0,0.40) 62%,
       rgba(0,0,0,0.78) 84%, rgba(0,0,0,0.92) 100%),
-    linear-gradient(180deg, rgba(61,8,19,0) 45%, rgba(61,8,19,0.45) 100%);
+    linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.45) 100%);
 }
 
 .cover-body {
@@ -763,7 +763,7 @@ body {
   overflow: hidden;
   background: var(--card);
   border: 1px solid rgba(201,138,60,0.45);
-  box-shadow: 0 0 0 4px rgba(61,8,19,0.85);
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.85);
   position: relative;
   z-index: 2;
 }
@@ -2724,6 +2724,199 @@ body {
   }
 
 }
+
+/* ═════════════════════════════════════════════════════════════════════════
+   VARIANT D — NOIR. Colour and surface only; appended last so equal
+   specificity wins over both the base rules and the wide media block.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --maroon-900:   #000000;
+  --card:         #0B0B0B;
+  --card-line:    rgba(255,255,255,0.10);
+  --fg:           #FFFFFF;
+  --fg-3:         rgba(255,255,255,0.38);
+  --gold:         #E8C9A0;
+  --rose:         #E8C9A0;
+}
+
+body { background: #000000; }
+.slide { background: #000000; }
+
+.glow { display: none; }
+
+.cover-scrim {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0) 34%, rgba(0,0,0,0.40) 62%,
+      rgba(0,0,0,0.78) 84%, rgba(0,0,0,0.92) 100%);
+}
+
+.bet-photo__scrim {
+  background: linear-gradient(to right,
+    #000 0%, rgba(0,0,0,0.85) 22%, rgba(0,0,0,0.15) 62%, rgba(0,0,0,0.35) 100%);
+}
+
+.stage-mark { background: rgba(255,255,255,0.32); }
+
+/* ── 00 Demo ── */
+
+.demo-stores__live { color: rgba(255,255,255,0.50); }
+
+.demo-store {
+  background: #0B0B0B;
+  border: 1px solid rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.88);
+}
+
+.demo-bar {
+  background: rgba(11,11,11,0.62);
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+.demo-cta { background: rgba(0,0,0,0.42); }
+.demo-cta:hover { background: rgba(0,0,0,0.52); }
+.demo-cta__icon {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.26);
+}
+
+.nav-tip { color: rgba(255,255,255,0.58); }
+.nav-tip:hover { color: rgba(255,255,255,0.88); }
+.nav-tip:hover .nav-tip__rule { background: rgba(232,201,160,0.85); }
+.nav-tip:hover .nav-tip__icon { border-color: rgba(232,201,160,0.70); }
+.nav-tip__rule { background: rgba(232,201,160,0.45); }
+.nav-tip__icon {
+  border: 1px solid rgba(232,201,160,0.40);
+  background: transparent;
+}
+
+/* ── 02 The problem ── */
+
+.step__thumb {
+  background: #0B0B0B;
+  border: 1px solid rgba(232,201,160,0.45);
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.85);
+}
+
+.chat-mock i { background: #E6E6E6; }
+.chat-mock i.me { background: #E8C9A0; }
+
+/* ── 03 Founder ── */
+
+.founder-creds__sep { background: rgba(255,255,255,0.28); }
+
+/* ── 04 Product ── */
+
+.product-copy { color: rgba(255,255,255,0.80); }
+
+.product-arrow {
+  border: 1px solid rgba(255,255,255,0.10);
+  background: #0B0B0B;
+  color: rgba(255,255,255,0.85);
+}
+.product-arrow:hover {
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.40);
+}
+.product-arrow--continue {
+  border-color: rgba(232,201,160,0.55);
+  color: var(--gold);
+  background: rgba(232,201,160,0.12);
+}
+.product-arrow--continue:hover {
+  background: rgba(232,201,160,0.22);
+  border-color: rgba(232,201,160,0.75);
+}
+
+.product-pager button {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.55);
+}
+.product-pager button[aria-current="true"] {
+  background: rgba(232,201,160,0.18);
+  border-color: rgba(232,201,160,0.55);
+  color: var(--gold);
+}
+
+/* ── 05 Business model ── */
+
+.biz-card { color: rgba(255,255,255,0.55); }
+.biz-card__copy { color: rgba(255,255,255,0.55); }
+
+/* ── 06 The bet ── */
+
+.bet-stat__copy { color: rgba(255,255,255,0.55); }
+.bet-sources { color: rgba(255,255,255,0.45); }
+
+/* ── 07 Reason one ── */
+
+.reason-headline { color: #FFFFFF; }
+
+.reason-row { border-bottom: 1px solid rgba(255,255,255,0.14); }
+.reason-row--head { border-bottom: 2px solid rgba(255,255,255,0.22); }
+.reason-row--madam { background: rgba(255,255,255,0.06); }
+
+.reason-colhead { color: rgba(255,255,255,0.60); }
+.reason-cell { color: rgba(255,255,255,0.30); }
+.reason-cell--yes { color: var(--gold); }
+
+/* ── 08 The team ── */
+
+.team-headline { color: #FFFFFF; }
+.team-logo span { color: rgba(255,255,255,0.55); }
+
+/* ── 09 Roadmap ── */
+
+.roadmap-headline { color: #FFFFFF; }
+
+.mile__dot { background: rgba(255,255,255,0.85); }
+.mile--now .mile__dot { background: var(--gold); }
+.mile__line { background: rgba(255,255,255,0.18); }
+.mile__sub { color: rgba(255,255,255,0.50); }
+
+/* ── 10 Traction ── */
+
+.traction-channels { color: rgba(255,255,255,0.50); }
+.traction-stats { border-top: 1px solid rgba(255,255,255,0.15); }
+.trac__unit { color: rgba(255,255,255,0.45); }
+.trac__copy { color: rgba(255,255,255,0.60); }
+.traction-note { color: rgba(255,255,255,0.40); }
+
+/* ── 11 The raise ── */
+
+.raise-kicker { color: rgba(255,255,255,0.90); }
+.raise-sub { color: rgba(255,255,255,0.55); }
+
+@media (min-width: 860px) and (orientation: landscape) {
+
+  .cover-scrim {
+    background:
+      radial-gradient(ellipse at center,
+        rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%),
+      linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 18%,
+        rgba(0,0,0,0) 70%, rgba(0,0,0,0.55) 100%),
+      linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 14%,
+        rgba(0,0,0,0) 86%, rgba(0,0,0,0.35) 100%);
+  }
+
+  .cover-tagline { color: rgba(255,255,255,0.78); }
+
+  .step__thumb {
+    border: 0;
+    box-shadow: none;
+  }
+
+  .reason-row > * { border-bottom: 1px solid rgba(255,255,255,0.14); }
+  .reason-row--head > * { border-bottom: 2px solid rgba(255,255,255,0.22); }
+  .reason-row--madam > * { background: rgba(255,255,255,0.06); }
+  .reason-row--madam { background: transparent; }
+
+  .mile__rail { background: rgba(255,255,255,0.18); }
+  .mile__rail::before { background: rgba(255,255,255,0.85); }
+  .mile--now .mile__rail::before { background: var(--gold); }
+  .mile--far .mile__rail::before { background: rgba(255,255,255,0.50); }
+
+}
 </style>
 </head>
 <body>
@@ -2836,10 +3029,10 @@ body {
         <defs>
           <marker id="jarrow" viewBox="0 0 12 12" refX="10" refY="6"
                   markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M1.5 1 L11 6 L1.5 11 Q4 6 1.5 1 z" fill="#C98A3C"></path>
+            <path d="M1.5 1 L11 6 L1.5 11 Q4 6 1.5 1 z" fill="#E8C9A0"></path>
           </marker>
         </defs>
-        <g stroke="#C98A3C" stroke-width="4.5" stroke-linecap="round" marker-end="url(#jarrow)">
+        <g stroke="#E8C9A0" stroke-width="4.5" stroke-linecap="round" marker-end="url(#jarrow)">
           <path d="M382 750 C418 668 348 532 380 442"></path>
           <path d="M400 430 C444 470 428 660 446 736"></path>
           <path d="M754 750 C790 668 720 532 752 442"></path>
@@ -2861,7 +3054,7 @@ body {
       <svg class="chain-path" id="chainPath" aria-hidden="true">
         <defs id="chainProbe"></defs>
         <g id="chainRoad" fill="none" stroke-linecap="round"></g>
-        <g id="chainArrows" fill="#C98A3C"></g>
+        <g id="chainArrows" fill="#E8C9A0"></g>
       </svg>
 
       <ol class="chain">
@@ -2990,9 +3183,9 @@ body {
 
         <!-- Narrow stand-in for the authored connector: points at him. -->
         <svg class="founder-arrow" viewBox="0 0 60 76" fill="none" aria-hidden="true">
-          <path d="M54 8 C 34 12, 16 28, 13 52" stroke="#C98A3C" stroke-width="5"
+          <path d="M54 8 C 34 12, 16 28, 13 52" stroke="#E8C9A0" stroke-width="5"
                 stroke-linecap="round"></path>
-          <path d="M3 37 L13 56 L26 45" stroke="#C98A3C" stroke-width="5"
+          <path d="M3 37 L13 56 L26 45" stroke="#E8C9A0" stroke-width="5"
                 stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
 
@@ -3007,8 +3200,8 @@ body {
 
       <svg class="founder-sketch" viewBox="0 0 1920 1080" fill="none" aria-hidden="true">
         <path d="M690 490 C 960 440, 1120 600, 1230 690 S 1310 762, 1300 800"
-              stroke="#C98A3C" stroke-width="7" stroke-linecap="round"></path>
-        <path d="M1262 764 L1302 810 L1344 776" stroke="#C98A3C" stroke-width="7"
+              stroke="#E8C9A0" stroke-width="7" stroke-linecap="round"></path>
+        <path d="M1262 764 L1302 810 L1344 776" stroke="#E8C9A0" stroke-width="7"
               stroke-linecap="round" stroke-linejoin="round"></path>
       </svg>
 
@@ -4039,7 +4232,7 @@ body {
 
     var d = roadPath(pts);
     road.innerHTML =
-      '<path d="' + d + '" stroke="rgba(201,138,60,0.45)" stroke-width="2"></path>' +
+      '<path d="' + d + '" stroke="rgba(232,201,160,0.45)" stroke-width="2"></path>' +
       '<path d="' + d + '" stroke="rgba(255,255,255,0.22)" stroke-width="2" ' +
       'stroke-dasharray="5 9"></path>';
 

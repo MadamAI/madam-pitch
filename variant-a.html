@@ -8,48 +8,49 @@
 <meta name="description" content="Madam. Community and commerce for Black women. Live on the Apple App Store and Google Play.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Plus+Jakarta+Sans:wght@200;400;600;700;800&family=Poppins:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Caveat:wght@600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════════════════════════════════════════
-   Madam pitch — static site
+   Madam pitch — variant A, "Editorial"
 
-   Two modes, one document, no layout JS:
+   The deck as a printed fashion/culture magazine spread. Fraunces carries
+   display and numerals, Archivo carries body and captions, Caveat survives
+   only as the founder-slide annotation. Hairline rules structure the page;
+   slide tags become folio marks in the bottom-outer corner.
 
-   WIDE   .stage becomes a letterboxed 16:9 canvas with container-type:size,
-          and every value inside is expressed in cqw. The deck is authored at
-          1920x1080, so 1cqw == 19.2 authored px and the composition is
-          proportionally identical to the original slide at any window size.
-          Authored pixel values are kept in comments beside each rule.
-
-   NARROW the canvas constraint is dropped and each slide reflows on its own
-          terms. Mobile-first, so narrow is the default and wide is the
-          override at (min-width: 860px) and (orientation: landscape).
+   Same dual layout system as the source:
+   WIDE   letterboxed 16:9 container-query canvas, values in cqw (1920x1080).
+   NARROW per-slide svh-driven reflow; mobile-first, wide overrides at
+          (min-width: 860px) and (orientation: landscape).
    ══════════════════════════════════════════════════════════════════════════ */
 
 :root {
   --black:        #000000;
   --maroon-900:   #3D0813;
   --card:         #150303;
-  --card-line:    rgba(244,237,227,0.14);
   --fg:           #F4EDE3;
-  --fg-3:         #9A7F74;
+  --fg-dim:       rgba(244,237,227,0.62);
+  --fg-faint:     rgba(244,237,227,0.4);
   --gold:         #C98A3C;
   --rose:         #D4838F;
+
+  --hair:         rgba(244,237,227,0.18);
+  --hair-gold:    rgba(201,138,60,0.5);
+
+  --serif:  'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans:   'Archivo', system-ui, -apple-system, sans-serif;
+  --script: 'Caveat', cursive;
 
   --pad: clamp(20px, 6vw, 64px);
 
   /* Cover photo insets on narrow. The source is square and cover-scaled, so
-     the box HEIGHT drives render size — tightening these shrinks her face. */
+     the box HEIGHT drives render size. */
   --photo-top: 11svh;
   --photo-bottom: 7svh;
 
-  /* Problem chain, narrow. Driven by svh, not vw: 9 steps have to fit the
-     screen height now that slides don't scroll. Width-based sizing overflowed
-     a 667px-tall phone by ~150px. */
+  /* Problem chain, narrow. Driven by svh: 9 steps must fit screen height. */
   --thumb: clamp(32px, 4.6svh, 56px);
   --chain-gap: clamp(11px, 2svh, 20px);
-  /* Corridor the road zigzags inside. Wider than a thumb so the connectors
-     slope steeply, and it keeps the curve away from the labels. */
   --spine: calc(var(--thumb) * 2.5);
 }
 
@@ -64,8 +65,9 @@ html, body {
 
 body {
   background: var(--black);
-  color: #fff;
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: var(--fg);
+  font-family: var(--sans);
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -74,9 +76,6 @@ body {
 .deck {
   position: fixed;
   inset: 0;
-  /* clip, not hidden: the incoming slide's translateX(3%) overflows to the
-     right, and a scrollable box lets the browser scroll the #hash target
-     into view — which shifted the whole deck 11px left. clip cannot scroll. */
   overflow: hidden;
   overflow: clip;
 }
@@ -103,7 +102,6 @@ body {
   z-index: 1;
 }
 
-/* Leaving backwards, so the pair slides the other way. */
 .slide.is-prev { transform: translateX(-3%); }
 
 /* Narrow advances on the vertical axis, so the motion matches the
@@ -117,7 +115,6 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  /* Pitch slides never scroll — content must fit the viewport. */
   overflow: hidden;
   overscroll-behavior: none;
   touch-action: manipulation;
@@ -130,28 +127,24 @@ body {
   .slide.is-active { transition: opacity 1ms linear, visibility 0s; }
 }
 
-@keyframes mdBetRise {
-  from { opacity: 0; transform: translateY(34px); filter: blur(10px); }
-  to   { opacity: 1; transform: none; filter: blur(0); }
+/* Entrance moves: plain rises and slides. No overshoot, no blur, no pop. */
+@keyframes edRise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
 }
-@keyframes mdBetIn {
-  from { opacity: 0; transform: translateX(-28px); filter: blur(8px); }
-  to   { opacity: 1; transform: none; filter: blur(0); }
-}
-@keyframes mdBetPop {
-  0%   { opacity: 0; transform: scale(0.86) translateY(20px); }
-  70%  { opacity: 1; transform: scale(1.03) translateY(0); }
-  100% { opacity: 1; transform: scale(1); }
+@keyframes edIn {
+  from { opacity: 0; transform: translateX(-18px); }
+  to   { opacity: 1; transform: none; }
 }
 
-.slide.is-active .anim-rise { animation: mdBetRise 900ms cubic-bezier(0.16,0.84,0.32,1) both; }
-.slide.is-active .anim-rise-d1 { animation-delay: 120ms; }
-.slide.is-active .anim-rise-d2 { animation-delay: 240ms; }
-.slide.is-active .anim-rise-d3 { animation-delay: 360ms; }
-.slide.is-active .anim-rise-d4 { animation-delay: 480ms; }
-.slide.is-active .anim-rise-d5 { animation-delay: 600ms; }
-.slide.is-active .anim-in   { animation: mdBetIn 700ms cubic-bezier(0.16,0.84,0.32,1) both; }
-.slide.is-active .anim-pop  { animation: mdBetPop 1000ms cubic-bezier(0.16,0.84,0.32,1) 200ms both; }
+.slide.is-active .anim-rise { animation: edRise 700ms cubic-bezier(0.22,0.7,0.3,1) both; }
+.slide.is-active .anim-rise-d1 { animation-delay: 100ms; }
+.slide.is-active .anim-rise-d2 { animation-delay: 200ms; }
+.slide.is-active .anim-rise-d3 { animation-delay: 300ms; }
+.slide.is-active .anim-rise-d4 { animation-delay: 400ms; }
+.slide.is-active .anim-rise-d5 { animation-delay: 500ms; }
+.slide.is-active .anim-in  { animation: edIn 600ms cubic-bezier(0.22,0.7,0.3,1) both; }
+.slide.is-active .anim-pop { animation: edRise 750ms cubic-bezier(0.22,0.7,0.3,1) 150ms both; }
 
 @media (prefers-reduced-motion: reduce) {
   .slide.is-active .anim-rise,
@@ -159,8 +152,7 @@ body {
   .slide.is-active .anim-pop { animation: none; }
 }
 
-
-/* Shared maroon bloom. Repositioned per slide. */
+/* One maroon bloom per slide, repositioned per slide. Never more than one. */
 .glow {
   position: absolute;
   left: 50%;
@@ -186,9 +178,88 @@ body {
   z-index: 3;
 }
 
+/* ── Deck controls ──────────────────────────────────────────────────────── */
+
+/* Hairline tick rail instead of dots. */
+.deck-dots {
+  position: fixed;
+  right: clamp(6px, 1.6vw, 18px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1.2vw, 10px);
+}
+
+.deck-dots button {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  width: 20px;
+  height: 9px;
+  background: transparent;
+}
+.deck-dots button::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 1px;
+  background: rgba(244,237,227,0.32);
+  transition: width 200ms ease, background 200ms ease;
+}
+.deck-dots button:hover::after { background: rgba(244,237,227,0.6); }
+.deck-dots button[aria-current="true"]::after {
+  width: 20px;
+  background: var(--gold);
+}
+.deck-dots button:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Folio mark: small, bottom-outer corner, never a centered footer. */
+.tag {
+  position: absolute;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(201,138,60,0.75);
+}
+.tag .sep { opacity: 0.5; }
+
+/* The little m mark: retired in the editorial layout. */
+.stage-mark { display: none; }
+
+/* Tracked eyebrow: kept only where it carries information. */
+.eyebrow {
+  display: block;
+  font-size: clamp(9px, min(2.7vw, 1.4svh), 24px);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: clamp(8px, 1.5svh, 18px);
+}
+
 
 /* ─────────────────────────────────────────────────────────────────────────
    00 — Demo
+   Device tilted and pushed toward an edge; the margin column carries the
+   store roster and the tap cue like magazine marginalia.
    ───────────────────────────────────────────────────────────────────────── */
 
 .demo .glow {
@@ -199,7 +270,6 @@ body {
 }
 
 .demo .logo {
-  /* Smaller corner mark so the larger phone has room. */
   width: clamp(40px, 11vw, 64px);
   top: max(14px, env(safe-area-inset-top));
   left: max(14px, env(safe-area-inset-left), calc(var(--pad) * 0.65));
@@ -207,94 +277,87 @@ body {
 
 .demo .stage {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(10px, 1.8svh, 16px);
   height: 100%;
   overflow: hidden;
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(28px, 5svh, 44px))
-           max(12px, calc(var(--pad) * 0.55))
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(12px, 2svh, 20px));
+  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(22px, 4svh, 36px))
+           max(12px, calc(var(--pad) * 0.5))
+           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(10px, 1.6svh, 18px));
 }
 
 .demo-main {
   position: relative;
   z-index: 2;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(10px, 1.6svh, 14px);
-  flex: none;
-  max-width: 100%;
-}
-
-.demo-focus {
-  position: relative;
-  display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(12px, 3vw, 20px);
-  flex: none;
+  gap: clamp(14px, 4.5vw, 26px);
   max-width: 100%;
-  /* Leave a right gutter so the tip never crowds the phone. */
-  padding-right: clamp(4px, 1vw, 8px);
 }
 
 .demo-phone {
   position: relative;
   z-index: 2;
-  width: min(68vw, 340px, calc((100svh - 10.5rem) * 402 / 874));
+  width: min(62vw, 320px, calc((100svh - 9rem) * 402 / 874));
   aspect-ratio: 402 / 874;
-  border-radius: 14%;
+  border-radius: 12%;
   overflow: hidden;
   background: #000;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.65);
+  box-shadow: 18px 30px 70px rgba(0,0,0,0.6);
+  transform: rotate(-2.4deg);
   flex: none;
+}
+
+.demo-rail {
+  flex: none;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 8% 0;
 }
 
 .demo-stores {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  flex: none;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .demo-stores__live {
-  font-size: clamp(9px, 2.4vw, 11px);
+  font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(244,237,227,0.5);
+  color: var(--gold);
 }
 
 .demo-stores__row {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  flex-direction: column;
+  gap: 0;
 }
 
 .demo-store {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  border-radius: 9999px;
-  background: rgba(244,237,227,0.06);
-  border: 1px solid rgba(244,237,227,0.14);
-  color: rgba(244,237,227,0.88);
-  font-size: clamp(10px, 2.6vw, 12px);
-  font-weight: 600;
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid var(--hair);
+  color: var(--fg-dim);
+  font-size: 11px;
+  font-weight: 500;
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
+.demo-store:last-child { border-bottom: 1px solid var(--hair); }
 
 .demo-store img {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   display: block;
   flex: none;
 }
@@ -306,10 +369,10 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
-  /* Let taps reach the control bar / phone toggle, not the media element. */
   pointer-events: none;
 }
 
+/* Solid plate — no frosted glass. */
 .demo-bar {
   position: absolute;
   left: 4.5%;
@@ -321,10 +384,8 @@ body {
   gap: 10px;
   padding: 7px 10px;
   border-radius: 9999px;
-  background: rgba(20,20,20,0.62);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  backdrop-filter: blur(14px) saturate(160%);
-  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(12,9,9,0.9);
+  border: 1px solid rgba(244,237,227,0.16);
   pointer-events: auto;
   touch-action: manipulation;
   user-select: none;
@@ -339,8 +400,8 @@ body {
   height: 32px;
   border: 0;
   border-radius: 50%;
-  background: rgba(255,255,255,0.16);
-  color: #fff;
+  background: rgba(244,237,227,0.14);
+  color: var(--fg);
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -348,7 +409,7 @@ body {
   pointer-events: auto;
   touch-action: manipulation;
 }
-.demo-play:hover { background: rgba(255,255,255,0.24); }
+.demo-play:hover { background: rgba(244,237,227,0.24); }
 .demo-play:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
@@ -358,7 +419,7 @@ body {
 .demo-phone.is-playing .demo-play__play { display: none; }
 .demo-phone.is-playing .demo-play__pause { display: block; }
 
-/* Idle play cue — big enough to read as the primary action. */
+/* Idle play cue. */
 .demo-cta {
   position: absolute;
   inset: 0;
@@ -371,15 +432,15 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  background: rgba(0,0,0,0.38);
-  color: #fff;
+  background: rgba(0,0,0,0.4);
+  color: var(--fg);
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--sans);
   transition: opacity 220ms ease, background 220ms ease;
 }
-.demo-cta:hover { background: rgba(0,0,0,0.48); }
+.demo-cta:hover { background: rgba(0,0,0,0.5); }
 .demo-cta:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: -10px;
@@ -389,31 +450,31 @@ body {
   pointer-events: none;
 }
 .demo-cta__icon {
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: rgba(255,255,255,0.16);
-  border: 1px solid rgba(255,255,255,0.28);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+  background: var(--fg);
+  color: #000;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.4);
 }
 .demo-cta__icon svg {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   margin-left: 3px;
   display: block;
 }
 .demo-cta__label {
-  font-size: clamp(13px, 3.4vw, 16px);
+  font-size: clamp(11px, 3vw, 13px);
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.92);
+  color: rgba(244,237,227,0.92);
   text-shadow: 0 1px 10px rgba(0,0,0,0.45);
 }
 
-/* Visual bar is thin; the hit target is tall enough for thumbs. */
+/* Scrubber. */
 .demo-track {
   position: relative;
   flex: 1;
@@ -431,20 +492,18 @@ body {
   left: 0;
   right: 0;
   top: 50%;
-  height: 3px;
+  height: 2px;
   transform: translateY(-50%);
-  border-radius: 9999px;
-  background: rgba(255,255,255,0.25);
+  background: rgba(244,237,227,0.25);
   pointer-events: none;
 }
 .demo-track__fill {
   position: absolute;
   left: 0;
   top: 50%;
-  height: 3px;
+  height: 2px;
   width: 0%;
   transform: translateY(-50%);
-  border-radius: 9999px;
   background: var(--gold);
   pointer-events: none;
   z-index: 1;
@@ -453,10 +512,10 @@ body {
   position: absolute;
   top: 50%;
   left: 0%;
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--fg);
   transform: translate(-50%, -50%);
   box-shadow: 0 1px 3px rgba(0,0,0,0.45);
   pointer-events: none;
@@ -467,9 +526,9 @@ body {
   flex: none;
   min-width: 2.6em;
   text-align: right;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--sans);
   font-size: 10px;
-  color: rgba(255,255,255,0.75);
+  color: rgba(244,237,227,0.75);
   font-variant-numeric: tabular-nums;
   pointer-events: none;
 }
@@ -477,16 +536,16 @@ body {
 .demo-speed {
   flex: none;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.04em;
-  color: #fff;
-  background: rgba(255,255,255,0.14);
+  color: var(--fg);
+  background: rgba(244,237,227,0.14);
   border-radius: 9999px;
   padding: 3px 7px;
   pointer-events: none;
 }
 
-/* One-shot cue to the right of the demo phone — never over video/copy. */
+/* One-shot tap cue. Static — no pulsing. */
 .nav-tip {
   -webkit-appearance: none;
   appearance: none;
@@ -496,7 +555,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   margin: 0;
   padding: 4px 2px;
   border: 0;
@@ -522,39 +581,36 @@ body {
 }
 .nav-tip:hover { color: rgba(244,237,227,0.88); }
 .nav-tip:hover .nav-tip__rule { background: rgba(201,138,60,0.85); }
-.nav-tip:hover .nav-tip__icon { border-color: rgba(201,138,60,0.7); }
 .nav-tip:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 1px solid var(--gold);
   outline-offset: 4px;
-  border-radius: 10px;
 }
 
 .nav-tip__rule {
   width: 1px;
-  height: clamp(28px, 6svh, 48px);
-  background: rgba(201,138,60,0.45);
-  border-radius: 99px;
+  height: clamp(24px, 5svh, 40px);
+  background: var(--hair-gold);
   transition: background 180ms ease;
 }
 
 .nav-tip__label {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(11px, 2.7vw, 13px);
-  font-weight: 600;
+  font-family: var(--sans);
+  font-size: clamp(10px, 2.6vw, 12px);
+  font-weight: 500;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   line-height: 1;
 }
 
 .nav-tip__icon {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(201,138,60,0.4);
+  border: 1px solid rgba(201,138,60,0.45);
   background: transparent;
   color: var(--gold);
 }
@@ -563,24 +619,14 @@ body {
   height: 12px;
   display: block;
   margin-left: 1px;
-  animation: navTipNudge 1.6s ease-in-out infinite;
-}
-@keyframes navTipNudge {
-  0%, 100% { transform: translateX(0); opacity: 0.7; }
-  50%      { transform: translateX(3px); opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .nav-tip__icon svg { animation: none; }
 }
 
 
 /* ─────────────────────────────────────────────────────────────────────────
    01 — Cover
+   Full-bleed photograph; masthead serif set into the image.
    ───────────────────────────────────────────────────────────────────────── */
 
-/* Photo runs full width, inset top and bottom so the maroon ground reads at
-   both ends; the mask softens those edges so it dissolves rather than
-   stopping on a line. */
 .cover-photo {
   position: absolute;
   top: var(--photo-top);
@@ -605,8 +651,6 @@ body {
   display: block;
 }
 
-/* Darkens the lower half for type, then washes maroon back over it so the
-   image doesn't go flat grey. */
 .cover-scrim {
   position: absolute;
   inset: 0;
@@ -625,55 +669,53 @@ body {
   z-index: 3;
 }
 
-/* Near-white on narrow: the deck's --fg-3 is a muted brown that vanishes
-   over a photo. Restored to brown in wide mode. */
 .cover-tagline {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 200;
-  font-size: clamp(15px, 4.4vw, 31px);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(15px, 4.3vw, 30px);
   line-height: 1.4;
-  letter-spacing: 0.01em;
-  color: rgba(255,255,255,0.82);
-  margin-bottom: 0.35em;
+  letter-spacing: 0.005em;
+  color: rgba(244,237,227,0.88);
+  margin-bottom: 0.4em;
   text-shadow: 0 1px 12px rgba(0,0,0,0.55);
   white-space: nowrap;
 }
 
-/* 'Madam' in ExtraBold advances ~3.43em after tracking. Against a measure of
-   100vw - 2*pad, anything above ~25vw overflows — 22vw leaves headroom for
-   wider fallback fonts while the webfont loads. */
+/* Masthead. Fraunces 'Madam' advances ~2.9em; 21vw leaves headroom. */
 .cover-wordmark {
-  font-size: min(22vw, 520px);
-  font-weight: 800;
-  line-height: 0.88;
-  letter-spacing: -0.04em;
+  font-family: var(--serif);
+  font-size: min(21vw, 480px);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.015em;
   color: #fff;
   white-space: nowrap;
   text-shadow: 0 2px 28px rgba(0,0,0,0.5);
 }
 
-/* The little m at the foot of a slide. Hidden on narrow. */
-.stage-mark {
-  display: none;
-  position: absolute;
-  left: 50%;
-  bottom: max(14px, env(safe-area-inset-bottom));
-  transform: translateX(-50%);
-  width: 42px;
-  height: 19px;
-  background: rgba(244,237,227,0.32);
-  -webkit-mask: url("assets/madam-m.svg") no-repeat center / contain;
-  mask: url("assets/madam-m.svg") no-repeat center / contain;
-  pointer-events: none;
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(10px, 3vw, 24px);
+  margin-top: clamp(18px, 5vw, 40px);
+  padding-top: clamp(10px, 2.6vw, 18px);
+  border-top: 1px solid rgba(244,237,227,0.3);
+  font-size: clamp(9px, 2.6vw, 20px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
 }
+.cover-meta .dim { color: rgba(255,255,255,0.55); }
+.cover-meta .sep { opacity: 0.5; }
 
 
 /* ─────────────────────────────────────────────────────────────────────────
    02 — The problem
-
-   Desktop is a 5-column serpentine of 9 cards with hand-drawn arrows. That
-   has no portrait equivalent, so narrow becomes a vertical numbered chain —
-   which suits the slide, since the length is the point.
+   Narrow: vertical numbered chain (the length IS the point). The svh math
+   is inherited untouched so 9 steps fit a 667px phone.
    ───────────────────────────────────────────────────────────────────────── */
 
 .problem .glow {
@@ -698,17 +740,15 @@ body {
 }
 
 .problem-head h2 {
-  /* Constrained by height as well as width so tall copy can't push the
-     chain off a short screen. */
-  font-size: clamp(21px, min(7.4vw, 3.6svh), 54px);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  font-family: var(--serif);
+  font-size: clamp(21px, min(7.2vw, 3.6svh), 54px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   color: #fff;
 }
 .problem-head h2 .accent { color: var(--rose); }
 
-/* The desktop connector arrows. Meaningless once stacked. */
 .flow { display: none; }
 
 .chain {
@@ -722,9 +762,6 @@ body {
   margin-inline: auto;
 }
 
-/* The road itself. Geometry is measured and drawn in JS because the curve
-   has to land exactly on each thumbnail whatever the screen size — a fixed
-   viewBox stretched to fit would skew the arrowheads. */
 .chain-wrap {
   position: relative;
 }
@@ -732,8 +769,6 @@ body {
 .chain-path {
   position: absolute;
   inset: 0;
-  /* An absolutely positioned svg with width:auto takes its intrinsic
-     300x150 rather than the inset constraint, so it must be sized. */
   width: 100%;
   height: 100%;
   z-index: 0;
@@ -750,9 +785,6 @@ body {
   gap: clamp(10px, 2.6vw, 16px);
 }
 
-/* Stops alternate within the spine so the road switches back on itself and
-   reads as a route. Spanning the full width instead would drag every
-   connector diagonally across the labels. */
 .step:nth-child(even) .step__thumb { justify-self: end; }
 
 .step__thumb {
@@ -776,7 +808,6 @@ body {
   display: block;
 }
 
-/* Step 5 has no photo on the deck either — it's a CSS chat mock. */
 .chat-mock {
   position: absolute;
   inset: 0;
@@ -802,30 +833,26 @@ body {
 .step__n {
   display: block;
   font-size: clamp(9px, 2.4vw, 11px);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.22em;
+  text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 0.35em;
 }
 
 .step__label {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 300;
-  font-size: clamp(13px, min(4.1vw, 2.1svh), 20px);
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(13px, min(4vw, 2.1svh), 20px);
   line-height: 1.3;
   color: var(--fg);
 }
 
-/* Desktop-only icon inside each card. */
 .step__icon { display: none; }
 
 
 /* ───────────────────────────────────────────────────────────────
    03 — The founder
-
-   Wide is name left, portrait bottom-right, with a hand-drawn arrow running
-   between them. Narrow keeps that gesture by pairing the portrait and the
-   handwritten note side by side with a short arrow of their own.
    ─────────────────────────────────────────────────────────────── */
 
 .founder .glow {
@@ -846,25 +873,36 @@ body {
 
 .founder-head { position: relative; z-index: 2; }
 
-.founder-name {
-  font-size: clamp(56px, min(21vw, 12svh), 190px);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  color: #fff;
+/* Serif italic instead of a tracked eyebrow. */
+.founder .eyebrow {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(15px, min(4.4vw, 2.3svh), 30px);
+  letter-spacing: 0.005em;
+  text-transform: none;
+  color: var(--gold);
 }
 
+.founder-name {
+  font-family: var(--serif);
+  font-size: clamp(46px, min(16vw, 9svh), 150px);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-top: clamp(6px, 1.2svh, 16px);
+}
+
+/* Hairline, not a slab. */
 .founder-rule {
   display: block;
   width: clamp(120px, 42vw, 360px);
-  height: clamp(5px, 0.9svh, 10px);
+  height: 1px;
   margin-top: clamp(10px, 1.8svh, 22px);
-  border-radius: 99px;
   background: var(--gold);
 }
 
-/* Portrait and note sit on one row so the note still reads as pointing at
-   him, the way the arrow does on the wide composition. */
 .founder-who {
   position: relative;
   z-index: 2;
@@ -887,7 +925,7 @@ body {
   aspect-ratio: 1;
   border-radius: 999px;
   overflow: hidden;
-  border: clamp(3px, 0.9vw, 5px) solid var(--gold);
+  border: 2px solid var(--gold);
 }
 
 .founder-portrait img {
@@ -906,7 +944,7 @@ body {
 }
 
 .founder-note {
-  font-family: 'Caveat', cursive;
+  font-family: var(--script);
   font-weight: 600;
   font-size: clamp(22px, min(7.4vw, 3.8svh), 76px);
   line-height: 1;
@@ -923,7 +961,7 @@ body {
 }
 
 .founder-quote__mark {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--serif);
   font-size: clamp(44px, 14vw, 150px);
   line-height: 0.7;
   color: var(--gold);
@@ -931,10 +969,11 @@ body {
 }
 
 .founder-quote p {
-  font-size: clamp(17px, min(5.4vw, 2.7svh), 52px);
-  font-weight: 700;
-  line-height: 1.18;
-  letter-spacing: -0.02em;
+  font-family: var(--serif);
+  font-size: clamp(17px, min(5.2vw, 2.7svh), 52px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
   color: #fff;
   text-wrap: pretty;
   padding-top: 0.2em;
@@ -964,16 +1003,16 @@ body {
 .founder-creds__sep {
   width: 1px;
   height: clamp(18px, 4vw, 30px);
-  background: rgba(244,237,227,0.28);
+  background: var(--hair);
   flex: none;
 }
 
-/* The authored 1920x1080 connector only makes sense on the wide canvas. */
 .founder-sketch { display: none; }
 
 
 /* ─────────────────────────────────────────────────────────────────────────
    04 — The product
+   Narrow: horizontal snap carousel, current phone gently tilted.
    ───────────────────────────────────────────────────────────────────────── */
 
 .product .glow {
@@ -981,21 +1020,21 @@ body {
   height: 120vh;
 }
 
+/* Maroon editorial field behind the device row — wide only. */
+.product-field { display: none; }
+
 .product .stage {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
   gap: clamp(8px, 1.2svh, 12px);
-  /* Fit phone + copy + tag in one screen — no vertical scroll on narrow. */
   height: 100%;
   overflow: hidden;
   padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(28px, 5svh, 44px)) 0
            calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(8px, 1.5svh, 14px));
 }
 
-/* Four phones won't stack in a phone viewport, so narrow becomes a
-   horizontal snap carousel — one product per stop, next card peeking. */
 .product-rail {
   position: relative;
   z-index: 2;
@@ -1014,11 +1053,8 @@ body {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   scrollbar-width: none;
-  /* Side padding leaves a clear peek of the next phone. */
   padding-inline: 16vw;
-  /* Horizontal carousel only — never vertical page scroll. */
   touch-action: pan-x;
-  /* Soft edge fade so the peek reads as "more this way". */
   -webkit-mask-image: linear-gradient(90deg,
     transparent 0%, #000 5%, #000 95%, transparent 100%);
   mask-image: linear-gradient(90deg,
@@ -1052,16 +1088,17 @@ body {
 
 .product-phone {
   position: relative;
-  /* More room for the phone — copy/chrome are compacted below. */
   width: min(62vw, 250px, calc((100svh - 12.5rem) * 313 / 640));
   margin-inline: auto;
   aspect-ratio: 313 / 640;
   border-radius: 14%;
   overflow: hidden;
   background: #000;
-  box-shadow: 0 20px 48px rgba(0,0,0,0.7);
+  box-shadow: 14px 22px 48px rgba(0,0,0,0.65);
   flex: none;
+  transition: transform 280ms ease;
 }
+.product-item.is-current .product-phone { transform: rotate(-2deg); }
 
 .product-phone img {
   position: absolute;
@@ -1070,7 +1107,6 @@ body {
   max-width: none;
 }
 
-/* Daia's frame is authored as a white bezel, not a cropped screenshot. */
 .product-phone--daia {
   background: #fff;
   border: 2.5% solid #1C1C1E;
@@ -1085,7 +1121,6 @@ body {
   padding-inline: 4px;
 }
 
-/* Neighbors only peek the phone — hide their copy so text doesn’t crowd. */
 .product-item:not(.is-current) .product-meta {
   visibility: hidden;
   height: 0;
@@ -1094,18 +1129,20 @@ body {
   overflow: hidden;
 }
 
+.product-kicker { display: none; }
+
 .product-name {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--serif);
   font-weight: 600;
   font-size: clamp(20px, 5vw, 26px);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
   line-height: 1.1;
 }
 
 .product-copy {
-  margin-top: 0.25em;
+  margin-top: 0.3em;
   font-size: clamp(12px, 3.1vw, 15px);
-  line-height: 1.3;
+  line-height: 1.35;
   color: rgba(244,237,227,0.8);
   text-wrap: pretty;
   display: -webkit-box;
@@ -1114,7 +1151,6 @@ body {
   overflow: hidden;
 }
 
-/* Carousel chrome: one compact controls row. Wide hides these. */
 .product-chrome {
   position: relative;
   z-index: 2;
@@ -1126,7 +1162,6 @@ body {
   padding-inline: var(--pad);
 }
 
-/* Tabs replace the swipe hint on narrow. */
 .product-hint { display: none; }
 
 .product-controls {
@@ -1145,7 +1180,7 @@ body {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid rgba(244,237,227,0.22);
+  border: 1px solid var(--hair);
   background: rgba(0,0,0,0.35);
   color: rgba(244,237,227,0.85);
   display: grid;
@@ -1168,12 +1203,12 @@ body {
   cursor: default;
 }
 .product-arrow--continue {
-  border-color: rgba(201,138,60,0.55);
+  border-color: var(--hair-gold);
   color: var(--gold);
-  background: rgba(201,138,60,0.12);
+  background: rgba(201,138,60,0.1);
 }
 .product-arrow--continue:hover {
-  background: rgba(201,138,60,0.22);
+  background: rgba(201,138,60,0.2);
   border-color: rgba(201,138,60,0.75);
 }
 .product-arrow:focus-visible {
@@ -1181,11 +1216,12 @@ body {
   outline-offset: 3px;
 }
 
+/* Underline tabs, not pills. */
 .product-pager {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 12px;
   flex: 1;
   flex-wrap: nowrap;
   min-width: 0;
@@ -1193,39 +1229,37 @@ body {
 .product-pager button {
   -webkit-appearance: none;
   appearance: none;
-  border: 1px solid transparent;
-  padding: 5px 7px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  padding: 6px 1px 5px;
   cursor: pointer;
   width: auto;
   height: auto;
   min-height: 26px;
-  border-radius: 9999px;
-  background: rgba(244,237,227,0.08);
-  color: rgba(244,237,227,0.55);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(244,237,227,0.5);
+  font-family: var(--sans);
   font-size: clamp(9px, 2.3vw, 10px);
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   line-height: 1;
   white-space: nowrap;
-  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+  transition: color 160ms ease, border-color 160ms ease;
 }
 .product-pager button[aria-current="true"] {
-  background: rgba(201,138,60,0.18);
-  border-color: rgba(201,138,60,0.55);
+  border-bottom-color: var(--gold);
   color: var(--gold);
 }
 .product-pager button:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 1px solid var(--gold);
   outline-offset: 3px;
 }
 
-/* Counter is redundant with the active tab on mobile. */
 .product-count { display: none; }
 
-/* Short landscape (phone rotated, still below the wide canvas breakpoint):
-   put the phone beside the copy so neither collapses to a stub. */
+/* Short landscape phones: phone beside the copy. */
 @media (orientation: landscape) and (max-height: 520px) and (max-width: 859px) {
   .product .stage {
     padding: max(12px, env(safe-area-inset-top))
@@ -1254,7 +1288,7 @@ body {
   .product-phone {
     width: min(22vw, calc((100svh - 3rem) * 313 / 640));
     margin-inline: 0;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.65);
+    box-shadow: 8px 12px 28px rgba(0,0,0,0.65);
   }
 
   .product-meta {
@@ -1263,6 +1297,14 @@ body {
     max-width: 28rem;
   }
 
+  .product-kicker {
+    display: block;
+    font-size: clamp(10px, 1.8vw, 12px);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
   .product-name { font-size: clamp(22px, 4.2vw, 32px); }
   .product-copy { font-size: clamp(12px, 2.2vw, 16px); }
 }
@@ -1270,6 +1312,8 @@ body {
 
 /* ─────────────────────────────────────────────────────────────────────────
    05 — Business model
+   Jars is the revenue engine: a maroon field. Affiliate and Advertising are
+   footnotes on hairline rules. No card trio.
    ───────────────────────────────────────────────────────────────────────── */
 
 .bizmodel .glow {
@@ -1283,73 +1327,122 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(10px, 1.6svh, 18px);
+  gap: clamp(14px, 2.4svh, 24px);
   height: 100%;
   overflow: hidden;
-  /* Clear the absolute logo (pad + logo height + breathing room). */
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(72px, 20vw, 110px))
+  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(64px, 16vw, 100px))
            var(--pad)
            calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(16px, 2.5svh, 28px));
 }
 
-.bizmodel-headline {
+.bizmodel-kicker {
   position: relative;
   z-index: 2;
   flex: none;
-  font-size: clamp(24px, min(6.6vw, 3.4svh), 34px);
-  font-weight: 700;
-  line-height: 1.15;
+  font-family: var(--serif);
+  font-size: clamp(22px, min(6.4vw, 3.4svh), 30px);
+  font-weight: 600;
   letter-spacing: -0.01em;
+  line-height: 1.1;
   color: #fff;
-  text-wrap: pretty;
 }
-.bizmodel-headline .accent { color: var(--rose); }
 
 .bizmodel-row {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: clamp(8px, 1.4svh, 12px);
-  flex: 1 1 auto;
+  gap: clamp(14px, 2.4svh, 22px);
+  flex: 0 1 auto;
   min-height: 0;
   justify-content: center;
 }
 
-.biz-card {
+.biz-primary {
   display: flex;
   flex-direction: column;
-  gap: clamp(6px, 1svh, 10px);
-  color: #DFCDB4;
-  flex: 0 1 auto;
-  min-height: 0;
+  gap: clamp(8px, 1.4svh, 12px);
+  padding: clamp(16px, 2.8svh, 26px) clamp(16px, 4.5vw, 26px);
+  background: var(--maroon-900);
 }
 
-.biz-card__name {
-  font-size: clamp(22px, min(6.2vw, 3.4svh), 32px);
-  font-weight: 700;
-  line-height: 1.1;
+.biz-primary__name {
+  font-family: var(--serif);
+  font-size: clamp(26px, min(7.4vw, 4svh), 36px);
+  font-weight: 600;
+  line-height: 1.05;
   color: #fff;
 }
 
-.biz-card__copy {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(12px, min(3.4vw, 1.85svh), 16px);
-  line-height: 1.35;
-  color: rgba(223,205,180,0.75);
+.biz-primary__copy {
+  font-size: clamp(12px, min(3.4vw, 1.8svh), 15px);
+  line-height: 1.45;
+  color: rgba(244,237,227,0.8);
   text-wrap: pretty;
+  max-width: 24rem;
 }
 
-.biz-card__fee {
-  font-size: clamp(14px, min(3.8vw, 2.1svh), 18px);
-  font-weight: 700;
+.biz-primary__fee {
+  margin-top: clamp(2px, 0.6svh, 6px);
+  padding-top: clamp(8px, 1.4svh, 14px);
+  border-top: 1px solid var(--hair-gold);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(16px, min(4.4vw, 2.4svh), 20px);
   color: var(--gold);
 }
 
+.biz-side {
+  display: flex;
+  flex-direction: column;
+}
+
+.biz-minor {
+  border-top: 1px solid var(--hair);
+  padding-block: clamp(10px, 1.8svh, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.biz-minor:last-child { border-bottom: 1px solid var(--hair); }
+
+.biz-minor__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.biz-minor__name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(17px, min(4.8vw, 2.6svh), 22px);
+  color: var(--fg);
+}
+
+.biz-minor__fee {
+  font-size: clamp(9px, 2.4vw, 10px);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: right;
+  flex: none;
+}
+
+.biz-minor__copy {
+  font-size: clamp(11px, min(3vw, 1.6svh), 14px);
+  line-height: 1.4;
+  color: var(--fg-dim);
+  text-wrap: pretty;
+}
 
 
 /* ─────────────────────────────────────────────────────────────────────────
    06 — The bet
+   A "by the numbers" sidebar: numerals inline in the sentence, set in the
+   display serif — structurally nothing like the traction stats.
    ───────────────────────────────────────────────────────────────────────── */
 
 .bet .glow {
@@ -1362,10 +1455,11 @@ body {
 .bet .stage {
   display: flex;
   flex-direction: column;
-  gap: clamp(20px, 3.5svh, 32px);
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
+  justify-content: center;
+  gap: clamp(16px, 3svh, 26px);
+  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(44px, 7svh, 64px))
            var(--pad)
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
+           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(24px, 4svh, 40px));
   overflow: hidden;
 }
 
@@ -1376,59 +1470,71 @@ body {
 .bet-headline {
   position: relative;
   z-index: 2;
-  font-size: clamp(26px, 7vw, 36px);
-  font-weight: 700;
-  line-height: 1.22;
+  font-family: var(--serif);
+  font-size: clamp(23px, min(6.6vw, 3.6svh), 32px);
+  font-weight: 600;
+  line-height: 1.16;
   letter-spacing: -0.01em;
   color: #fff;
   text-wrap: pretty;
   max-width: 22rem;
 }
-.bet-headline .accent { color: var(--gold); }
+.bet-headline .accent {
+  color: inherit;
+  font-style: italic;
+  font-weight: 500;
+}
 
-.bet-stats {
+.bet-list {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: clamp(18px, 3svh, 28px);
 }
 
-.bet-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.bet-row {
+  border-top: 1px solid var(--hair);
+  padding-block: clamp(10px, 2svh, 16px);
+  display: grid;
+  grid-template-columns: clamp(64px, 18vw, 84px) 1fr;
+  gap: 12px;
+  align-items: start;
 }
-.bet-stat__num {
-  font-size: clamp(40px, 11vw, 52px);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: #fff;
-}
-.bet-stat__num--gold { color: var(--gold); }
-.bet-stat__label {
-  font-size: clamp(13px, 3.4vw, 15px);
-  font-weight: 700;
+
+.bet-row__tag {
+  font-size: clamp(9px, 2.4vw, 10px);
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
+  padding-top: 7px;
 }
-.bet-stat__copy {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(13px, 3.4vw, 15px);
-  line-height: 1.4;
-  color: rgba(244,237,227,0.55);
+
+.bet-row__line {
+  font-size: clamp(12px, min(3.3vw, 1.8svh), 15px);
+  line-height: 1.45;
+  color: var(--fg-dim);
   text-wrap: pretty;
+}
+
+.bet-row__num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(22px, min(6.4vw, 3.2svh), 30px);
+  line-height: 1;
+  color: var(--fg);
+  margin-right: 7px;
 }
 
 .bet-sources {
   position: relative;
   z-index: 2;
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(11px, 2.8vw, 13px);
+  font-size: clamp(10px, 2.6vw, 12px);
   line-height: 1.5;
-  color: rgba(244,237,227,0.45);
+  color: var(--fg-faint);
+  border-top: 1px solid var(--hair);
+  padding-top: clamp(8px, 1.4svh, 12px);
 }
 
 
@@ -1446,21 +1552,23 @@ body {
 .reason .stage {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: clamp(18px, 3svh, 28px);
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
+  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(44px, 7svh, 64px))
            var(--pad)
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
+           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(24px, 4svh, 40px));
   overflow: hidden;
 }
 
 .reason-headline {
   position: relative;
   z-index: 2;
-  font-size: clamp(26px, 7vw, 34px);
-  font-weight: 700;
-  line-height: 1.15;
+  font-family: var(--serif);
+  font-size: clamp(22px, min(6vw, 3.4svh), 30px);
+  font-weight: 600;
+  line-height: 1.18;
   letter-spacing: -0.01em;
-  color: var(--rose);
+  color: #fff;
   text-wrap: pretty;
 }
 
@@ -1469,7 +1577,7 @@ body {
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0;
 }
 
 .reason-row {
@@ -1478,23 +1586,24 @@ body {
   gap: 4px;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(223,205,180,0.35);
+  border-bottom: 1px solid var(--hair);
 }
 .reason-row--head {
-  border-bottom: 2px solid #200505;
+  border-bottom: 1px solid var(--hair-gold);
   padding-bottom: 12px;
 }
 .reason-row--madam {
-  background: rgba(166,39,63,0.14);
+  background: rgba(61,8,19,0.6);
   margin: 0 -8px;
   padding-left: 8px;
   padding-right: 8px;
-  border-radius: 8px;
 }
 
 .reason-colhead {
-  font-size: clamp(9px, 2.3vw, 12px);
+  font-size: clamp(8px, 2.1vw, 10px);
   font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: rgba(244,237,227,0.6);
   text-align: center;
   line-height: 1.25;
@@ -1506,12 +1615,12 @@ body {
   min-width: 0;
 }
 .reason-brand__name {
+  font-family: var(--serif);
   font-size: clamp(15px, 4vw, 18px);
-  font-weight: 700;
+  font-weight: 600;
   color: #fff;
 }
 .reason-brand__meta {
-  font-family: 'Poppins', sans-serif;
   font-size: clamp(10px, 2.4vw, 12px);
   color: var(--gold);
   line-height: 1.3;
@@ -1520,18 +1629,16 @@ body {
 
 .reason-cell {
   text-align: center;
-  font-size: clamp(16px, 4.2vw, 20px);
-  font-weight: 400;
-  color: rgba(201,181,154,0.4);
+  font-size: clamp(15px, 4vw, 19px);
+  font-weight: 500;
+  color: var(--fg-faint);
 }
-.reason-cell--yes {
-  color: var(--rose);
-  font-weight: 700;
-}
+.reason-cell--yes { color: var(--rose); }
 
 
 /* ─────────────────────────────────────────────────────────────────────────
    08 — The team
+   A typographic roster: names carry the slide, logos are punctuation.
    ───────────────────────────────────────────────────────────────────────── */
 
 .team .glow {
@@ -1544,53 +1651,59 @@ body {
 .team .stage {
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 4svh, 40px);
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
+  justify-content: center;
+  gap: clamp(18px, 3svh, 30px);
+  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(44px, 7svh, 64px))
            var(--pad)
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
+           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(24px, 4svh, 40px));
   overflow: hidden;
 }
 
 .team-headline {
   position: relative;
   z-index: 2;
-  font-size: clamp(26px, 7vw, 34px);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--rose);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(19px, min(5.6vw, 3svh), 28px);
+  line-height: 1.3;
+  letter-spacing: 0.002em;
+  color: rgba(244,237,227,0.85);
   text-wrap: pretty;
+  max-width: 20rem;
 }
 
 .team-grid {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(22px, 4svh, 36px) clamp(16px, 4vw, 28px);
-  align-items: center;
-  flex: 1;
-  align-content: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .team-logo {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 10px;
-  text-align: center;
+  justify-content: flex-start;
+  gap: 14px;
+  text-align: left;
+  border-top: 1px solid var(--hair);
+  padding-block: clamp(9px, 1.7svh, 15px);
 }
+.team-logo:last-child { border-bottom: 1px solid var(--hair); }
+
 .team-logo img {
-  height: clamp(36px, 8vw, 52px);
+  height: clamp(15px, min(4vw, 2.2svh), 20px);
   width: auto;
-  max-width: 100%;
+  max-width: 64px;
   display: block;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 .team-logo span {
-  font-size: clamp(12px, 3vw, 14px);
-  font-weight: 600;
-  color: rgba(244,237,227,0.55);
+  font-family: var(--serif);
+  font-size: clamp(19px, min(5.4vw, 3svh), 28px);
+  font-weight: 500;
+  color: var(--fg);
 }
 
 
@@ -1608,21 +1721,23 @@ body {
 .roadmap .stage {
   display: flex;
   flex-direction: column;
-  gap: clamp(20px, 3.5svh, 32px);
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
+  justify-content: center;
+  gap: clamp(18px, 3svh, 28px);
+  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(44px, 7svh, 64px))
            var(--pad)
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
+           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(24px, 4svh, 40px));
   overflow: hidden;
 }
 
 .roadmap-headline {
   position: relative;
   z-index: 2;
-  font-size: clamp(26px, 7vw, 34px);
-  font-weight: 700;
-  line-height: 1.15;
+  font-family: var(--serif);
+  font-size: clamp(22px, min(6vw, 3.4svh), 30px);
+  font-weight: 600;
+  line-height: 1.18;
   letter-spacing: -0.01em;
-  color: var(--rose);
+  color: #fff;
   text-wrap: pretty;
 }
 
@@ -1631,7 +1746,7 @@ body {
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: clamp(18px, 3svh, 26px);
+  gap: clamp(14px, 2.6svh, 22px);
 }
 
 .mile {
@@ -1644,41 +1759,50 @@ body {
 .mile__rail { display: none; }
 
 .mile__mark {
-  grid-row: 1 / span 2;
+  grid-row: 1 / span 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding-top: 4px;
+  padding-top: 5px;
 }
 .mile__dot {
-  width: 12px;
-  height: 12px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: rgba(244,237,227,0.85);
   flex: none;
 }
 .mile--now .mile__dot { background: var(--gold); }
 .mile__line {
-  width: 2px;
+  width: 1px;
   flex: 1;
-  min-height: 28px;
-  background: rgba(244,237,227,0.18);
+  min-height: 26px;
+  background: var(--hair);
 }
 .mile:last-child .mile__line { display: none; }
 
+.mile__id {
+  font-size: clamp(11px, 2.8vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: rgba(244,237,227,0.85);
+}
+.mile--now .mile__id { color: var(--gold); }
+.mile--far .mile__id { color: rgba(244,237,227,0.5); }
+
 .mile__title {
-  font-size: clamp(16px, 4.2vw, 20px);
-  font-weight: 700;
+  font-family: var(--serif);
+  font-size: clamp(16px, min(4.2vw, 2.3svh), 20px);
+  font-weight: 500;
   line-height: 1.25;
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.6);
   text-wrap: pretty;
 }
 .mile--now .mile__title { color: var(--gold); }
 
 .mile__sub {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(13px, 3.4vw, 15px);
+  font-size: clamp(12px, 3.2vw, 14px);
   line-height: 1.4;
   color: rgba(244,237,227,0.5);
 }
@@ -1686,6 +1810,7 @@ body {
 
 /* ─────────────────────────────────────────────────────────────────────────
    10 — Traction
+   Numerals in the display serif, ledger-style columns.
    ───────────────────────────────────────────────────────────────────────── */
 
 .traction .glow {
@@ -1698,20 +1823,22 @@ body {
 .traction .stage {
   display: flex;
   flex-direction: column;
-  gap: clamp(22px, 3.5svh, 36px);
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
+  justify-content: center;
+  gap: clamp(16px, 2.8svh, 28px);
+  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(44px, 7svh, 64px))
            var(--pad)
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
+           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(24px, 4svh, 40px));
   overflow: hidden;
 }
 
 .traction-headline {
   position: relative;
   z-index: 2;
-  font-size: clamp(34px, 9vw, 48px);
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  font-family: var(--serif);
+  font-size: clamp(30px, min(8.4vw, 4.6svh), 44px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
   color: #fff;
 }
 .traction-headline .accent { color: var(--gold); }
@@ -1719,49 +1846,59 @@ body {
 .traction-channels {
   position: relative;
   z-index: 2;
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(13px, 3.4vw, 15px);
-  line-height: 1.4;
-  color: rgba(244,237,227,0.5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  font-size: clamp(11px, 3vw, 13px);
+  color: var(--fg-dim);
+}
+.traction-channels .sep { color: rgba(244,237,227,0.25); }
+.traction-channels .shipped {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
+/* 2x2 ledger so nothing clips a short phone. */
 .traction-stats {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(18px, 3svh, 26px);
-  border-top: 1px solid rgba(244,237,227,0.15);
-  padding-top: clamp(18px, 3svh, 28px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 2.4svh, 22px) 18px;
+  border-top: 1px solid var(--hair);
+  padding-top: clamp(14px, 2.4svh, 24px);
 }
 
 .trac {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 .trac__numrow {
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 .trac__num {
-  font-size: clamp(56px, 16vw, 72px);
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.03em;
+  font-family: var(--serif);
+  font-size: clamp(34px, min(10vw, 4.6svh), 52px);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
   color: #fff;
 }
 .trac__num--gold { color: var(--gold); }
 .trac__unit {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(16px, 4vw, 18px);
-  color: rgba(244,237,227,0.45);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(13px, 3.4vw, 15px);
+  color: var(--fg-faint);
 }
 .trac__copy {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(13px, 3.4vw, 15px);
+  font-size: clamp(11px, 2.9vw, 13px);
   line-height: 1.45;
   color: rgba(244,237,227,0.6);
   text-wrap: pretty;
@@ -1770,67 +1907,79 @@ body {
 .traction-note {
   position: relative;
   z-index: 2;
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(13px, 3.4vw, 15px);
-  color: rgba(244,237,227,0.4);
-  margin-top: auto;
+  font-size: clamp(11px, 3vw, 13px);
+  color: var(--fg-faint);
 }
 
 
 /* ─────────────────────────────────────────────────────────────────────────
    11 — The raise
+   Full maroon field; the ask reads as one composed sentence, no eyebrow.
    ───────────────────────────────────────────────────────────────────────── */
 
-.raise .glow {
-  top: 0;
-  left: -20%;
-  width: 160vw;
-  height: 120vh;
-}
+.slide.raise { background: var(--maroon-900); }
+
+.raise .glow { display: none; }
 
 .raise .stage {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(12px, 2svh, 20px);
+  gap: clamp(12px, 2.2svh, 20px);
   overflow: hidden;
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
+  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(44px, 7svh, 64px))
            var(--pad)
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
+           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(24px, 4svh, 40px));
 }
 
 .raise-kicker {
   position: relative;
   z-index: 2;
-  font-size: clamp(22px, 5.6vw, 30px);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: rgba(244,237,227,0.9);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(18px, 5vw, 24px);
+  letter-spacing: 0.002em;
+  text-transform: none;
+  color: rgba(244,237,227,0.88);
+}
+.raise-kicker::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin-bottom: clamp(12px, 2.4svh, 20px);
 }
 
 .raise-amount {
   position: relative;
   z-index: 2;
-  font-size: clamp(56px, 18vw, 96px);
-  font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.03em;
-  color: var(--gold);
+  font-family: var(--serif);
+  font-size: clamp(56px, 17vw, 150px);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--fg);
 }
+.raise-amount::first-letter { color: var(--gold); }
 
 .raise-sub {
   position: relative;
   z-index: 2;
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(16px, 4.2vw, 20px);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(16px, 4.4vw, 20px);
   line-height: 1.5;
-  color: rgba(244,237,227,0.55);
+  color: rgba(244,237,227,0.82);
 }
+
+.raise .tag { color: rgba(244,237,227,0.55); }
 
 
 /* ═════════════════════════════════════════════════════════════════════════
-   WIDE — the authored 1920x1080 compositions. px / 19.2 = cqw.
+   WIDE — the 16:9 editorial spreads. px / 19.2 = cqw.
    ═════════════════════════════════════════════════════════════════════════ */
 
 @media (min-width: 860px) and (orientation: landscape) {
@@ -1842,9 +1991,6 @@ body {
 
   .stage {
     width: min(100vw, calc(100svh * 16 / 9));
-    /* height must be auto or aspect-ratio is ignored — narrow sets 100%,
-       which silently made the canvas the full viewport height and pushed
-       every bottom-anchored element below the authored 1080 frame. */
     height: auto;
     min-height: 0;
     aspect-ratio: 16 / 9;
@@ -1852,21 +1998,33 @@ body {
     overflow: hidden;
   }
 
-  .logo {                          /* 100 wide, top 64, left 80 */
+  .logo {
     top: 3.333cqw;
     left: 4.167cqw;
     width: 5.208cqw;
-    z-index: 2;
+    z-index: 3;
   }
 
-  /* The cover is authored with a larger mark than the interior slides. */
-  .cover .logo { width: 7.292cqw; }   /* 140 */
+  .cover .logo { width: 7.292cqw; }
 
-  /* ── 00 Demo ── */
+  /* Folio, bottom-outer corner of the canvas. */
+  .tag {
+    right: 2.6cqw;
+    bottom: 2.29cqw;
+    gap: 0.63cqw;
+    font-size: 0.68cqw;
+  }
+
+  .eyebrow {
+    font-size: 1.05cqw;
+    margin-bottom: 0.938cqw;
+  }
+
+  /* ── 00 Demo: tilted device cropping the top edge, marginalia left ── */
 
   .demo .glow {
-    left: -10.417cqw;
-    top: 10.417cqw;
+    left: 30cqw;
+    top: 8cqw;
     width: 72.917cqw;
     height: 57.292cqw;
     border-radius: 52.083cqw;
@@ -1874,60 +2032,92 @@ body {
   }
 
   .demo .logo {
-    width: 4.167cqw;                           /* 80 — lighter than other slides */
+    width: 4.167cqw;
     top: 2.917cqw;
     left: 3.646cqw;
   }
 
   .demo .stage {
-    display: grid;
-    place-items: center;
-    padding: 0 0 2.5cqw;
+    display: block;
+    padding: 0;
+  }
+
+  .demo-main {
+    position: absolute;
+    inset: 0;
+    display: block;
+    max-width: none;
     gap: 0;
   }
 
-  /* Only slide whose content reaches the foot of the canvas; the mark would
-     land on the store badges. */
-  .demo .stage-mark { display: none; }
-
-  .demo-main {
-    gap: 1.667cqw;
+  .demo-phone {
+    position: absolute;
+    right: 12cqw;
+    top: 50%;
+    width: 26cqw;
+    transform: translateY(-53%) rotate(-3deg);
+    border-radius: 2.6cqw;
+    box-shadow: 1.6cqw 2.6cqw 5.2cqw rgba(0,0,0,0.55);
   }
 
-  .demo-focus {
-    gap: 1.667cqw;                 /* 32 */
-    padding-right: 0;
+  .demo-rail {
+    position: absolute;
+    left: 5.2cqw;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 27cqw;
+    align-self: auto;
+    justify-content: flex-start;
+    gap: 4cqw;
+    padding: 0;
   }
 
-  .demo-phone {                    /* larger hero phone on desktop */
-    /* Width-capped on wide windows, height-capped at 16:9 and taller, where
-       24cqw alone overflowed the stage and clipped the store badges. The
-       9cqw subtrahend is the chrome below the phone: gap + badges + pad. */
-    width: min(24cqw, calc((100cqh - 9cqw) * 402 / 874));
-    border-radius: 2.917cqw;       /* 56 */
-    box-shadow: 0 2.083cqw 5.208cqw rgba(0,0,0,0.6);
+  .demo-stores {
+    width: 100%;
+    gap: 0.9cqw;
   }
-
-  .demo-stores { gap: 0.417cqw; }
-  .demo-stores__live { font-size: 0.677cqw; letter-spacing: 0.22em; }
-  .demo-stores__row { gap: 0.521cqw; }
+  .demo-stores__live {
+    font-size: 0.78cqw;
+    letter-spacing: 0.24em;
+  }
+  .demo-stores__row { width: 100%; }
   .demo-store {
-    gap: 0.417cqw;
-    padding: 0.417cqw 0.729cqw;
-    font-size: 0.729cqw;
+    width: 100%;
+    gap: 1.1cqw;
+    padding: 1.15cqw 0;
+    font-size: 0;
   }
-  .demo-store img { width: 0.833cqw; height: 0.833cqw; }
+  .demo-store span {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 2.2cqw;
+    letter-spacing: -0.005em;
+    color: var(--fg);
+  }
+  .demo-store img { width: 1.56cqw; height: 1.56cqw; }
 
-  .nav-tip { gap: 0.833cqw; }
-  .nav-tip__rule { height: 2.5cqw; }
-  .nav-tip__label { font-size: 0.729cqw; letter-spacing: 0.28em; }
-  .nav-tip__icon { width: 1.667cqw; height: 1.667cqw; }   /* 32 */
-  .nav-tip__icon svg { width: 0.729cqw; height: 0.729cqw; }
+  /* Tap cue turns horizontal under the store roster. */
+  .nav-tip {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.9cqw;
+    transform: translateY(6px);
+  }
+  .nav-tip.is-visible { transform: translateY(0); }
+  .nav-tip__rule { width: 3cqw; height: 1px; }
+  .nav-tip__label {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 0.73cqw;
+    letter-spacing: 0.28em;
+  }
+  .nav-tip__icon { width: 1.67cqw; height: 1.67cqw; }
+  .nav-tip__icon svg { width: 0.73cqw; height: 0.73cqw; }
 
-  .demo-cta { gap: 0.729cqw; }
-  .demo-cta__icon { width: 3.646cqw; height: 3.646cqw; }   /* 70 */
-  .demo-cta__icon svg { width: 1.458cqw; height: 1.458cqw; margin-left: 0.156cqw; }
-  .demo-cta__label { font-size: 0.833cqw; letter-spacing: 0.18em; }
+  .demo-cta { gap: 0.73cqw; }
+  .demo-cta__icon { width: 3.65cqw; height: 3.65cqw; }
+  .demo-cta__icon svg { width: 1.46cqw; height: 1.46cqw; margin-left: 0.16cqw; }
+  .demo-cta__label { font-size: 0.78cqw; letter-spacing: 0.2em; }
 
   .demo-bar {
     left: 0.833cqw;
@@ -1938,51 +2128,40 @@ body {
     border-radius: 9999px;
   }
 
-  .demo-play { width: 1.667cqw; height: 1.667cqw; }     /* 32 */
+  .demo-play { width: 1.667cqw; height: 1.667cqw; }
   .demo-play__icon { width: 0.677cqw; height: 0.677cqw; }
-  .demo-track { height: 1.354cqw; }                      /* 26 hit area */
+  .demo-track { height: 1.354cqw; }
   .demo-track::before,
-  .demo-track__fill { height: 0.156cqw; }                /* 3 */
+  .demo-track__fill { height: 0.11cqw; }
   .demo-track__thumb { width: 0.625cqw; height: 0.625cqw; }
   .demo-time { font-size: 0.573cqw; min-width: 2.4cqw; }
   .demo-speed { font-size: 0.521cqw; padding: 0.156cqw 0.365cqw; }
 
-  /* ── 01 Cover ── */
+  /* ── 01 Cover: full-bleed photograph, masthead set into it ── */
 
-  .cover .glow {                   /* -200,200  1400x1100  r1000 */
-    left: -10.417cqw;
-    top: 10.417cqw;
-    width: 72.917cqw;
-    height: 57.292cqw;
-    border-radius: 52.083cqw;
-    transform: none;
-  }
+  .cover .glow { display: none; }
 
-  .cover .logo { width: 7.292cqw; }         /* 140 */
-
-  .cover-photo {                   /* inset 48, width 880, radius 32 */
-    top: 2.5cqw;
-    right: 2.5cqw;
-    bottom: 2.5cqw;
-    left: auto;
-    width: 45.833cqw;
-    border-radius: 1.667cqw;
+  .cover-photo {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    border-radius: 0;
     background: #0A0A0A;
-    box-shadow: 0 0 4.167cqw 1.563cqw rgba(0,0,0,0.85),
-                0 0 8.333cqw 3.125cqw rgba(0,0,0,0.55);
-    /* No edge fade on desktop — it's a defined card there. */
+    box-shadow: none;
     -webkit-mask-image: none;
     mask-image: none;
   }
 
-  .cover-scrim {                   /* deck vignette + edge falloff */
+  .cover-photo img { object-position: center 15%; }
+
+  .cover-scrim {
     background:
-      radial-gradient(ellipse at center,
-        rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%),
-      linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 18%,
-        rgba(0,0,0,0) 70%, rgba(0,0,0,0.55) 100%),
-      linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 14%,
-        rgba(0,0,0,0) 86%, rgba(0,0,0,0.35) 100%);
+      linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.3) 38%, rgba(0,0,0,0) 62%),
+      linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 22%,
+        rgba(0,0,0,0) 52%, rgba(0,0,0,0.82) 100%),
+      linear-gradient(180deg, rgba(61,8,19,0) 55%, rgba(61,8,19,0.5) 100%);
   }
 
   .cover-body {
@@ -1990,43 +2169,47 @@ body {
     left: auto; right: auto; bottom: auto;
   }
 
-  .cover-tagline {                 /* left 79, top 529, 31px */
+  .cover-tagline {
     position: absolute;
-    left: 4.115cqw;
-    top: 27.552cqw;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.615cqw;
-    font-weight: 200;
-    letter-spacing: 0.01em;
+    left: 4.7cqw;
+    bottom: 25.8cqw;
+    font-size: 1.9cqw;
+    font-weight: 300;
     line-height: 1.4;
-    color: rgba(244,237,227,0.78);
+    color: rgba(244,237,227,0.92);
     margin: 0;
-    text-shadow: none;
+    text-shadow: 0 1px 14px rgba(0,0,0,0.5);
     white-space: nowrap;
-    /* Above the wordmark so “connect. belong” isn’t painted over. */
     z-index: 3;
   }
 
-  .cover-wordmark {                /* left 46, top 541, 520px */
+  .cover-wordmark {
     position: absolute;
-    left: 2.396cqw;
-    top: 28.177cqw;
-    font-size: 27.083cqw;
-    line-height: 0.85;
-    text-shadow: none;
+    left: 4.2cqw;
+    bottom: 7.9cqw;
+    font-size: 21cqw;
+    line-height: 0.86;
+    text-shadow: 0 2px 30px rgba(0,0,0,0.45);
     pointer-events: none;
     z-index: 2;
   }
 
-  .stage-mark {                    /* bottom 34, 58x26 */
-    display: block;
-    bottom: 1.771cqw;
-    width: 3.021cqw;
-    height: 1.354cqw;
-    z-index: 2;
+  .cover-meta {
+    position: absolute;
+    left: 4.7cqw;
+    right: 4.7cqw;
+    bottom: 2.6cqw;
+    margin-top: 0;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 1.25cqw;
+    padding-top: 1.1cqw;
+    border-top: 1px solid rgba(244,237,227,0.32);
+    font-size: 0.94cqw;
+    z-index: 3;
   }
 
-  /* ── 02 The problem ── */
+  /* ── 02 The problem: serpentine kept, cards flattened ── */
 
   .problem .glow {
     left: -10.417cqw;
@@ -2037,14 +2220,14 @@ body {
     transform: none;
   }
 
-  .problem .logo { width: 5.208cqw; }       /* 100 */
+  .problem .logo { width: 5.208cqw; }
 
   .problem .stage {
     display: block;
     padding: 0;
   }
 
-  .problem-head {                  /* left 80, top 158, width 1560 */
+  .problem-head {
     position: absolute;
     left: 4.167cqw;
     top: 8.229cqw;
@@ -2052,12 +2235,12 @@ body {
     margin-bottom: 0;
   }
 
-  .problem-head h2 {               /* 54px */
-    font-size: 2.813cqw;
-    text-wrap: balance;
+  .problem-head h2 {
+    font-size: 2.9cqw;
+    white-space: nowrap;
   }
 
-  .flow {                          /* connector arrows, authored viewBox */
+  .flow {
     display: block;
     position: absolute;
     inset: 0;
@@ -2067,7 +2250,6 @@ body {
     z-index: 1;
   }
 
-  /* Cards return to absolute serpentine placement. */
   .chain-wrap,
   .chain {
     position: static;
@@ -2079,30 +2261,30 @@ body {
 
   .chain-path { display: none; }
 
-  .step {                          /* 272 wide, radius 20 */
+  .step {
     position: absolute;
     display: block;
     width: 14.167cqw;
-    border-radius: 1.042cqw;
+    border-radius: 0.31cqw;
     overflow: hidden;
-    background: var(--card);
-    border: 1px solid var(--card-line);
+    background: #100304;
+    border: 1px solid var(--hair);
     text-align: left;
     z-index: 2;
   }
   .step:nth-child(even) .step__thumb { order: 0; }
 
-  .step:nth-child(1) { left: 4.167cqw;  top: 34.375cqw; }   /* 80,  660 */
-  .step:nth-child(2) { left: 4.167cqw;  top: 17.708cqw; }   /* 80,  340 */
-  .step:nth-child(3) { left: 23.542cqw; top: 34.375cqw; }   /* 452, 660 */
-  .step:nth-child(4) { left: 23.542cqw; top: 17.708cqw; }   /* 452, 340 */
-  .step:nth-child(5) { left: 42.917cqw; top: 34.375cqw; }   /* 824, 660 */
-  .step:nth-child(6) { left: 42.917cqw; top: 17.708cqw; }   /* 824, 340 */
-  .step:nth-child(7) { left: 62.292cqw; top: 34.375cqw; }   /* 1196,660 */
-  .step:nth-child(8) { left: 62.292cqw; top: 17.708cqw; }   /* 1196,340 */
-  .step:nth-child(9) { left: 81.667cqw; top: 17.708cqw; }   /* 1568,340 */
+  .step:nth-child(1) { left: 4.167cqw;  top: 34.375cqw; }
+  .step:nth-child(2) { left: 4.167cqw;  top: 17.708cqw; }
+  .step:nth-child(3) { left: 23.542cqw; top: 34.375cqw; }
+  .step:nth-child(4) { left: 23.542cqw; top: 17.708cqw; }
+  .step:nth-child(5) { left: 42.917cqw; top: 34.375cqw; }
+  .step:nth-child(6) { left: 42.917cqw; top: 17.708cqw; }
+  .step:nth-child(7) { left: 62.292cqw; top: 34.375cqw; }
+  .step:nth-child(8) { left: 62.292cqw; top: 17.708cqw; }
+  .step:nth-child(9) { left: 81.667cqw; top: 17.708cqw; }
 
-  .step__thumb {                   /* 172 tall, square top corners */
+  .step__thumb {
     width: 100%;
     height: 8.958cqw;
     border: 0;
@@ -2112,31 +2294,31 @@ body {
 
   .step__n { display: none; }
 
-  /* Label row: icon + text, or centred text where the deck has no icon. */
   .step__text {
     display: flex;
     align-items: center;
-    gap: 0.729cqw;                 /* 14 */
-    padding: 0.833cqw 0.938cqw 0.938cqw;   /* 16 18 18 */
+    gap: 0.729cqw;
+    padding: 0.833cqw 0.938cqw 0.938cqw;
+    border-top: 1px solid var(--hair);
   }
   .step--center .step__text {
     justify-content: center;
     text-align: center;
   }
 
-  .step__icon {                    /* 60x60 */
+  .step__icon {
     display: block;
-    width: 3.125cqw;
-    height: 3.125cqw;
+    width: 2.6cqw;
+    height: 2.6cqw;
     flex: none;
     object-fit: contain;
   }
 
-  .step__label { font-size: 1.302cqw; }     /* 25 */
+  .step__label { font-size: 1.15cqw; }
 
   /* ── 03 Founder ── */
 
-  .founder .glow {                 /* -360,-160  2000x1600  r1200 */
+  .founder .glow {
     left: -18.75cqw;
     top: -8.333cqw;
     width: 104.167cqw;
@@ -2145,43 +2327,43 @@ body {
     transform: none;
   }
 
-  .founder .stage {                /* text column: left 100, centred */
+  .founder .stage {
     display: block;
     gap: 0;
     padding: 0;
   }
 
-  /* Pinned rather than centred so the hand-drawn arrow, which is authored
-     in absolute coordinates, still meets the name and the portrait. */
   .founder-head {
     position: absolute;
     left: 5.208cqw;
-    top: 17.969cqw;                /* 345 */
+    top: 17.969cqw;
   }
 
-  .founder-name {                  /* 182 */
-    font-size: 9.5cqw;
+  .founder .eyebrow { font-size: 1.5cqw; }
+
+  .founder-name {
+    font-size: 7.9cqw;
+    margin-top: 1.4cqw;
   }
 
-  .founder-rule {                  /* 360x10, 6 below the name */
-    width: 18.75cqw;
-    height: 0.521cqw;
-    margin-top: 0.313cqw;
+  .founder-rule {
+    width: 15cqw;
+    height: 0.08cqw;
+    margin-top: 0.9cqw;
   }
 
-  .founder-quote {                 /* 940 wide, gap 26 */
+  .founder-quote {
     position: absolute;
     left: 5.208cqw;
-    top: 31.354cqw;                /* 602 */
+    top: 31.354cqw;
     width: 48.958cqw;
     gap: 1.354cqw;
   }
 
-  .founder-quote__mark { font-size: 7.813cqw; }   /* 150 */
-  .founder-quote p     { font-size: 2.708cqw; }   /* 52  */
+  .founder-quote__mark { font-size: 7.813cqw; }
+  .founder-quote p     { font-size: 2.708cqw; }
 
-  /* Portrait, note and credentials cluster, bottom right. */
-  .founder-who {                   /* right 80, bottom 72 */
+  .founder-who {
     position: absolute;
     right: 4.167cqw;
     bottom: 3.75cqw;
@@ -2189,19 +2371,18 @@ body {
     z-index: 4;
   }
 
-  .founder-who__col { gap: 0.938cqw; }            /* 18 */
+  .founder-who__col { gap: 0.938cqw; }
 
-  .founder-portrait {              /* 170 inside a 5px ring */
+  .founder-portrait {
     width: 9.375cqw;
-    border-width: 0.26cqw;
+    border-width: 0.14cqw;
   }
 
-  .founder-note {                  /* 76, to the right of him */
+  .founder-note {
     font-size: 3.958cqw;
     white-space: nowrap;
   }
 
-  /* The narrow arrow is replaced by the authored hand-drawn one. */
   .founder-arrow { display: none; }
 
   .founder-sketch {
@@ -2215,46 +2396,68 @@ body {
     pointer-events: none;
   }
 
-  /* These scale with the canvas, so cqw rather than the narrow clamps. */
-  .founder-creds { gap: 1.146cqw; }               /* 22 */
+  .founder-creds { gap: 1.146cqw; }
 
-  .founder-creds svg {                           /* 38 */
+  .founder-creds svg {
     width: 1.979cqw;
     height: 1.979cqw;
   }
 
-  .founder-creds img { height: 2.396cqw; }       /* 46 */
+  .founder-creds img { height: 2.396cqw; }
 
-  .founder-creds__sep {                          /* 1x30 */
-    width: 0.052cqw;
+  .founder-creds__sep {
+    width: 1px;
     height: 1.563cqw;
+  }
+
+  /* ── 04 Product: staggered, tilted devices over a maroon band ── */
+
+  .product .glow {
+    left: -10.417cqw;
+    top: -14cqw;
+    width: 72.917cqw;
+    height: 57.292cqw;
+    border-radius: 52.083cqw;
+    transform: none;
+  }
+
+  .product-field {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 17cqw;
+    background: var(--maroon-900);
+    z-index: 0;
+    pointer-events: none;
   }
 
   .product .stage {
     display: block;
     height: auto;
-    overflow: visible;
+    overflow: hidden;
     padding: 0 4.167cqw 4.167cqw;
   }
 
   .product-rail {
     position: absolute;
-    left: 5.208cqw;                /* 100 */
+    left: 5.208cqw;
     right: 5.208cqw;
-    top: 8.854cqw;                 /* 170 */
-    bottom: 6.25cqw;               /* 120 — room for tag */
+    top: 7.3cqw;
+    bottom: 5.5cqw;
     flex: none;
     min-height: 0;
     width: auto;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .product-row {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     align-items: start;
-    column-gap: 3.333cqw;          /* 64 */
+    column-gap: 3cqw;
     width: 100%;
     overflow-x: visible;
     overflow-y: visible;
@@ -2273,51 +2476,70 @@ body {
     align-items: flex-start;
     justify-content: flex-start;
     text-align: left;
-    gap: 1.146cqw;                  /* 22 */
+    gap: 1cqw;
     padding-inline: 0;
     scroll-snap-stop: normal;
     opacity: 1;
     transform: none;
     transition: none;
   }
+  .product-item:nth-child(even) { transform: translateY(3.2cqw); }
 
-  /* Authored 313×640 — wide only; narrow keeps its own phone clamp. */
   .product-phone {
     width: 16.302cqw;
     max-width: 100%;
     margin: 0 auto;
-    border-radius: 2.292cqw;       /* 44 */
-    box-shadow: 0 1.25cqw 3.125cqw rgba(0,0,0,0.6);
+    border-radius: 2.292cqw;
+    box-shadow: 1cqw 1.6cqw 3.6cqw rgba(0,0,0,0.55);
+    transition: none;
   }
+  .product-item:nth-child(odd) .product-phone  { transform: rotate(-1.7deg); }
+  .product-item:nth-child(even) .product-phone { transform: rotate(1.5deg); }
+  .product-item.is-current .product-phone { transform: none; }
+  .product-item.is-current:nth-child(odd) .product-phone  { transform: rotate(-1.7deg); }
+  .product-item.is-current:nth-child(even) .product-phone { transform: rotate(1.5deg); }
 
   .product-meta {
-    margin: 0;
+    margin: 1.1cqw 0 0;
     text-align: left;
     max-width: none;
     padding-inline: 0;
     visibility: visible;
     height: auto;
     overflow: visible;
+    width: 100%;
+    border-top: 1px solid var(--hair);
+    padding-top: 0.9cqw;
   }
 
   .product-item:not(.is-current) .product-meta {
     visibility: visible;
     height: auto;
-    margin: 0;
-    padding: 0;
+    margin: 1.1cqw 0 0;
+    padding: 0.9cqw 0 0;
     overflow: visible;
   }
 
+  .product-kicker {
+    display: block;
+    font-size: 0.9cqw;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
   .product-name {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 700;
-    font-size: 2.396cqw;           /* 46 */
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 2.3cqw;
+    margin-top: 0.2cqw;
   }
 
   .product-copy {
     margin-top: 0.35em;
-    font-size: 1.25cqw;            /* 24 */
-    line-height: 1.4;
+    font-size: 1.08cqw;
+    line-height: 1.45;
     display: block;
     -webkit-line-clamp: unset;
     overflow: visible;
@@ -2325,9 +2547,9 @@ body {
 
   .product-chrome { display: none; }
 
-  /* ── 05 Business model ── */
+  /* ── 05 Business model: dominant field + footnote column ── */
 
-  .bizmodel .glow {                /* -200, 200  1400x1100 */
+  .bizmodel .glow {
     left: -10.417cqw;
     top: 10.417cqw;
     width: 72.917cqw;
@@ -2336,57 +2558,64 @@ body {
     transform: none;
   }
 
-  .bizmodel .logo { width: 5.208cqw; }      /* 100 */
+  .bizmodel .logo { width: 5.208cqw; }
 
-  .bizmodel .stage {               /* top clears absolute logo */
+  .bizmodel .stage {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 2.5cqw;
+    gap: 2.2cqw;
     height: auto;
     overflow: hidden;
-    padding: 8.333cqw 5.208cqw 6.042cqw;  /* 160 / 100 / 116 */
+    padding: 8.333cqw 5.208cqw 6.042cqw;
   }
 
-  .bizmodel-headline {             /* 64 */
-    font-size: 3.333cqw;
-  }
+  .bizmodel-kicker { font-size: 3.1cqw; }
 
-  .bizmodel-row {                  /* 3 cols, gap 80 */
+  .bizmodel-row {
     flex: 1;
     min-height: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4.167cqw;
-    align-items: center;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 0 3.6cqw;
+    align-items: stretch;
+    justify-content: stretch;
   }
 
-  .biz-card {
-    gap: 0.833cqw;
+  .biz-primary {
+    gap: 1.2cqw;
+    padding: 3cqw 3.2cqw;
   }
 
-  .biz-card__name { font-size: 3.125cqw; }          /* 60 */
+  .biz-primary__name { font-size: 4.4cqw; }
 
-  .biz-card__fee { font-size: 1.563cqw; }           /* 30 */
-
-  .biz-card__copy {
-    font-size: 1.25cqw;                             /* 24 */
-    max-width: 22.917cqw;
+  .biz-primary__copy {
+    font-size: 1.25cqw;
+    max-width: 30cqw;
   }
 
-
-  /* ── 06 The bet ── */
-
-  .bet .glow {                     /* -260, 120  1600x1200 */
-    left: -13.542cqw;
-    top: 6.25cqw;
-    width: 83.333cqw;
-    height: 62.5cqw;
-    border-radius: 52.083cqw;
-    transform: none;
+  .biz-primary__fee {
+    margin-top: auto;
+    padding-top: 1.4cqw;
+    font-size: 2cqw;
   }
 
-  .bet .logo { width: 5.208cqw; }             /* 100 */
+  .biz-side { justify-content: center; }
+
+  .biz-minor {
+    padding-block: 1.6cqw;
+    gap: 0.6cqw;
+  }
+
+  .biz-minor__name { font-size: 2.1cqw; }
+  .biz-minor__fee  { font-size: 0.83cqw; }
+  .biz-minor__copy { font-size: 1.05cqw; max-width: 26cqw; }
+
+  /* ── 06 The bet: photo panel + ruled sidebar ── */
+
+  .bet .glow { display: none; }
+
+  .bet .logo { width: 5.208cqw; }
 
   .bet .stage {
     display: block;
@@ -2394,12 +2623,12 @@ body {
     overflow: hidden;
   }
 
-  .bet-photo {                     /* right panel 660 */
+  .bet-photo {
     display: block;
     position: absolute;
     right: 0;
     top: 0;
-    width: 34.375cqw;
+    width: 36cqw;
     height: 100%;
     overflow: hidden;
     pointer-events: none;
@@ -2411,46 +2640,64 @@ body {
     object-fit: cover;
     object-position: center 22%;
     display: block;
-    filter: grayscale(0.15) brightness(0.92);
+    filter: grayscale(0.12) brightness(0.94);
   }
   .bet-photo__scrim {
     position: absolute;
     inset: 0;
     background: linear-gradient(to right,
-      #000 0%, rgba(0,0,0,0.85) 22%, rgba(0,0,0,0.15) 62%, rgba(0,0,0,0.35) 100%);
+      #000 0%, rgba(0,0,0,0.55) 26%, rgba(0,0,0,0) 62%);
   }
 
-  .bet-headline {                  /* left 100, top 272, 1080, 52 */
+  .bet-headline {
     position: absolute;
     left: 5.208cqw;
-    top: 14.167cqw;
-    width: 56.25cqw;
+    top: 10.5cqw;
+    width: 51cqw;
     max-width: none;
-    font-size: 2.708cqw;
+    font-size: 3cqw;
     margin: 0;
+    z-index: 2;
   }
 
-  .bet-stats {                     /* left 100, top 492, gap 72 */
+  .bet-list {
     position: absolute;
     left: 5.208cqw;
-    top: 25.625cqw;
-    width: 58.333cqw;
-    max-width: none;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 3.75cqw;
+    top: 22.5cqw;
+    width: 50cqw;
+    z-index: 2;
   }
 
-  .bet-stat { gap: 0.729cqw; }               /* 14 */
-  .bet-stat__num { font-size: 2.917cqw; }    /* 56 */
-  .bet-stat__label { font-size: 1.354cqw; }  /* 26 */
-  .bet-stat__copy { font-size: 1.25cqw; }    /* 24 */
+  .bet-row {
+    grid-template-columns: 8.5cqw 1fr;
+    gap: 1.5cqw;
+    padding: 1.35cqw 0;
+  }
 
-  .bet-sources {                   /* left 100, bottom 100, 18 */
+  .bet-row__tag {
+    font-size: 0.83cqw;
+    padding-top: 0.6cqw;
+  }
+
+  .bet-row__line {
+    font-size: 1.2cqw;
+    line-height: 1.5;
+    max-width: 38cqw;
+  }
+
+  .bet-row__num {
+    font-size: 2.6cqw;
+    margin-right: 0.6cqw;
+  }
+
+  .bet-sources {
     position: absolute;
     left: 5.208cqw;
-    bottom: 5.208cqw;
-    font-size: 0.938cqw;
+    bottom: 2.9cqw;
+    font-size: 0.83cqw;
+    border-top: 0;
+    padding-top: 0;
+    z-index: 2;
   }
 
   /* ── 07 Reason one ── */
@@ -2469,16 +2716,16 @@ body {
   .reason .stage {
     display: flex;
     flex-direction: column;
-    gap: 2.292cqw;                 /* 44 */
+    gap: 2.292cqw;
     padding: 5.208cqw 5.208cqw 4.167cqw;
     overflow: hidden;
   }
 
-  .reason-headline { font-size: 3.333cqw; }  /* 64 */
+  .reason-headline { font-size: 3.2cqw; }
 
   .reason-table {
     display: grid;
-    grid-template-columns: 21.875cqw 1fr 1fr 1fr 1fr;  /* 420 */
+    grid-template-columns: 21.875cqw 1fr 1fr 1fr 1fr;
     gap: 0;
   }
 
@@ -2487,8 +2734,8 @@ body {
   }
 
   .reason-row > * {
-    padding: 0.417cqw 1.458cqw;    /* 8 28 */
-    border-bottom: 1px solid #DFCDB4;
+    padding: 0.55cqw 1.458cqw;
+    border-bottom: 1px solid var(--hair);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2504,7 +2751,7 @@ body {
 
   .reason-row--head > * {
     padding: 0 1.458cqw 1.042cqw;
-    border-bottom: 2px solid #200505;
+    border-bottom: 1px solid var(--hair-gold);
     align-items: flex-end;
   }
   .reason-row--head > :first-child {
@@ -2512,26 +2759,26 @@ body {
   }
 
   .reason-colhead {
-    font-size: 1.25cqw;            /* 24 */
+    font-size: 0.94cqw;
+    letter-spacing: 0.16em;
   }
 
-  .reason-brand__name { font-size: 1.979cqw; }   /* 38 */
-  .reason-brand__meta { font-size: 1.25cqw; }    /* 24 */
+  .reason-brand__name { font-size: 1.9cqw; }
+  .reason-brand__meta { font-size: 0.94cqw; }
 
-  .reason-cell { font-size: 1.563cqw; }          /* 30 */
-  .reason-cell--yes { font-size: 1.771cqw; }     /* 34 */
+  .reason-cell { font-size: 1.4cqw; }
+  .reason-cell--yes { font-size: 1.6cqw; }
 
   .reason-row--madam > * {
-    background: rgba(166,39,63,0.14);
+    background: rgba(61,8,19,0.6);
   }
   .reason-row--madam {
     background: transparent;
     margin: 0;
     padding: 0;
-    border-radius: 0;
   }
 
-  /* ── 08 The team ── */
+  /* ── 08 The team: masthead roster in two ruled columns ── */
 
   .team .glow {
     left: -10.417cqw;
@@ -2547,26 +2794,37 @@ body {
   .team .stage {
     display: flex;
     flex-direction: column;
-    gap: 2.917cqw;                 /* 56 */
-    padding: 5.208cqw 5.208cqw 4.167cqw;
+    gap: 2.6cqw;
+    padding: 8cqw 5.208cqw 4.6cqw;
     overflow: hidden;
   }
 
-  .team-headline { font-size: 3.333cqw; }        /* 64 */
+  .team-headline {
+    font-size: 2.4cqw;
+    max-width: 46cqw;
+  }
 
   .team-grid {
     flex: 1;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4.167cqw 2.5cqw;          /* 80 48 */
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 4.5cqw;
     align-content: center;
   }
 
-  .team-logo { gap: 0.833cqw; }                  /* 16 */
+  .team-logo {
+    gap: 1.4cqw;
+    padding: 1.45cqw 0;
+  }
+  .team-logo:last-child { border-bottom: 0; }
+  .team-logo:nth-last-child(-n+2) { border-bottom: 1px solid var(--hair); }
+
   .team-logo img {
-    height: 5cqw;                  /* 96 */
+    height: 1.9cqw;
+    max-width: 6cqw;
     filter: none;
   }
-  .team-logo span { font-size: 1.25cqw; }        /* 24 */
+  .team-logo span { font-size: 2.9cqw; }
 
   /* ── 09 Roadmap ── */
 
@@ -2589,60 +2847,51 @@ body {
     overflow: hidden;
   }
 
-  .roadmap-headline { font-size: 3.333cqw; }
+  .roadmap-headline { font-size: 3.2cqw; }
 
   .roadmap-track {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 2.083cqw;                 /* 40 */
+    gap: 2.083cqw;
     align-content: center;
   }
 
   .mile {
     display: flex;
     flex-direction: column;
-    gap: 1.354cqw;                 /* 26 */
+    gap: 1.2cqw;
   }
   .mile__mark { display: none; }
 
   .mile__rail {
     display: block;
-    height: 0.156cqw;              /* 3 */
-    background: rgba(244,237,227,0.18);
+    height: 1px;
+    background: var(--hair);
     position: relative;
   }
   .mile__rail::before {
     content: '';
     position: absolute;
     left: 0;
-    top: -0.365cqw;
-    width: 0.885cqw;
-    height: 0.885cqw;
+    top: -0.28cqw;
+    width: 0.58cqw;
+    height: 0.58cqw;
     border-radius: 50%;
     background: rgba(244,237,227,0.85);
   }
+  .mile--now .mile__rail { background: var(--hair-gold); }
   .mile--now .mile__rail::before { background: var(--gold); }
   .mile--far .mile__rail::before { background: rgba(244,237,227,0.5); }
-  .mile--now .mile__rail::after {
-    content: '';
-    position: absolute;
-    left: 0.104cqw;
-    top: -0.99cqw;
-    width: 0;
-    height: 0;
-    border-left: 0.365cqw solid transparent;
-    border-right: 0.365cqw solid transparent;
-    border-top: 0.521cqw solid var(--gold);
-  }
 
-  .mile__title { font-size: 2.292cqw; }          /* 44 */
+  .mile__id { font-size: 0.94cqw; }
+  .mile__title { font-size: 1.9cqw; }
   .mile__sub {
     margin-top: auto;
-    font-size: 1.25cqw;
+    font-size: 1.05cqw;
   }
 
-  /* ── 10 Traction ── */
+  /* ── 10 Traction: serif numerals on a ledger ── */
 
   .traction .glow {
     left: -10.417cqw;
@@ -2658,42 +2907,36 @@ body {
   .traction .stage {
     display: flex;
     flex-direction: column;
-    gap: 2.917cqw;
+    gap: 2.7cqw;
     padding: 5.208cqw 5.208cqw 4.167cqw;
     overflow: hidden;
   }
 
-  .traction-headline { font-size: 4.583cqw; }    /* 88 */
+  .traction-headline { font-size: 4.4cqw; }
 
   .traction-channels {
-    font-size: 1.25cqw;
+    gap: 1.042cqw;
+    font-size: 1.05cqw;
   }
 
   .traction-stats {
-    flex: 1;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 2.5cqw;
-    padding-top: 2.5cqw;
-    align-content: center;
+    gap: 0 2.3cqw;
+    padding-top: 2.3cqw;
   }
 
   .trac { gap: 0.729cqw; }
-  .trac__num { font-size: 7.083cqw; }            /* 136 */
-  .trac__unit { font-size: 1.458cqw; }           /* 28 */
-  .trac__copy { font-size: 1.25cqw; }
-
-  .traction-note { font-size: 1.25cqw; }
-
-  /* ── 11 The raise ── */
-
-  .raise .glow {
-    left: -13.542cqw;
-    top: 6.25cqw;
-    width: 83.333cqw;
-    height: 62.5cqw;
-    border-radius: 52.083cqw;
-    transform: none;
+  .trac + .trac {
+    border-left: 1px solid var(--hair);
+    padding-left: 2.3cqw;
   }
+  .trac__num { font-size: 6.2cqw; }
+  .trac__unit { font-size: 1.3cqw; }
+  .trac__copy { font-size: 1.05cqw; }
+
+  .traction-note { font-size: 1.05cqw; }
+
+  /* ── 11 The raise: one sentence on a maroon field ── */
 
   .raise .logo { width: 5.208cqw; }
 
@@ -2702,25 +2945,29 @@ body {
     padding: 0;
   }
 
-  .raise-kicker {                  /* left 100, top 318, 40 */
+  .raise-kicker {
     position: absolute;
     left: 5.208cqw;
-    top: 16.563cqw;
-    font-size: 2.083cqw;
+    top: 15.6cqw;
+    font-size: 2cqw;
+  }
+  .raise-kicker::before {
+    width: 3.6cqw;
+    margin-bottom: 1.1cqw;
   }
 
-  .raise-amount {                  /* left 92, top 392, 280 */
+  .raise-amount {
     position: absolute;
-    left: 4.792cqw;
-    top: 20.417cqw;
-    font-size: 14.583cqw;
+    left: 4.9cqw;
+    top: 20.8cqw;
+    font-size: 12.5cqw;
   }
 
-  .raise-sub {                     /* left 100, top 700, 28 */
+  .raise-sub {
     position: absolute;
     left: 5.208cqw;
-    top: 36.458cqw;
-    font-size: 1.458cqw;
+    top: 36.2cqw;
+    font-size: 1.7cqw;
   }
 
 }
@@ -2737,41 +2984,55 @@ body {
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
       <div class="demo-main">
-        <div class="demo-focus">
-          <div class="demo-phone" id="demoPhone">
-            <video id="demoVideo"
-                   src="assets/madam-demo.mp4"
-                   playsinline
-                   muted
-                   loop
-                   preload="metadata"
-                   aria-label="Madam product walkthrough"></video>
+        <div class="demo-phone" id="demoPhone">
+          <video id="demoVideo"
+                 src="assets/madam-demo.mp4"
+                 playsinline
+                 muted
+                 loop
+                 preload="metadata"
+                 aria-label="Madam product walkthrough"></video>
 
-            <button class="demo-cta" id="demoCta" type="button" aria-label="Play product demo">
-              <span class="demo-cta__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8 5v14l11-7z"></path>
-                </svg>
-              </span>
-              <span class="demo-cta__label">Play demo</span>
+          <button class="demo-cta" id="demoCta" type="button" aria-label="Play product demo">
+            <span class="demo-cta__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"></path>
+              </svg>
+            </span>
+            <span class="demo-cta__label">Play demo</span>
+          </button>
+
+          <div class="demo-bar" id="demoBar">
+            <button class="demo-play" id="demoPlay" type="button" aria-label="Play demo">
+              <svg class="demo-play__icon demo-play__play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5v14l11-7z"></path>
+              </svg>
+              <svg class="demo-play__icon demo-play__pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6 5h4v14H6zm8 0h4v14h-4z"></path>
+              </svg>
             </button>
+            <div class="demo-track" id="demoTrack" role="slider" aria-label="Demo progress"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+              <div class="demo-track__fill" id="demoFill"></div>
+              <div class="demo-track__thumb" id="demoThumb"></div>
+            </div>
+            <div class="demo-time" id="demoTime">0:00</div>
+            <div class="demo-speed" aria-hidden="true">2×</div>
+          </div>
+        </div>
 
-            <div class="demo-bar" id="demoBar">
-              <button class="demo-play" id="demoPlay" type="button" aria-label="Play demo">
-                <svg class="demo-play__icon demo-play__play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M8 5v14l11-7z"></path>
-                </svg>
-                <svg class="demo-play__icon demo-play__pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M6 5h4v14H6zm8 0h4v14h-4z"></path>
-                </svg>
-              </button>
-              <div class="demo-track" id="demoTrack" role="slider" aria-label="Demo progress"
-                   aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
-                <div class="demo-track__fill" id="demoFill"></div>
-                <div class="demo-track__thumb" id="demoThumb"></div>
-              </div>
-              <div class="demo-time" id="demoTime">0:00</div>
-              <div class="demo-speed" aria-hidden="true">2×</div>
+        <div class="demo-rail">
+          <div class="demo-stores" aria-label="Live on the App Store and Google Play">
+            <span class="demo-stores__live">Live on</span>
+            <div class="demo-stores__row">
+              <span class="demo-store">
+                <img src="assets/s09/apple.svg" alt="" width="24" height="24">
+                <span>App Store</span>
+              </span>
+              <span class="demo-store">
+                <img src="assets/play-store.svg" alt="" width="24" height="24">
+                <span>Google Play</span>
+              </span>
             </div>
           </div>
 
@@ -2786,22 +3047,13 @@ body {
             </span>
           </button>
         </div>
-
-        <div class="demo-stores" aria-label="Live on the App Store and Google Play">
-          <span class="demo-stores__live">Live on</span>
-          <div class="demo-stores__row">
-            <span class="demo-store">
-              <img src="assets/s09/apple.svg" alt="" width="24" height="24">
-              <span>App Store</span>
-            </span>
-            <span class="demo-store">
-              <img src="assets/play-store.svg" alt="" width="24" height="24">
-              <span>Google Play</span>
-            </span>
-          </div>
-        </div>
       </div>
 
+      <div class="tag">
+        <span>00</span>
+        <span class="sep">&middot;</span>
+        <span>Demo</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -2821,6 +3073,13 @@ body {
       <div class="cover-body">
         <p class="cover-tagline">a place where you share. connect. belong.</p>
         <h1 class="cover-wordmark">Madam</h1>
+        <div class="cover-meta">
+          <span>Aug 2026</span>
+          <span class="sep">&middot;</span>
+          <span class="dim">Angel Pitch</span>
+          <span class="sep">&middot;</span>
+          <span class="dim">Pre-seed</span>
+        </div>
       </div>
 
       <div class="stage-mark" aria-hidden="true"></div>
@@ -2854,7 +3113,8 @@ body {
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
       <div class="problem-head">
-        <h2>For Black and brown women, connecting, sharing and belonging <span class="accent">is complex.</span></h2>
+        <span class="eyebrow">For black and brown women</span>
+        <h2>Connecting, sharing and belonging <span class="accent">is complex.</span></h2>
       </div>
 
       <div class="chain-wrap">
@@ -2957,6 +3217,11 @@ body {
       </ol>
       </div>
 
+      <div class="tag">
+        <span>02</span>
+        <span class="sep">&middot;</span>
+        <span>The problem</span>
+      </div>
     </div>
   </section>
 
@@ -2968,6 +3233,7 @@ body {
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
       <div class="founder-head">
+        <span class="eyebrow">Meet the founder</span>
         <h2 class="founder-name">Caston</h2>
         <span class="founder-rule" aria-hidden="true"></span>
       </div>
@@ -3020,6 +3286,7 @@ body {
   <section class="slide product" id="product" aria-label="The product">
     <div class="stage">
       <div class="glow"></div>
+      <div class="product-field" aria-hidden="true"></div>
 
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
@@ -3031,6 +3298,7 @@ body {
                    style="width:124.6%;left:-10.54%;top:-6.25%">
             </div>
             <div class="product-meta">
+              <div class="product-kicker">01 · The container</div>
               <h3 class="product-name">Jars</h3>
               <p class="product-copy">Save looks, products and posts into one collection she can share.</p>
             </div>
@@ -3042,6 +3310,7 @@ body {
                    style="width:114.4%;left:-3.51%;top:-2.5%">
             </div>
             <div class="product-meta">
+              <div class="product-kicker">02 · The arc</div>
               <h3 class="product-name">Journeys</h3>
               <p class="product-copy">A story that unfolds over a period of time — days, weeks, months — not a single post.</p>
             </div>
@@ -3053,6 +3322,7 @@ body {
                    style="width:116.6%;left:-9.58%;top:-4.22%">
             </div>
             <div class="product-meta">
+              <div class="product-kicker">03 · The home</div>
               <h3 class="product-name">Feed</h3>
               <p class="product-copy">The creators she trusts, in one place. Watch, save, shop.</p>
             </div>
@@ -3064,6 +3334,7 @@ body {
                    style="width:94.9%;left:0;bottom:-0.625%">
             </div>
             <div class="product-meta">
+              <div class="product-kicker">04 · The co-pilot</div>
               <h3 class="product-name">Daia</h3>
               <p class="product-copy">Ask her anything happening on the platform, she knows.</p>
             </div>
@@ -3099,6 +3370,12 @@ body {
         </div>
       </div>
 
+      <div class="tag">
+        <span>03</span>
+        <span class="sep">&middot;</span>
+        <span>The product</span>
+      </div>
+
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3110,26 +3387,38 @@ body {
 
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
-      <h2 class="bizmodel-headline">Madam earns <span class="accent">when she earns.</span></h2>
+      <div class="bizmodel-kicker">How we make money</div>
 
       <div class="bizmodel-row">
-        <div class="biz-card">
-          <div class="biz-card__name">Jars</div>
-          <div class="biz-card__fee">5% transaction fee</div>
-          <p class="biz-card__copy">A creator sells a $60 hair kit from her Jar. She keeps $57, Madam keeps $3.</p>
+        <div class="biz-primary">
+          <div class="biz-primary__name">Jars</div>
+          <p class="biz-primary__copy">A creator sells a $60 hair kit from her Jar. She keeps $57, Madam keeps $3.</p>
+          <div class="biz-primary__fee">5% transaction fee</div>
         </div>
 
-        <div class="biz-card">
-          <div class="biz-card__name">Affiliate</div>
-          <div class="biz-card__fee">Share of commissions</div>
-          <p class="biz-card__copy">A user buys a $40 product Madam recommended. The brand pays a $6 commission, Madam keeps part of it.</p>
-        </div>
+        <div class="biz-side">
+          <div class="biz-minor">
+            <div class="biz-minor__head">
+              <span class="biz-minor__name">Affiliate</span>
+              <span class="biz-minor__fee">Share of commissions</span>
+            </div>
+            <p class="biz-minor__copy">A user buys a $40 product Madam recommended. The brand pays a $6 commission, Madam keeps part of it.</p>
+          </div>
 
-        <div class="biz-card">
-          <div class="biz-card__name">Advertising</div>
-          <div class="biz-card__fee">Ad revenue</div>
-          <p class="biz-card__copy">A brand pays to put its product in front of the community. Madam keeps the ad spend.</p>
+          <div class="biz-minor">
+            <div class="biz-minor__head">
+              <span class="biz-minor__name">Advertising</span>
+              <span class="biz-minor__fee">Ad revenue</span>
+            </div>
+            <p class="biz-minor__copy">A brand pays to put its product in front of the community. Madam keeps the ad spend.</p>
+          </div>
         </div>
+      </div>
+
+      <div class="tag">
+        <span>04</span>
+        <span class="sep">&middot;</span>
+        <span>Business model</span>
       </div>
 
       <div class="stage-mark" aria-hidden="true"></div>
@@ -3150,26 +3439,28 @@ body {
 
       <h2 class="bet-headline anim-rise anim-rise-d1">Our current users want <span class="accent">something that is theirs.</span></h2>
 
-      <div class="bet-stats anim-rise anim-rise-d3">
-        <div class="bet-stat">
-          <div class="bet-stat__num">13%</div>
-          <div class="bet-stat__label">Creator</div>
-          <p class="bet-stat__copy">growth in Black women-owned businesses, vs 4.4% for women overall</p>
+      <div class="bet-list anim-rise anim-rise-d3">
+        <div class="bet-row">
+          <span class="bet-row__tag">Creator</span>
+          <p class="bet-row__line"><em class="bet-row__num">13%</em> growth in Black women-owned businesses, vs 4.4% for women overall*</p>
         </div>
-        <div class="bet-stat">
-          <div class="bet-stat__num">86%</div>
-          <div class="bet-stat__label">Attention</div>
-          <p class="bet-stat__copy">more Black women spend 5+ hours a day on social than average</p>
+        <div class="bet-row">
+          <span class="bet-row__tag">Attention</span>
+          <p class="bet-row__line"><em class="bet-row__num">86%</em> more Black women spend 5+ hours a day on social than average&dagger;</p>
         </div>
-        <div class="bet-stat">
-          <div class="bet-stat__num bet-stat__num--gold">47%</div>
-          <div class="bet-stat__label">Commerce</div>
-          <p class="bet-stat__copy">of Black women say people ask them for advice before buying</p>
+        <div class="bet-row">
+          <span class="bet-row__tag">Commerce</span>
+          <p class="bet-row__line"><em class="bet-row__num">47%</em> of Black women say people ask them for advice before buying&dagger;</p>
         </div>
       </div>
 
-      <p class="bet-sources">Wells Fargo, Impact of Women-Owned Businesses, 2025<br>Nielsen Diverse Intelligence Series</p>
+      <p class="bet-sources">*Wells Fargo Impact of Women-Owned Businesses, 2025<br>&dagger;Nielsen Diverse Intelligence Series</p>
 
+      <div class="tag">
+        <span>05</span>
+        <span class="sep">&middot;</span>
+        <span>The bet</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3194,7 +3485,7 @@ body {
         <div class="reason-row" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">Instagram</span>
-            <span class="reason-brand__meta">Meta, $1.8T, 2B users</span>
+            <span class="reason-brand__meta">Meta · $1.8T · 2B users</span>
           </div>
           <div class="reason-cell" role="cell">—</div>
           <div class="reason-cell reason-cell--yes" role="cell">✓</div>
@@ -3205,7 +3496,7 @@ body {
         <div class="reason-row" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">TikTok</span>
-            <span class="reason-brand__meta">ByteDance, $300B, 1.6B users</span>
+            <span class="reason-brand__meta">ByteDance · $300B · 1.6B users</span>
           </div>
           <div class="reason-cell" role="cell">—</div>
           <div class="reason-cell" role="cell">—</div>
@@ -3216,7 +3507,7 @@ body {
         <div class="reason-row" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">Pinterest</span>
-            <span class="reason-brand__meta">$23B, 570M users</span>
+            <span class="reason-brand__meta">$23B · 570M users</span>
           </div>
           <div class="reason-cell" role="cell">—</div>
           <div class="reason-cell" role="cell">—</div>
@@ -3227,7 +3518,7 @@ body {
         <div class="reason-row" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">Substack</span>
-            <span class="reason-brand__meta">$1.1B, 5M subscribers</span>
+            <span class="reason-brand__meta">$1.1B · 5M subscribers</span>
           </div>
           <div class="reason-cell" role="cell">—</div>
           <div class="reason-cell" role="cell">—</div>
@@ -3238,7 +3529,7 @@ body {
         <div class="reason-row reason-row--madam" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">Madam</span>
-            <span class="reason-brand__meta">Raising $750K, 66 users</span>
+            <span class="reason-brand__meta">Raising $750K · 66 users</span>
           </div>
           <div class="reason-cell reason-cell--yes" role="cell">✓</div>
           <div class="reason-cell reason-cell--yes" role="cell">✓</div>
@@ -3247,6 +3538,11 @@ body {
         </div>
       </div>
 
+      <div class="tag">
+        <span>06</span>
+        <span class="sep">&middot;</span>
+        <span>Why Madam</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3286,6 +3582,11 @@ body {
         </div>
       </div>
 
+      <div class="tag">
+        <span>07</span>
+        <span class="sep">&middot;</span>
+        <span>The team</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3301,36 +3602,46 @@ body {
       <div class="roadmap-track">
         <div class="mile mile--now anim-rise anim-rise-d1">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
+          <div class="mile__id">M1</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">1,000 users, 250 monthly active</div>
           <div class="mile__sub">Activate the first 1,000</div>
         </div>
         <div class="mile anim-rise anim-rise-d2">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
+          <div class="mile__id">M2</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">10,000 users, transactions proven</div>
           <div class="mile__sub">Turn on transactions</div>
         </div>
         <div class="mile anim-rise anim-rise-d3">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
+          <div class="mile__id">M3</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">100,000 monthly active, affiliate proven</div>
           <div class="mile__sub">Scale distribution</div>
         </div>
         <div class="mile anim-rise anim-rise-d4">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
+          <div class="mile__id">M4</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">1,000,000 monthly active, ads on</div>
           <div class="mile__sub">Expand the revenue engine</div>
         </div>
         <div class="mile mile--far anim-rise anim-rise-d5">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
+          <div class="mile__id">M5</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">Lead the category</div>
           <div class="mile__sub">Deepen the network</div>
         </div>
       </div>
 
+      <div class="tag">
+        <span>08</span>
+        <span class="sep">&middot;</span>
+        <span>Roadmap</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3343,7 +3654,13 @@ body {
 
       <h2 class="traction-headline anim-rise anim-rise-d1">Launched, and <span class="accent">growing.</span></h2>
 
-      <p class="traction-channels anim-in">Live on the App Store and Google Play since May 2026.</p>
+      <div class="traction-channels anim-in">
+        <span>App Store</span>
+        <span class="sep">·</span>
+        <span>Google Play</span>
+        <span class="sep">·</span>
+        <span class="shipped">Shipped May 2026</span>
+      </div>
 
       <div class="traction-stats">
         <div class="trac anim-rise anim-rise-d1">
@@ -3378,6 +3695,11 @@ body {
 
       <p class="traction-note">No marketing or distribution spend.</p>
 
+      <div class="tag">
+        <span>09</span>
+        <span class="sep">&middot;</span>
+        <span>Traction</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
@@ -3392,19 +3714,37 @@ body {
       <div class="raise-amount anim-pop">$750,000</div>
       <p class="raise-sub anim-in">for the next level of growth.</p>
 
+      <div class="tag">
+        <span>10</span>
+        <span class="sep">&middot;</span>
+        <span>The raise</span>
+      </div>
       <div class="stage-mark" aria-hidden="true"></div>
     </div>
   </section>
 
+  <nav class="deck-dots" id="dots" aria-label="Slides"></nav>
+
 </div>
 
 <script>
-/* Deck navigation. Keyboard, swipe, tap left/right, and #hash deep links.
+/* Deck navigation. Keyboard, swipe, tap left/right, dots, and #hash deep links.
    Deliberately small — no framework, no dependencies. */
 (function () {
   var deck   = document.getElementById('deck');
   var slides = Array.prototype.slice.call(deck.querySelectorAll('.slide'));
+  var dots   = document.getElementById('dots');
   var index  = 0;
+
+  slides.forEach(function (slide, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Slide ' + (i + 1) + ': ' +
+      (slide.getAttribute('aria-label') || ''));
+    b.addEventListener('click', function () { go(i); });
+    dots.appendChild(b);
+  });
+  var buttons = Array.prototype.slice.call(dots.children);
 
   function go(to, viaHash) {
     to = Math.max(0, Math.min(slides.length - 1, to));
@@ -3427,6 +3767,10 @@ body {
     /* Belt and braces for browsers without overflow:clip, where jumping to a
        hash can scroll the deck sideways. */
     deck.scrollLeft = 0;
+
+    buttons.forEach(function (b, i) {
+      b.setAttribute('aria-current', i === to ? 'true' : 'false');
+    });
 
     index = to;
 
@@ -3515,7 +3859,8 @@ body {
       window.matchMedia('(min-width: 860px) and (orientation: landscape)').matches;
     var blockSel =
       'button, a, input, textarea, select, [role="slider"], ' +
-      '.demo-phone, .demo-bar, .demo-cta, .product-chrome';
+      '.demo-phone, .demo-bar, .demo-cta, .product-chrome, ' +
+      '.deck-dots';
     if (!wideProduct) { blockSel += ', .product-rail'; }
     if (e.target.closest && e.target.closest(blockSel)) {
       return;

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Madam deck — variant review</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Archivo:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#000;--maroon:#3D0813;--fg:#F4EDE3;--muted:#9A7F74;--gold:#C98A3C;--rose:#D4838F;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:var(--black);color:var(--fg);
+  font-family:Archivo,system-ui,sans-serif;
+  min-height:100vh;padding:clamp(28px,6vw,72px);
+  background-image:radial-gradient(120% 80% at 12% 0%,rgba(61,8,19,.85),transparent 60%);
+}
+header{max-width:900px;margin-bottom:clamp(30px,5vw,52px)}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(34px,6vw,60px);line-height:1.02;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--rose)}
+.sub{margin-top:16px;color:var(--muted);font-size:clamp(14px,1.6vw,17px);line-height:1.55;max-width:62ch}
+h2.group{
+  font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(20px,2.2vw,26px);
+  margin:clamp(30px,4vw,46px) 0 6px;
+}
+.group-sub{color:var(--muted);font-size:14px;line-height:1.55;max-width:64ch;margin-bottom:18px}
+.grid{display:grid;gap:14px;max-width:1180px;grid-template-columns:repeat(auto-fit,minmax(258px,1fr))}
+a.card{
+  display:flex;flex-direction:column;gap:10px;
+  text-decoration:none;color:inherit;
+  padding:clamp(22px,2.4vw,30px);
+  background:linear-gradient(160deg,rgba(61,8,19,.55),rgba(21,3,3,.5));
+  border-radius:14px;min-height:250px;
+  transition:transform .18s ease,background .18s ease;
+}
+a.card:hover{transform:translateY(-3px);background:linear-gradient(160deg,rgba(61,8,19,.9),rgba(21,3,3,.7))}
+a.card.orig{background:linear-gradient(160deg,rgba(20,20,20,.7),rgba(8,8,8,.6))}
+.tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.name{font-family:Fraunces,Georgia,serif;font-size:clamp(24px,2.6vw,32px);font-weight:600;line-height:1.05}
+.desc{color:var(--muted);font-size:14px;line-height:1.55;flex:1}
+.fonts{font-size:12px;color:var(--fg);opacity:.5;letter-spacing:.02em}
+.sw{display:flex;gap:6px;margin-top:2px}
+.sw i{width:22px;height:22px;border-radius:5px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+footer{margin-top:48px;color:var(--muted);font-size:13px;line-height:1.7;max-width:74ch}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--gold);font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Local review · not published</div>
+  <h1>Four <em>directions</em></h1>
+  <p class="sub">Same 12 slides, same copy, same assets, same tap-through behaviour. Click any card to open that deck; use arrow keys or tap to advance.</p>
+</header>
+
+<h2 class="group">Baseline</h2>
+<p class="group-sub">The deck as it stands, after the de-slop pass.</p>
+<div class="grid">
+  <a class="card orig" href="index.html">
+    <div class="tag">Current</div>
+    <div class="name">Original</div>
+    <p class="desc">Black ground with the maroon radial bloom. Reference point for everything below.</p>
+    <div class="sw"><i style="background:#000"></i><i style="background:#3D0813"></i><i style="background:#C98A3C"></i><i style="background:#D4838F"></i></div>
+    <div class="fonts">Plus Jakarta Sans · Poppins</div>
+  </a>
+</div>
+
+<h2 class="group">Colour and surface</h2>
+<p class="group-sub">Same type system as the baseline — only the palette and the material change. Drawn from the real brand surfaces: trymadam.com is pure white and pure black with frosted glass at 32px radii, and the App Store screenshots are a flat oxblood with no gradient at all.</p>
+<div class="grid">
+  <a class="card" href="variant-d-noir.html">
+    <div class="tag">Variant D</div>
+    <div class="name">Noir</div>
+    <p class="desc">Dominant black. No maroon, no glow, one warm sand accent. Maximum contrast — the photography is the only colour on the page. Mirrors the black section of the website.</p>
+    <div class="sw"><i style="background:#000"></i><i style="background:#0B0B0B"></i><i style="background:#E8C9A0"></i><i style="background:#fff"></i></div>
+    <div class="fonts">Plus Jakarta Sans · Poppins</div>
+  </a>
+
+  <a class="card" href="variant-e-daylight.html">
+    <div class="tag">Variant E</div>
+    <div class="name">Daylight</div>
+    <p class="desc">Dominant white. The trymadam.com system as a deck — #F5F5F5 panels at generous radii, near-black type, darkened gold and rose for contrast. The biggest departure of the set.</p>
+    <div class="sw"><i style="background:#fff"></i><i style="background:#F5F5F5"></i><i style="background:#171717"></i><i style="background:#9A6520"></i></div>
+    <div class="fonts">Plus Jakarta Sans · Poppins</div>
+  </a>
+
+  <a class="card" href="variant-f-frosted.html">
+    <div class="tag">Variant F</div>
+    <div class="name">Frosted</div>
+    <p class="desc">The App Store aesthetic. Flat oxblood ground, zero radial gradients, content on real frosted-glass panels with hairline edges and deep phone shadows.</p>
+    <div class="sw"><i style="background:#3A0A14"></i><i style="background:rgba(255,255,255,.10)"></i><i style="background:#E9B872"></i><i style="background:#F0A7B4"></i></div>
+    <div class="fonts">Plus Jakarta Sans · Poppins</div>
+  </a>
+</div>
+
+<footer>
+  Served from <code>http://localhost:4174</code>. Assets only resolve over HTTP — opening the <code>.html</code> files directly from Finder breaks every image and the demo video.
+</footer>
+</body>
+</html>

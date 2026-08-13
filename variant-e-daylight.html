@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Madam Pitch</title>
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="description" content="Madam. Community and commerce for Black women. Live on the Apple App Store and Google Play.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +33,7 @@
   --card-line:    rgba(244,237,227,0.14);
   --fg:           #F4EDE3;
   --fg-3:         #9A7F74;
-  --gold:         #C98A3C;
+  --gold:         #9A6520;
   --rose:         #D4838F;
 
   --pad: clamp(20px, 6vw, 64px);
@@ -170,7 +170,7 @@ body {
   transform: translateX(-50%);
   border-radius: 50%;
   background: radial-gradient(ellipse at center,
-              var(--maroon-900) 0%, rgba(61,8,19,0) 70%);
+              var(--maroon-900) 0%, rgba(255,255,255,0) 70%);
   pointer-events: none;
   z-index: -2;
 }
@@ -521,8 +521,8 @@ body {
   transition: opacity 240ms ease, transform 240ms ease, visibility 0s linear 240ms;
 }
 .nav-tip:hover { color: rgba(244,237,227,0.88); }
-.nav-tip:hover .nav-tip__rule { background: rgba(201,138,60,0.85); }
-.nav-tip:hover .nav-tip__icon { border-color: rgba(201,138,60,0.7); }
+.nav-tip:hover .nav-tip__rule { background: rgba(154,101,32,0.85); }
+.nav-tip:hover .nav-tip__icon { border-color: rgba(154,101,32,0.7); }
 .nav-tip:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 4px;
@@ -532,7 +532,7 @@ body {
 .nav-tip__rule {
   width: 1px;
   height: clamp(28px, 6svh, 48px);
-  background: rgba(201,138,60,0.45);
+  background: rgba(154,101,32,0.45);
   border-radius: 99px;
   transition: background 180ms ease;
 }
@@ -554,7 +554,7 @@ body {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(201,138,60,0.4);
+  border: 1px solid rgba(154,101,32,0.4);
   background: transparent;
   color: var(--gold);
 }
@@ -614,7 +614,7 @@ body {
   background:
     linear-gradient(180deg, rgba(0,0,0,0) 34%, rgba(0,0,0,0.40) 62%,
       rgba(0,0,0,0.78) 84%, rgba(0,0,0,0.92) 100%),
-    linear-gradient(180deg, rgba(61,8,19,0) 45%, rgba(61,8,19,0.45) 100%);
+    linear-gradient(180deg, rgba(255,255,255,0) 45%, rgba(255,255,255,0.45) 100%);
 }
 
 .cover-body {
@@ -762,8 +762,8 @@ body {
   border-radius: 50%;
   overflow: hidden;
   background: var(--card);
-  border: 1px solid rgba(201,138,60,0.45);
-  box-shadow: 0 0 0 4px rgba(61,8,19,0.85);
+  border: 1px solid rgba(154,101,32,0.45);
+  box-shadow: 0 0 0 4px #FFFFFF;
   position: relative;
   z-index: 2;
 }
@@ -1168,13 +1168,13 @@ body {
   cursor: default;
 }
 .product-arrow--continue {
-  border-color: rgba(201,138,60,0.55);
+  border-color: rgba(154,101,32,0.55);
   color: var(--gold);
-  background: rgba(201,138,60,0.12);
+  background: rgba(154,101,32,0.12);
 }
 .product-arrow--continue:hover {
-  background: rgba(201,138,60,0.22);
-  border-color: rgba(201,138,60,0.75);
+  background: rgba(154,101,32,0.22);
+  border-color: rgba(154,101,32,0.75);
 }
 .product-arrow:focus-visible {
   outline: 2px solid var(--gold);
@@ -1212,8 +1212,8 @@ body {
   transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
 }
 .product-pager button[aria-current="true"] {
-  background: rgba(201,138,60,0.18);
-  border-color: rgba(201,138,60,0.55);
+  background: rgba(154,101,32,0.18);
+  border-color: rgba(154,101,32,0.55);
   color: var(--gold);
 }
 .product-pager button:focus-visible {
@@ -1485,7 +1485,7 @@ body {
   padding-bottom: 12px;
 }
 .reason-row--madam {
-  background: rgba(166,39,63,0.14);
+  background: rgba(168,60,86,0.07);
   margin: 0 -8px;
   padding-left: 8px;
   padding-right: 8px;
@@ -2522,7 +2522,7 @@ body {
   .reason-cell--yes { font-size: 1.771cqw; }     /* 34 */
 
   .reason-row--madam > * {
-    background: rgba(166,39,63,0.14);
+    background: rgba(168,60,86,0.07);
   }
   .reason-row--madam {
     background: transparent;
@@ -2724,6 +2724,291 @@ body {
   }
 
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   VARIANT E — "Daylight". Colour and surface only; geometry untouched.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --black:        #FFFFFF;
+  --maroon-900:   rgba(255,255,255,0);
+  --card:         #F5F5F5;
+  --card-line:    rgba(0,0,0,0.05);
+  --fg:           #171717;
+  --fg-3:         #8A8A8A;
+  --gold:         #9A6520;
+  --rose:         #A83C56;
+}
+
+body {
+  background: #FFFFFF;
+  color: #171717;
+}
+
+.slide { background: #FFFFFF; }
+
+.glow { display: none; }
+
+.logo { filter: brightness(0); }
+
+.stage-mark { background: rgba(0,0,0,0.25); }
+
+/* ── 00 Demo ── */
+
+.demo-phone {
+  background: #F5F5F5;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.12);
+}
+
+.demo-stores__live { color: #8A8A8A; }
+
+.demo-store {
+  background: #F5F5F5;
+  border: 1px solid rgba(0,0,0,0.05);
+  color: #3F3F3F;
+}
+.demo-store img { filter: brightness(0); opacity: 0.8; }
+
+.demo-bar {
+  background: rgba(255,255,255,0.66);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.demo-play {
+  background: rgba(0,0,0,0.08);
+  color: #171717;
+}
+.demo-play:hover { background: rgba(0,0,0,0.15); }
+
+.demo-cta {
+  background: rgba(255,255,255,0.55);
+  color: #171717;
+}
+.demo-cta:hover { background: rgba(255,255,255,0.68); }
+.demo-cta__icon {
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+}
+.demo-cta__label {
+  color: #171717;
+  text-shadow: 0 1px 10px rgba(255,255,255,0.8);
+}
+
+.demo-track::before { background: rgba(0,0,0,0.18); }
+.demo-track__thumb {
+  background: #171717;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+.demo-time { color: #5F5F5F; }
+.demo-speed {
+  color: #171717;
+  background: rgba(0,0,0,0.08);
+}
+
+.nav-tip { color: #5F5F5F; }
+.nav-tip:hover { color: #171717; }
+.nav-tip__icon {
+  background: #F5F5F5;
+  border: 1px solid rgba(154,101,32,0.35);
+}
+.nav-tip:hover .nav-tip__icon { border-color: rgba(154,101,32,0.7); }
+
+/* ── 01 Cover ── */
+
+.cover-scrim {
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0) 56%, rgba(255,255,255,0.30) 72%,
+    rgba(255,255,255,0.92) 85%, rgba(255,255,255,1) 100%);
+}
+
+.cover-tagline {
+  color: #4A4A4A;
+  text-shadow: none;
+}
+
+.cover-wordmark {
+  color: #171717;
+  text-shadow: none;
+}
+
+/* ── 02 The problem ── */
+
+.problem-head h2 { color: #171717; }
+
+.step__thumb {
+  background: #F5F5F5;
+  border: 1px solid rgba(154,101,32,0.5);
+  box-shadow: 0 0 0 4px #FFFFFF;
+}
+
+.chat-mock { background: #F5F5F5; }
+.chat-mock i { background: #D6D6D6; }
+.chat-mock i.me { background: #2BD64B; }
+
+/* ── 03 Founder ── */
+
+.founder-name { color: #171717; }
+
+.founder-portrait { box-shadow: 0 18px 50px rgba(0,0,0,0.10); }
+
+.founder-quote p { color: #171717; }
+
+.founder-creds__sep { background: rgba(0,0,0,0.18); }
+
+/* ── 04 Product ── */
+
+.product-phone {
+  background: #F5F5F5;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.12);
+}
+.product-phone--daia { background: #FFFFFF; }
+
+.product-copy { color: #5F5F5F; }
+
+.product-arrow {
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #F5F5F5;
+  color: #3F3F3F;
+}
+.product-arrow:hover {
+  background: #EBEBEB;
+  border-color: rgba(0,0,0,0.18);
+}
+.product-arrow--continue {
+  border-color: rgba(154,101,32,0.45);
+  color: var(--gold);
+  background: rgba(154,101,32,0.10);
+}
+.product-arrow--continue:hover {
+  background: rgba(154,101,32,0.18);
+  border-color: rgba(154,101,32,0.7);
+}
+
+.product-pager button {
+  background: #F0F0F0;
+  color: #5F5F5F;
+}
+.product-pager button[aria-current="true"] {
+  background: rgba(154,101,32,0.13);
+  border-color: rgba(154,101,32,0.45);
+  color: var(--gold);
+}
+
+/* ── 05 Business model ── */
+
+.bizmodel-headline { color: #171717; }
+
+.biz-card { color: #5F5F5F; }
+.biz-card__name { color: #171717; }
+.biz-card__copy { color: #5F5F5F; }
+
+/* ── 06 The bet ── */
+
+.bet-headline { color: #171717; }
+.bet-stat__num { color: #171717; }
+.bet-stat__copy { color: #5F5F5F; }
+.bet-sources { color: #8A8A8A; }
+
+/* ── 07 Reason one ── */
+
+.reason-row { border-bottom: 1px solid rgba(0,0,0,0.10); }
+.reason-row--head { border-bottom: 2px solid rgba(0,0,0,0.18); }
+
+.reason-colhead { color: #5F5F5F; }
+.reason-brand__name { color: #171717; }
+.reason-cell { color: rgba(0,0,0,0.28); }
+
+/* ── 08 The team ── */
+
+.team-logo img {
+  filter: brightness(0);
+  opacity: 0.85;
+}
+.team-logo span { color: #5F5F5F; }
+
+/* ── 09 Roadmap ── */
+
+.mile__dot { background: rgba(0,0,0,0.75); }
+.mile__line { background: rgba(0,0,0,0.18); }
+.mile__title { color: rgba(23,23,23,0.58); }
+.mile__sub { color: #5F5F5F; }
+
+/* ── 10 Traction ── */
+
+.traction-headline { color: #171717; }
+.traction-channels { color: #5F5F5F; }
+.traction-stats { border-top: 1px solid rgba(0,0,0,0.10); }
+.trac__num { color: #171717; }
+.trac__unit { color: #8A8A8A; }
+.trac__copy { color: #5F5F5F; }
+.traction-note { color: #8A8A8A; }
+
+/* ── 11 The raise ── */
+
+.raise-kicker { color: #171717; }
+.raise-amount { color: #171717; }
+.raise-sub { color: #5F5F5F; }
+
+.nav-tip__rule { background: rgba(154,101,32,0.6); }
+.bet-stat__num--gold { color: var(--gold); }
+.reason-cell--yes { color: var(--rose); }
+.trac__num--gold { color: var(--gold); }
+
+@media (min-width: 860px) and (orientation: landscape) {
+
+  .demo-phone { box-shadow: 0 1.042cqw 2.604cqw rgba(0,0,0,0.12); }
+
+  .cover-photo {
+    background: #F5F5F5;
+    box-shadow: 0 0.938cqw 2.604cqw rgba(0,0,0,0.10);
+  }
+
+  .cover-scrim {
+    background:
+      radial-gradient(ellipse at center,
+        rgba(255,255,255,0) 58%, rgba(255,255,255,0.30) 100%),
+      linear-gradient(180deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 18%,
+        rgba(255,255,255,0) 70%, rgba(255,255,255,0.38) 100%),
+      linear-gradient(90deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 14%,
+        rgba(255,255,255,0) 86%, rgba(255,255,255,0.30) 100%);
+  }
+
+  .cover-tagline { color: #5F5F5F; }
+
+  .step {
+    background: #F5F5F5;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 1.667cqw;
+    box-shadow: 0 0.417cqw 1.25cqw rgba(0,0,0,0.06);
+  }
+
+  .step__thumb {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .product-phone { box-shadow: 0 0.833cqw 2.083cqw rgba(0,0,0,0.12); }
+
+  .bet-photo__scrim {
+    background: linear-gradient(to right,
+      #FFFFFF 0%, rgba(255,255,255,0.88) 22%, rgba(255,255,255,0.12) 62%,
+      rgba(255,255,255,0.35) 100%);
+  }
+
+  .reason-row > * { border-bottom: 1px solid rgba(0,0,0,0.10); }
+  .reason-row--head > * { border-bottom: 2px solid rgba(0,0,0,0.18); }
+  .reason-row--madam { background: transparent; }
+
+  .team-logo img { filter: brightness(0); }
+
+  .mile__rail { background: rgba(0,0,0,0.18); }
+  .mile__rail::before { background: rgba(0,0,0,0.75); }
+  .mile--far .mile__rail::before { background: rgba(0,0,0,0.32); }
+
+}
 </style>
 </head>
 <body>
@@ -2836,10 +3121,10 @@ body {
         <defs>
           <marker id="jarrow" viewBox="0 0 12 12" refX="10" refY="6"
                   markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M1.5 1 L11 6 L1.5 11 Q4 6 1.5 1 z" fill="#C98A3C"></path>
+            <path d="M1.5 1 L11 6 L1.5 11 Q4 6 1.5 1 z" fill="#9A6520"></path>
           </marker>
         </defs>
-        <g stroke="#C98A3C" stroke-width="4.5" stroke-linecap="round" marker-end="url(#jarrow)">
+        <g stroke="#9A6520" stroke-width="4.5" stroke-linecap="round" marker-end="url(#jarrow)">
           <path d="M382 750 C418 668 348 532 380 442"></path>
           <path d="M400 430 C444 470 428 660 446 736"></path>
           <path d="M754 750 C790 668 720 532 752 442"></path>
@@ -2861,7 +3146,7 @@ body {
       <svg class="chain-path" id="chainPath" aria-hidden="true">
         <defs id="chainProbe"></defs>
         <g id="chainRoad" fill="none" stroke-linecap="round"></g>
-        <g id="chainArrows" fill="#C98A3C"></g>
+        <g id="chainArrows" fill="#9A6520"></g>
       </svg>
 
       <ol class="chain">
@@ -2990,9 +3275,9 @@ body {
 
         <!-- Narrow stand-in for the authored connector: points at him. -->
         <svg class="founder-arrow" viewBox="0 0 60 76" fill="none" aria-hidden="true">
-          <path d="M54 8 C 34 12, 16 28, 13 52" stroke="#C98A3C" stroke-width="5"
+          <path d="M54 8 C 34 12, 16 28, 13 52" stroke="#9A6520" stroke-width="5"
                 stroke-linecap="round"></path>
-          <path d="M3 37 L13 56 L26 45" stroke="#C98A3C" stroke-width="5"
+          <path d="M3 37 L13 56 L26 45" stroke="#9A6520" stroke-width="5"
                 stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
 
@@ -3007,8 +3292,8 @@ body {
 
       <svg class="founder-sketch" viewBox="0 0 1920 1080" fill="none" aria-hidden="true">
         <path d="M690 490 C 960 440, 1120 600, 1230 690 S 1310 762, 1300 800"
-              stroke="#C98A3C" stroke-width="7" stroke-linecap="round"></path>
-        <path d="M1262 764 L1302 810 L1344 776" stroke="#C98A3C" stroke-width="7"
+              stroke="#9A6520" stroke-width="7" stroke-linecap="round"></path>
+        <path d="M1262 764 L1302 810 L1344 776" stroke="#9A6520" stroke-width="7"
               stroke-linecap="round" stroke-linejoin="round"></path>
       </svg>
 
@@ -4039,8 +4324,8 @@ body {
 
     var d = roadPath(pts);
     road.innerHTML =
-      '<path d="' + d + '" stroke="rgba(201,138,60,0.45)" stroke-width="2"></path>' +
-      '<path d="' + d + '" stroke="rgba(255,255,255,0.22)" stroke-width="2" ' +
+      '<path d="' + d + '" stroke="rgba(154,101,32,0.5)" stroke-width="2"></path>' +
+      '<path d="' + d + '" stroke="rgba(0,0,0,0.16)" stroke-width="2" ' +
       'stroke-dasharray="5 9"></path>';
 
     /* Arrowheads sit at the midpoint of each leg, measured along the curve so
