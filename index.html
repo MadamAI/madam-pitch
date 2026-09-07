@@ -33,7 +33,7 @@
   --card-line:    rgba(244,237,227,0.14);
   --fg:           #F4EDE3;
   --fg-3:         #9A7F74;
-  --gold:         #C98A3C;
+  --gold:         #C8C3B9;
   --rose:         #D4838F;
 
   --pad: clamp(20px, 6vw, 64px);
@@ -562,8 +562,8 @@ body {
   transition: opacity 240ms ease, transform 240ms ease, visibility 0s linear 240ms;
 }
 .nav-tip:hover { color: rgba(244,237,227,0.88); }
-.nav-tip:hover .nav-tip__rule { background: rgba(201,138,60,0.85); }
-.nav-tip:hover .nav-tip__icon { border-color: rgba(201,138,60,0.7); }
+.nav-tip:hover .nav-tip__rule { background: rgba(200,195,185),0.85); }
+.nav-tip:hover .nav-tip__icon { border-color: rgba(200,195,185),0.7); }
 .nav-tip:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 4px;
@@ -573,7 +573,7 @@ body {
 .nav-tip__rule {
   width: 1px;
   height: clamp(28px, 6svh, 48px);
-  background: rgba(201,138,60,0.45);
+  background: rgba(200,195,185),0.45);
   border-radius: 99px;
   transition: background 180ms ease;
 }
@@ -595,7 +595,7 @@ body {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(201,138,60,0.4);
+  border: 1px solid rgba(200,195,185),0.4);
   background: transparent;
   color: var(--gold);
 }
@@ -835,7 +835,7 @@ body {
   border-radius: 50%;
   overflow: hidden;
   background: var(--card);
-  border: 1px solid rgba(201,138,60,0.45);
+  border: 1px solid rgba(200,195,185),0.45);
   box-shadow: 0 0 0 4px rgba(61,8,19,0.85);
   position: relative;
   z-index: 2;
@@ -1251,13 +1251,13 @@ body {
   cursor: default;
 }
 .product-arrow--continue {
-  border-color: rgba(201,138,60,0.55);
+  border-color: rgba(200,195,185),0.55);
   color: var(--gold);
-  background: rgba(201,138,60,0.12);
+  background: rgba(200,195,185),0.12);
 }
 .product-arrow--continue:hover {
-  background: rgba(201,138,60,0.22);
-  border-color: rgba(201,138,60,0.75);
+  background: rgba(200,195,185),0.22);
+  border-color: rgba(200,195,185),0.75);
 }
 .product-arrow:focus-visible {
   outline: 2px solid var(--gold);
@@ -1295,8 +1295,8 @@ body {
   transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
 }
 .product-pager button[aria-current="true"] {
-  background: rgba(201,138,60,0.18);
-  border-color: rgba(201,138,60,0.55);
+  background: rgba(200,195,185),0.18);
+  border-color: rgba(200,195,185),0.55);
   color: var(--gold);
 }
 .product-pager button:focus-visible {
@@ -1649,7 +1649,7 @@ body {
   text-align: center;
   font-size: clamp(16px, 4.2vw, 20px);
   font-weight: 700;
-  color: #C9B59A;
+  color: #9A958C;
 }
 .reason-cell--yes { color: var(--rose); }
 
@@ -1961,6 +1961,7 @@ body {
 .raise-kicker {
   position: relative;
   z-index: 2;
+  margin-bottom: clamp(4px, 1svh, 10px);
   font-size: clamp(13px, 3.4vw, 15px);
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -1971,7 +1972,7 @@ body {
 .raise-amount {
   position: relative;
   z-index: 2;
-  font-size: clamp(56px, 18vw, 96px);
+  font-size: clamp(48px, 14vw, 80px);
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.03em;
@@ -1987,9 +1988,49 @@ body {
   color: rgba(244,237,227,0.55);
 }
 
+.raise-uses {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2.4svh, 20px);
+  margin-top: clamp(8px, 1.6svh, 14px);
+  padding-top: clamp(16px, 2.6svh, 22px);
+  border-top: 1px solid rgba(244,237,227,0.15);
+}
+
+.raise-use {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.raise-use__n {
+  font-size: clamp(11px, 2.8vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.raise-use__title {
+  font-size: clamp(18px, 5vw, 22px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.raise-use__copy {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(13px, 3.4vw, 15px);
+  line-height: 1.4;
+  color: rgba(244,237,227,0.55);
+  text-wrap: pretty;
+}
+
 .raise .tag {
   justify-content: center;
-  margin-top: clamp(28px, 6svh, 48px);
+  margin-top: clamp(16px, 3svh, 28px);
 }
 
 
@@ -2970,26 +3011,47 @@ body {
     padding: 0;
   }
 
-  .raise-kicker {                  /* left 100, top 340, 24 */
+  .raise-kicker {                  /* left 100, top 320, 24 */
     position: absolute;
     left: 5.208cqw;
-    top: 17.708cqw;
+    top: 16.667cqw;
+    margin-bottom: 0;
     font-size: 1.25cqw;
   }
 
-  .raise-amount {                  /* left 92, top 392, 280 */
+  .raise-amount {                  /* left 92, top 420, 240 */
     position: absolute;
     left: 4.792cqw;
-    top: 20.417cqw;
-    font-size: 14.583cqw;
+    top: 21.875cqw;
+    font-size: 12.5cqw;
   }
 
-  .raise-sub {                     /* left 100, top 700, 28 */
+  .raise-sub {                     /* left 100, top 670, 28 */
     position: absolute;
     left: 5.208cqw;
-    top: 36.458cqw;
+    top: 34.896cqw;
     font-size: 1.458cqw;
   }
+
+  .raise-uses {
+    position: absolute;
+    left: 5.208cqw;
+    right: 5.208cqw;
+    top: 40.625cqw;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.083cqw;
+    margin-top: 0;
+    padding-top: 1.667cqw;
+  }
+
+  .raise-use { gap: 0.417cqw; }
+
+  .raise-use__n { font-size: 0.833cqw; }
+
+  .raise-use__title { font-size: 1.875cqw; }
+
+  .raise-use__copy { font-size: 1.146cqw; }
 
   .raise .tag {
     position: absolute;
@@ -3088,7 +3150,7 @@ body {
   </section>
 
   <!-- ── 01 ─────────────────────────────────────────────────────────── -->
-  <section class="slide cover" id="cover" aria-label="Madam — Angel Pitch, cover">
+  <section class="slide cover" id="cover" aria-label="Madam Angel Pitch, cover">
     <div class="stage">
       <div class="glow"></div>
 
@@ -3124,10 +3186,10 @@ body {
         <defs>
           <marker id="jarrow" viewBox="0 0 12 12" refX="10" refY="6"
                   markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M1.5 1 L11 6 L1.5 11 Q4 6 1.5 1 z" fill="#C98A3C"></path>
+            <path d="M1.5 1 L11 6 L1.5 11 Q4 6 1.5 1 z" fill="#C8C3B9"></path>
           </marker>
         </defs>
-        <g stroke="#C98A3C" stroke-width="4.5" stroke-linecap="round" marker-end="url(#jarrow)">
+        <g stroke="#C8C3B9" stroke-width="4.5" stroke-linecap="round" marker-end="url(#jarrow)">
           <path d="M382 750 C418 668 348 532 380 442"></path>
           <path d="M400 430 C444 470 428 660 446 736"></path>
           <path d="M754 750 C790 668 720 532 752 442"></path>
@@ -3150,7 +3212,7 @@ body {
       <svg class="chain-path" id="chainPath" aria-hidden="true">
         <defs id="chainProbe"></defs>
         <g id="chainRoad" fill="none" stroke-linecap="round"></g>
-        <g id="chainArrows" fill="#C98A3C"></g>
+        <g id="chainArrows" fill="#C8C3B9"></g>
       </svg>
 
       <ol class="chain">
@@ -3285,9 +3347,9 @@ body {
 
         <!-- Narrow stand-in for the authored connector: points at him. -->
         <svg class="founder-arrow" viewBox="0 0 60 76" fill="none" aria-hidden="true">
-          <path d="M54 8 C 34 12, 16 28, 13 52" stroke="#C98A3C" stroke-width="5"
+          <path d="M54 8 C 34 12, 16 28, 13 52" stroke="#C8C3B9" stroke-width="5"
                 stroke-linecap="round"></path>
-          <path d="M3 37 L13 56 L26 45" stroke="#C98A3C" stroke-width="5"
+          <path d="M3 37 L13 56 L26 45" stroke="#C8C3B9" stroke-width="5"
                 stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
 
@@ -3302,8 +3364,8 @@ body {
 
       <svg class="founder-sketch" viewBox="0 0 1920 1080" fill="none" aria-hidden="true">
         <path d="M690 490 C 960 440, 1120 600, 1230 690 S 1310 762, 1300 800"
-              stroke="#C98A3C" stroke-width="7" stroke-linecap="round"></path>
-        <path d="M1262 764 L1302 810 L1344 776" stroke="#C98A3C" stroke-width="7"
+              stroke="#C8C3B9" stroke-width="7" stroke-linecap="round"></path>
+        <path d="M1262 764 L1302 810 L1344 776" stroke="#C8C3B9" stroke-width="7"
               stroke-linecap="round" stroke-linejoin="round"></path>
       </svg>
 
@@ -3340,7 +3402,7 @@ body {
             <div class="product-meta">
               <div class="product-kicker">02 · The arc</div>
               <h3 class="product-name">Journeys</h3>
-              <p class="product-copy">A story that unfolds over a period of time — days, weeks, months — not a single post.</p>
+              <p class="product-copy">A story that unfolds over a period of time: days, weeks, months. Not a single post.</p>
             </div>
           </div>
 
@@ -3554,7 +3616,7 @@ body {
         <div class="reason-row reason-row--madam" role="row">
           <div class="reason-brand" role="rowheader">
             <span class="reason-brand__name">Madam</span>
-            <span class="reason-brand__meta">Raising $750K · 66 users</span>
+            <span class="reason-brand__meta">Raising $750K · 100+ users</span>
           </div>
           <div class="reason-cell reason-cell--yes" role="cell">✓</div>
           <div class="reason-cell reason-cell--yes" role="cell">✓</div>
@@ -3690,10 +3752,10 @@ body {
       <div class="traction-stats">
         <div class="trac anim-rise anim-rise-d1">
           <div class="trac__numrow">
-            <span class="trac__num trac__num--gold">66</span>
+            <span class="trac__num trac__num--gold">100+</span>
             <span class="trac__unit">users</span>
           </div>
-          <p class="trac__copy">Signed up in two months.</p>
+          <p class="trac__copy">And growing. Averaging 2 to 3 added a day.</p>
         </div>
         <div class="trac anim-rise anim-rise-d2">
           <div class="trac__numrow">
@@ -3714,7 +3776,7 @@ body {
             <span class="trac__num">4.27</span>
             <span class="trac__unit">/ post</span>
           </div>
-          <p class="trac__copy">Engagement on every post. The loop works — now we scale it.</p>
+          <p class="trac__copy">Engagement on every post. The loop works. Now we scale it.</p>
         </div>
       </div>
 
@@ -3737,7 +3799,25 @@ body {
 
       <div class="raise-kicker anim-in">We are raising</div>
       <div class="raise-amount anim-pop">$750,000</div>
-      <p class="raise-sub anim-in">for the next level of growth.</p>
+      <p class="raise-sub anim-in">This raise gets us to M1.</p>
+
+      <div class="raise-uses">
+        <div class="raise-use anim-rise anim-rise-d1">
+          <div class="raise-use__n">01</div>
+          <div class="raise-use__title">Product</div>
+          <p class="raise-use__copy">The next layer of Madam. Jars and the buy path.</p>
+        </div>
+        <div class="raise-use anim-rise anim-rise-d2">
+          <div class="raise-use__n">02</div>
+          <div class="raise-use__title">Grow</div>
+          <p class="raise-use__copy">1,000 users, 250 monthly active.</p>
+        </div>
+        <div class="raise-use anim-rise anim-rise-d3">
+          <div class="raise-use__n">03</div>
+          <div class="raise-use__title">Purchasing</div>
+          <p class="raise-use__copy">Open checkout first. Then payments we control.</p>
+        </div>
+      </div>
 
       <div class="tag">
         <span>10</span>
@@ -4407,7 +4487,7 @@ body {
 
     var d = roadPath(pts);
     road.innerHTML =
-      '<path d="' + d + '" stroke="rgba(201,138,60,0.45)" stroke-width="2"></path>' +
+      '<path d="' + d + '" stroke="rgba(200,195,185),0.45)" stroke-width="2"></path>' +
       '<path d="' + d + '" stroke="rgba(255,255,255,0.22)" stroke-width="2" ' +
       'stroke-dasharray="5 9"></path>';
 
