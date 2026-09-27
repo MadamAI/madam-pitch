@@ -178,6 +178,9 @@ body {
   filter: brightness(0) invert(1);
   z-index: 3;
 }
+.slide:not(.cover):not(.demo) .logo {
+  display: none;
+}
 
 /* ── Deck controls ──────────────────────────────────────────────────────── */
 
@@ -226,6 +229,21 @@ body {
   color: rgba(244,237,227,0.5);
 }
 .tag .sep { opacity: 0.5; }
+
+/* One header treatment for every interior slide. */
+.slide-title {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: clamp(26px, 7vw, 34px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-wrap: pretty;
+}
+.slide-title .accent { color: var(--rose); }
 
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -770,16 +788,11 @@ body {
   margin-bottom: clamp(8px, 1.5svh, 18px);
 }
 
-.problem-head h2 {
+.problem-head .slide-title {
   /* Constrained by height as well as width so tall copy can't push the
      chain off a short screen. */
-  font-size: clamp(21px, min(7.4vw, 3.6svh), 54px);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
-  color: #fff;
+  font-size: clamp(21px, min(7.4vw, 3.6svh), 34px);
 }
-.problem-head h2 .accent { color: var(--rose); }
 
 /* The desktop connector arrows. Meaningless once stacked. */
 .flow { display: none; }
@@ -899,159 +912,6 @@ body {
 }
 
 
-/* ───────────────────────────────────────────────────────────────
-   03 — The founder
-
-   Wide is name left, portrait bottom-right, with a hand-drawn arrow running
-   between them. Narrow keeps that gesture by pairing the portrait and the
-   handwritten note side by side with a short arrow of their own.
-   ─────────────────────────────────────────────────────────────── */
-
-.founder .glow {
-  top: -10%;
-  height: 100vh;
-}
-
-.founder .stage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: clamp(16px, 3svh, 34px);
-  overflow: hidden;
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(40px, 7svh, 80px))
-           var(--pad)
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(30px, 5svh, 60px));
-}
-
-.founder-head { position: relative; z-index: 2; }
-
-.founder-name {
-  font-size: clamp(46px, min(17vw, 9svh), 150px);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  color: #fff;
-  margin-top: clamp(8px, 1.4svh, 18px);
-}
-
-.founder-rule {
-  display: block;
-  width: clamp(120px, 42vw, 360px);
-  height: clamp(5px, 0.9svh, 10px);
-  margin-top: clamp(10px, 1.8svh, 22px);
-  border-radius: 99px;
-  background: var(--gold);
-}
-
-/* Portrait and note sit on one row so the note still reads as pointing at
-   him, the way the arrow does on the wide composition. */
-.founder-who {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: clamp(10px, 3vw, 20px);
-}
-
-.founder-who__col {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(8px, 1.6svh, 18px);
-}
-
-.founder-portrait {
-  flex: none;
-  width: clamp(92px, 30vw, 170px);
-  aspect-ratio: 1;
-  border-radius: 999px;
-  overflow: hidden;
-  border: clamp(3px, 0.9vw, 5px) solid var(--gold);
-}
-
-.founder-portrait img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 16%;
-  display: block;
-}
-
-.founder-arrow {
-  flex: none;
-  width: clamp(26px, 8vw, 44px);
-  height: auto;
-  overflow: visible;
-}
-
-.founder-note {
-  font-family: 'Caveat', cursive;
-  font-weight: 600;
-  font-size: clamp(22px, min(7.4vw, 3.8svh), 76px);
-  line-height: 1;
-  color: var(--gold);
-  transform: rotate(-6deg);
-}
-
-.founder-quote {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  gap: clamp(8px, 2.6vw, 26px);
-  align-items: flex-start;
-}
-
-.founder-quote__mark {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(44px, 14vw, 150px);
-  line-height: 0.7;
-  color: var(--gold);
-  flex: none;
-}
-
-.founder-quote p {
-  font-size: clamp(17px, min(5.4vw, 2.7svh), 52px);
-  font-weight: 700;
-  line-height: 1.18;
-  letter-spacing: -0.02em;
-  color: #fff;
-  text-wrap: pretty;
-  padding-top: 0.2em;
-}
-.founder-quote .accent { color: var(--rose); }
-
-.founder-creds {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: clamp(12px, 4vw, 22px);
-}
-
-.founder-creds svg {
-  width: clamp(22px, 6.4vw, 38px);
-  height: clamp(22px, 6.4vw, 38px);
-  display: block;
-}
-
-.founder-creds img {
-  height: clamp(26px, 7.6vw, 46px);
-  width: auto;
-  display: block;
-}
-
-.founder-creds__sep {
-  width: 1px;
-  height: clamp(18px, 4vw, 30px);
-  background: rgba(244,237,227,0.28);
-  flex: none;
-}
-
-/* The authored 1920x1080 connector only makes sense on the wide canvas. */
-.founder-sketch { display: none; }
-
-
 /* ─────────────────────────────────────────────────────────────────────────
    04 — The product
    ───────────────────────────────────────────────────────────────────────── */
@@ -1059,6 +919,11 @@ body {
 .product .glow {
   top: -10%;
   height: 120vh;
+}
+
+.product .slide-title {
+  padding-inline: var(--pad);
+  flex: none;
 }
 
 .product .stage {
@@ -1377,13 +1242,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(10px, 1.6svh, 18px);
+  gap: clamp(16px, 2.4svh, 24px);
   height: 100%;
   overflow: hidden;
-  /* Clear the absolute logo (pad + logo height + breathing room). */
-  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(72px, 20vw, 110px))
+  padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
            var(--pad)
-           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(16px, 2.5svh, 28px));
+           calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
 }
 
 .bizmodel-kicker {
@@ -1402,67 +1266,64 @@ body {
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: clamp(8px, 1.4svh, 12px);
+  gap: 0;
   flex: 1 1 auto;
   min-height: 0;
   justify-content: center;
 }
 
-.biz-card {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(6px, 1svh, 10px);
-  padding: clamp(14px, 2.2svh, 22px) clamp(16px, 3.5vw, 24px);
-  border-radius: clamp(14px, 3vw, 18px);
-  background: #120202;
-  border: 1px solid var(--card-line);
-  color: #DFCDB4;
-  flex: 0 1 auto;
-  min-height: 0;
+.biz-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 14px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(244,237,227,0.12);
+}
+.biz-step:last-child {
+  border-bottom: 1px solid rgba(244,237,227,0.12);
 }
 
-.biz-card--jars {
-  background: #2B0709;
-  border-color: transparent;
+.biz-step__n {
+  grid-row: 1 / 4;
+  font-size: clamp(11px, 2.8vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding-top: 4px;
 }
 
-.biz-card__name {
-  font-size: clamp(22px, min(6.2vw, 3.4svh), 32px);
+.biz-step__when {
+  font-size: clamp(11px, 2.8vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244,237,227,0.42);
+}
+
+.biz-step__name {
+  margin: 4px 0 0;
+  font-size: clamp(22px, 6vw, 28px);
   font-weight: 700;
   line-height: 1.1;
   color: #fff;
 }
 
-.biz-card--outline .biz-card__name { color: var(--fg); }
-
-.biz-card__copy {
+.biz-step__copy {
+  margin: 6px 0 0;
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(12px, min(3.4vw, 1.85svh), 16px);
-  line-height: 1.35;
-  color: rgba(223,205,180,0.75);
+  font-size: clamp(13px, 3.4vw, 15px);
+  line-height: 1.4;
+  color: rgba(244,237,227,0.58);
   text-wrap: pretty;
-  flex: 1;
 }
 
-.biz-card__fee {
-  margin-top: auto;
-  padding-top: clamp(10px, 1.6svh, 18px);
-  border-top: 1px solid rgba(223,205,180,0.35);
-  font-size: clamp(14px, min(3.8vw, 2.1svh), 18px);
-  font-weight: 700;
-  color: #fff;
-}
-
-.biz-card--outline .biz-card__fee {
-  border-top-color: #DFCDB4;
-  color: var(--fg);
-}
+.biz-step--now .biz-step__name { color: var(--rose); }
 
 .bizmodel .tag {
   justify-content: center;
-  margin-top: 0;
+  margin-top: auto;
   flex: none;
-  font-size: clamp(9px, 2.4vw, 12px);
 }
 
 
@@ -1494,17 +1355,8 @@ body {
 }
 
 .bet-headline {
-  position: relative;
-  z-index: 2;
-  font-size: clamp(26px, 7vw, 36px);
-  font-weight: 700;
-  line-height: 1.22;
-  letter-spacing: -0.01em;
-  color: #fff;
-  text-wrap: pretty;
   max-width: 22rem;
 }
-.bet-headline .accent { color: var(--gold); }
 
 .bet-stats {
   position: relative;
@@ -1571,11 +1423,21 @@ body {
 .reason .stage {
   display: flex;
   flex-direction: column;
-  gap: clamp(18px, 3svh, 28px);
+  gap: clamp(16px, 2.4svh, 22px);
   padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
            var(--pad)
            calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
   overflow: hidden;
+}
+
+.reason-kicker {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(11px, 2.8vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
 }
 
 .reason-headline {
@@ -1585,77 +1447,98 @@ body {
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.01em;
-  color: var(--rose);
+  color: #fff;
   text-wrap: pretty;
 }
+.reason-headline .accent { color: var(--rose); }
 
-.reason-table {
+.reason-apps {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.reason-row {
+  flex: 1;
   display: grid;
-  grid-template-columns: 1.15fr repeat(4, 0.7fr);
-  gap: 4px;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(223,205,180,0.35);
-}
-.reason-row--head {
-  border-bottom: 2px solid #200505;
-  padding-bottom: 12px;
-}
-.reason-row--madam {
-  background: rgba(166,39,63,0.09);
-  margin: 0 -8px;
-  padding-left: 8px;
-  padding-right: 8px;
-  border-radius: 8px;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  min-height: 0;
+  justify-items: stretch;
 }
 
-.reason-colhead {
-  font-size: clamp(8px, 2.1vw, 10px);
+.reason-app {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(244,237,227,0.16);
+  border-radius: 16px;
+  background: rgba(244,237,227,0.03);
+}
+
+.reason-app__mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(244,237,227,0.08);
+}
+.reason-app__mark img {
+  width: 54%;
+  height: 54%;
+  object-fit: contain;
+  display: block;
+}
+
+.reason-app__name {
+  font-size: clamp(11px, 2.8vw, 13px);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(244,237,227,0.6);
-  text-align: center;
-  line-height: 1.25;
+  color: rgba(244,237,227,0.5);
 }
-.reason-brand {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.reason-brand__name {
-  font-size: clamp(15px, 4vw, 18px);
+
+.reason-app__verb {
+  margin: 2px 0 0;
+  font-size: clamp(18px, 5vw, 22px);
   font-weight: 700;
+  line-height: 1.1;
   color: #fff;
 }
-.reason-brand__meta {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(10px, 2.4vw, 12px);
-  color: var(--gold);
-  line-height: 1.3;
-}
-.reason-row--madam .reason-brand__meta { color: var(--rose); }
 
-.reason-cell {
-  text-align: center;
-  font-size: clamp(16px, 4.2vw, 20px);
-  font-weight: 700;
-  color: #9A958C;
+.reason-app__copy {
+  display: none;
 }
-.reason-cell--yes { color: var(--rose); }
+
+.reason-app--madam {
+  order: -1;
+  justify-self: center;
+  width: min(100%, 320px);
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 18px 18px 16px;
+  border-color: rgba(212,131,143,0.42);
+  background: linear-gradient(165deg, #6E1830 0%, #3D0813 100%);
+  box-shadow: 0 14px 36px rgba(61, 8, 19, 0.4);
+}
+.reason-app__logo {
+  width: clamp(72px, 22vw, 110px);
+  height: auto;
+  display: block;
+  filter: none;
+}
+.reason-app--madam .reason-app__verb { color: var(--fg); }
+.reason-app--madam .reason-app__copy {
+  display: block;
+  margin: 4px 0 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(13px, 3.4vw, 15px);
+  line-height: 1.35;
+  color: rgba(244,237,227,0.78);
+}
 
 .reason .tag {
   justify-content: center;
-  margin-top: clamp(8px, 2svh, 16px);
+  margin-top: auto;
 }
 
 
@@ -1690,34 +1573,124 @@ body {
   color: var(--rose);
   text-wrap: pretty;
 }
+.team-headline .accent { color: var(--gold); }
 
-.team-grid {
+.team-people {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(22px, 4svh, 36px) clamp(16px, 4vw, 28px);
-  align-items: center;
-}
-
-.team-logo {
   display: flex;
   flex-direction: column;
+  gap: clamp(16px, 2.8svh, 22px);
+}
+
+.team-people--row {
+  gap: clamp(18px, 3svh, 24px);
+}
+
+.team-person {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(12px, 3vw, 18px);
+  align-items: start;
+}
+
+.team-person__photo {
+  width: clamp(64px, 18vw, 88px);
+  height: clamp(64px, 18vw, 88px);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(244,237,227,0.35);
+  flex-shrink: 0;
+}
+.team-person__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.team-person__name {
+  font-size: clamp(18px, 5vw, 22px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #fff;
+  margin: 0;
+}
+
+.team-person__role {
+  margin-top: 4px;
+  font-size: clamp(12px, 3.2vw, 14px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.team-person__commit {
+  margin-top: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(12px, 3.3vw, 15px);
+  line-height: 1.4;
+  color: rgba(244,237,227,0.7);
+  text-wrap: pretty;
+}
+
+.team-person__creds {
+  display: flex;
   align-items: center;
   gap: 10px;
-  text-align: center;
+  margin-top: 12px;
 }
-.team-logo img {
-  height: clamp(36px, 8vw, 52px);
-  width: auto;
-  max-width: 100%;
+.team-cred {
+  width: clamp(44px, 12vw, 56px);
+  height: clamp(44px, 12vw, 56px);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex: none;
+  background: rgba(244, 237, 227, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(244, 237, 227, 0.16);
+}
+.team-cred img,
+.team-cred svg {
+  width: 64%;
+  height: 64%;
+  object-fit: contain;
   display: block;
-  opacity: 0.9;
+  background: none;
+  opacity: 0.95;
 }
-.team-logo span {
-  font-size: clamp(12px, 3vw, 14px);
-  font-weight: 600;
-  color: rgba(244,237,227,0.55);
+.team-cred svg {
+  width: 52%;
+  height: 52%;
+}
+.team-cred--gt {
+  background: #F4EDE3;
+  box-shadow: none;
+}
+.team-cred--gt img {
+  width: 78%;
+  height: 78%;
+  opacity: 1;
+}
+.team-cred--nasa {
+  background: #0b3d91;
+  box-shadow: none;
+}
+.team-cred--nasa img {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+.team-cred--so {
+  background: #F4EDE3;
+  box-shadow: none;
+}
+.team-cred--so img {
+  width: 62%;
+  height: 62%;
+  opacity: 1;
 }
 
 .team .tag {
@@ -1951,11 +1924,16 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(12px, 2svh, 20px);
+  gap: clamp(20px, 3.2svh, 28px);
   overflow: hidden;
   padding: calc(max(var(--pad), env(safe-area-inset-top)) + clamp(48px, 8svh, 72px))
            var(--pad)
            calc(max(var(--pad), env(safe-area-inset-bottom)) + clamp(28px, 5svh, 48px));
+}
+
+.raise-hero {
+  position: relative;
+  z-index: 2;
 }
 
 .raise-kicker {
@@ -2070,6 +2048,12 @@ body {
   .tag {                           /* 24px, gap 24 */
     gap: 1.25cqw;
     font-size: 1.25cqw;
+  }
+
+  .slide-title {
+    font-size: 3.333cqw;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
   }
 
   /* ── 00 Demo ── */
@@ -2274,15 +2258,6 @@ body {
     margin-bottom: 0;
   }
 
-  .eyebrow {                       /* 24px, gap 18 */
-    font-size: 1.25cqw;
-    margin-bottom: 0.938cqw;
-  }
-
-  .problem-head h2 {               /* 54px */
-    font-size: 2.813cqw;
-    white-space: nowrap;
-  }
 
   .flow {                          /* connector arrows, authored viewBox */
     display: block;
@@ -2369,105 +2344,6 @@ body {
     z-index: 2;
   }
 
-  /* ── 03 Founder ── */
-
-  .founder .glow {                 /* -360,-160  2000x1600  r1200 */
-    left: -18.75cqw;
-    top: -8.333cqw;
-    width: 104.167cqw;
-    height: 83.333cqw;
-    border-radius: 62.5cqw;
-    transform: none;
-  }
-
-  .founder .stage {                /* text column: left 100, centred */
-    display: block;
-    gap: 0;
-    padding: 0;
-  }
-
-  /* The authored column is vertically centred, which lands the eyebrow at
-     345 and the quote row at 602. Pinned rather than centred here so the
-     hand-drawn arrow, which is authored in absolute coordinates, still
-     meets the name and the portrait. */
-  .founder-head {
-    position: absolute;
-    left: 5.208cqw;
-    top: 17.969cqw;                /* 345 */
-  }
-
-  .founder-name {                  /* 150 */
-    font-size: 7.813cqw;
-    margin-top: 1.771cqw;
-  }
-
-  .founder-rule {                  /* 360x10, 6 below the name */
-    width: 18.75cqw;
-    height: 0.521cqw;
-    margin-top: 0.313cqw;
-  }
-
-  .founder-quote {                 /* 940 wide, gap 26 */
-    position: absolute;
-    left: 5.208cqw;
-    top: 31.354cqw;                /* 602 */
-    width: 48.958cqw;
-    gap: 1.354cqw;
-  }
-
-  .founder-quote__mark { font-size: 7.813cqw; }   /* 150 */
-  .founder-quote p     { font-size: 2.708cqw; }   /* 52  */
-
-  /* Portrait, note and credentials cluster, bottom right. */
-  .founder-who {                   /* right 80, bottom 72 */
-    position: absolute;
-    right: 4.167cqw;
-    bottom: 3.75cqw;
-    gap: 1.354cqw;
-    z-index: 4;
-  }
-
-  .founder-who__col { gap: 0.938cqw; }            /* 18 */
-
-  .founder-portrait {              /* 170 inside a 5px ring */
-    width: 9.375cqw;
-    border-width: 0.26cqw;
-  }
-
-  .founder-note {                  /* 76, to the right of him */
-    font-size: 3.958cqw;
-    white-space: nowrap;
-  }
-
-  /* The narrow arrow is replaced by the authored hand-drawn one. */
-  .founder-arrow { display: none; }
-
-  .founder-sketch {
-    display: block;
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-    overflow: visible;
-    pointer-events: none;
-  }
-
-  /* These scale with the canvas, so cqw rather than the narrow clamps. */
-  .founder-creds { gap: 1.146cqw; }               /* 22 */
-
-  .founder-creds svg {                           /* 38 */
-    width: 1.979cqw;
-    height: 1.979cqw;
-  }
-
-  .founder-creds img { height: 2.396cqw; }       /* 46 */
-
-  .founder-creds__sep {                          /* 1x30 */
-    width: 0.052cqw;
-    height: 1.563cqw;
-  }
-
   .product .stage {
     display: block;
     height: auto;
@@ -2475,11 +2351,18 @@ body {
     padding: 0 4.167cqw 4.167cqw;
   }
 
+  .product .slide-title {
+    position: absolute;
+    left: 5.208cqw;
+    top: 5.208cqw;
+    padding-inline: 0;
+  }
+
   .product-rail {
     position: absolute;
     left: 5.208cqw;                /* 100 */
     right: 5.208cqw;
-    top: 8.854cqw;                 /* 170 */
+    top: 12.5cqw;
     bottom: 6.25cqw;               /* 120 — room for tag */
     flex: none;
     min-height: 0;
@@ -2546,14 +2429,7 @@ body {
     overflow: visible;
   }
 
-  .product-kicker {
-    display: block;
-    font-size: 1.25cqw;            /* 24 */
-    letter-spacing: 0.14em;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
+  .product-kicker { display: none; }
 
   .product-name {
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -2593,48 +2469,47 @@ body {
 
   .bizmodel .logo { width: 5.208cqw; }      /* 100 */
 
-  .bizmodel .stage {               /* top clears absolute logo */
+  .bizmodel .stage {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     gap: 2.5cqw;
     height: auto;
     overflow: hidden;
-    padding: 8.333cqw 5.208cqw 6.042cqw;  /* 160 / 100 / 116 */
+    padding: 5.208cqw 5.208cqw 4.167cqw;
   }
 
-  .bizmodel-kicker {               /* 24 */
-    font-size: 1.25cqw;
-  }
-
-  .bizmodel-row {                  /* 3 cols, gap 32 */
+  .bizmodel-row {
     flex: 1;
     min-height: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.667cqw;
-    align-items: stretch;
-    justify-content: stretch;
+    gap: 2.5cqw;
+    align-content: center;
+    align-items: start;
   }
 
-  .biz-card {                      /* pad 44 40, radius 24, gap 16 */
-    flex: 1;
-    min-height: 0;
-    gap: 0.833cqw;
-    padding: 2.292cqw 2.083cqw;
-    border-radius: 1.25cqw;
-  }
-
-  .biz-card__name { font-size: 3.125cqw; }          /* 60 */
-
-  .biz-card__copy { font-size: 1.25cqw; }           /* 24 */
-
-  .biz-card__fee {                                  /* 30, pt 28 */
+  .biz-step {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    border: 0;
+    border-top: 1px solid rgba(244,237,227,0.16);
     padding-top: 1.458cqw;
-    font-size: 1.563cqw;
+  }
+  .biz-step:last-child { border-bottom: 0; }
+
+  .biz-step__n {
+    grid-row: auto;
+    font-size: 0.833cqw;
+    padding-top: 0;
   }
 
-  .bizmodel .tag {                 /* right 80, bottom 48 */
+  .biz-step__when { font-size: 0.729cqw; margin-top: 1.042cqw; }
+  .biz-step__name { font-size: 2.083cqw; margin-top: 0.417cqw; }
+  .biz-step__copy { font-size: 1.146cqw; margin-top: 0.729cqw; max-width: 24cqw; }
+
+  .bizmodel .tag {
     position: absolute;
     right: 4.167cqw;
     bottom: 2.5cqw;
@@ -2688,14 +2563,12 @@ body {
       #000 0%, rgba(0,0,0,0.85) 22%, rgba(0,0,0,0.15) 62%, rgba(0,0,0,0.35) 100%);
   }
 
-  .bet-headline {                  /* left 100, top 272, 1080, 52 */
+  .bet-headline {
     position: absolute;
     left: 5.208cqw;
-    top: 14.167cqw;
+    top: 12.5cqw;
     width: 56.25cqw;
     max-width: none;
-    font-size: 2.708cqw;
-    margin: 0;
   }
 
   .bet-stats {                     /* left 100, top 492, gap 72 */
@@ -2750,62 +2623,82 @@ body {
     overflow: hidden;
   }
 
-  .reason-headline { font-size: 3.333cqw; }  /* 64 */
+  .reason .slide-title { max-width: 58cqw; }
 
-  .reason-table {
+  .reason-apps {
+    flex: 1;
     display: grid;
-    grid-template-columns: 21.875cqw 1fr 1fr 1fr 1fr;  /* 420 */
-    gap: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      "madam madam madam"
+      "tt ig pin";
+    row-gap: 3.333cqw;
+    column-gap: 1.25cqw;
+    min-height: 0;
+    align-content: center;
+    align-items: stretch;
   }
 
-  .reason-row {
-    display: contents;
-  }
-
-  .reason-row > * {
-    padding: 0.417cqw 1.458cqw;    /* 8 28 */
-    border-bottom: 1px solid #DFCDB4;
+  .reason-app {
     display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .reason-row > .reason-brand {
-    padding-left: 0;
-    padding-right: 1.458cqw;
-    justify-content: flex-start;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.313cqw;
+    justify-content: flex-start;
+    gap: 0;
+    padding: 1.667cqw 1.667cqw 1.875cqw;
+    border-radius: 1.042cqw;
   }
 
-  .reason-row--head > * {
-    padding: 0 1.458cqw 1.042cqw;
-    border-bottom: 2px solid #200505;
-    align-items: flex-end;
-  }
-  .reason-row--head > :first-child {
-    padding-left: 0;
-  }
+  .reason-app:nth-child(1) { grid-area: tt; }
+  .reason-app:nth-child(2) { grid-area: ig; }
+  .reason-app:nth-child(3) { grid-area: pin; }
+  .reason-app--madam { grid-area: madam; }
 
-  .reason-colhead {
-    font-size: 1.25cqw;            /* 24 */
-    letter-spacing: 0.14em;
+  .reason-app__mark {
+    width: 2.292cqw;
+    height: 2.292cqw;
+    margin-bottom: 1.042cqw;
   }
 
-  .reason-brand__name { font-size: 1.979cqw; }   /* 38 */
-  .reason-brand__meta { font-size: 1.25cqw; }    /* 24 */
+  .reason-app__name { font-size: 0.729cqw; }
+  .reason-app__verb { font-size: 1.875cqw; margin-top: 0.417cqw; }
 
-  .reason-cell { font-size: 1.563cqw; }          /* 30 */
-  .reason-cell--yes { font-size: 1.771cqw; }     /* 34 */
-
-  .reason-row--madam > * {
-    background: rgba(166,39,63,0.09);
+  .reason-app__copy {
+    display: block;
+    margin: 0.417cqw 0 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.042cqw;
+    line-height: 1.35;
+    color: rgba(244,237,227,0.5);
+    max-width: 18cqw;
   }
-  .reason-row--madam {
-    background: transparent;
-    margin: 0;
-    padding: 0;
-    border-radius: 0;
+
+  .reason-app--madam {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-self: center;
+    align-self: center;
+    width: 36cqw;
+    max-width: 36cqw;
+    gap: 0.208cqw;
+    padding: 1.771cqw 2.083cqw 1.875cqw;
+    background: linear-gradient(165deg, #6E1830 0%, #3D0813 100%);
+    border-color: rgba(212,131,143,0.45);
+    box-shadow: 0 1.042cqw 2.708cqw rgba(61, 8, 19, 0.42);
+  }
+  .reason-app__logo {
+    width: 7.292cqw;
+    flex: none;
+    filter: none;
+    margin-bottom: 0.833cqw;
+  }
+  .reason-app--madam .reason-app__verb { font-size: 2.083cqw; margin-top: 0; }
+  .reason-app--madam .reason-app__copy {
+    font-size: 1.042cqw;
+    line-height: 1.4;
+    max-width: none;
+    color: rgba(244,237,227,0.78);
   }
 
   .reason .tag {
@@ -2837,21 +2730,39 @@ body {
     overflow: hidden;
   }
 
-  .team-headline { font-size: 3.333cqw; }        /* 64 */
 
-  .team-grid {
+  .team-people--row {
     flex: 1;
+    display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4.167cqw 2.5cqw;          /* 80 48 */
+    gap: 2.292cqw;
     align-content: center;
   }
 
-  .team-logo { gap: 0.833cqw; }                  /* 16 */
-  .team-logo img {
-    height: 5cqw;                  /* 96 */
-    filter: none;
+  .team-person {
+    display: flex;
+    flex-direction: column;
+    gap: 1.042cqw;
   }
-  .team-logo span { font-size: 1.25cqw; }        /* 24 */
+
+  .team-person__photo {
+    width: 8.333cqw;
+    height: 8.333cqw;
+    border-width: 0.156cqw;
+  }
+
+  .team-person__name { font-size: 1.667cqw; }
+  .team-person__role { font-size: 0.833cqw; margin-top: 0.26cqw; }
+  .team-person__commit {
+    margin-top: 0.521cqw;
+    font-size: 1.042cqw;
+    max-width: none;
+  }
+  .team-person__creds { margin-top: 0.833cqw; gap: 0.625cqw; }
+  .team-cred {
+    width: 3.75cqw;
+    height: 3.75cqw;
+  }
 
   .team .tag {
     position: absolute;
@@ -2882,7 +2793,6 @@ body {
     overflow: hidden;
   }
 
-  .roadmap-headline { font-size: 3.333cqw; }
 
   .roadmap-track {
     flex: 1;
@@ -2965,12 +2875,6 @@ body {
     overflow: hidden;
   }
 
-  .traction-headline { font-size: 4.583cqw; }    /* 88 */
-
-  .traction-channels {
-    gap: 1.042cqw;
-    font-size: 1.25cqw;
-  }
 
   .traction-stats {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3011,47 +2915,48 @@ body {
     padding: 0;
   }
 
-  .raise-kicker {                  /* left 100, top 320, 24 */
+  .raise-hero {
     position: absolute;
     left: 5.208cqw;
-    top: 16.667cqw;
-    margin-bottom: 0;
-    font-size: 1.25cqw;
+    top: 50%;
+    transform: translateY(-52%);
+    width: 46cqw;
   }
 
-  .raise-amount {                  /* left 92, top 420, 240 */
-    position: absolute;
-    left: 4.792cqw;
-    top: 21.875cqw;
-    font-size: 12.5cqw;
+  .raise-kicker {
+    position: static;
+    margin-bottom: 1.042cqw;
+    font-size: 1.146cqw;
   }
 
-  .raise-sub {                     /* left 100, top 670, 28 */
-    position: absolute;
-    left: 5.208cqw;
-    top: 34.896cqw;
-    font-size: 1.458cqw;
+  .raise-amount {
+    position: static;
+    font-size: 8.333cqw;
   }
 
   .raise-uses {
     position: absolute;
-    left: 5.208cqw;
+    left: 54.167cqw;
     right: 5.208cqw;
-    top: 40.625cqw;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2.083cqw;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2.292cqw;
     margin-top: 0;
-    padding-top: 1.667cqw;
+    padding-top: 0;
+    padding-left: 3.333cqw;
+    border-top: none;
+    border-left: 1px solid rgba(244,237,227,0.18);
   }
 
   .raise-use { gap: 0.417cqw; }
 
   .raise-use__n { font-size: 0.833cqw; }
 
-  .raise-use__title { font-size: 1.875cqw; }
+  .raise-use__title { font-size: 2.083cqw; }
 
-  .raise-use__copy { font-size: 1.146cqw; }
+  .raise-use__copy { font-size: 1.25cqw; max-width: 28cqw; }
 
   .raise .tag {
     position: absolute;
@@ -3165,7 +3070,7 @@ body {
         <p class="cover-tagline">a place where you share. connect. belong.</p>
         <h1 class="cover-wordmark">Madam</h1>
         <div class="cover-meta">
-          <span>Aug 2026</span>
+          <span>Sep 2026</span>
           <span class="sep">&middot;</span>
           <span class="dim">Angel Pitch</span>
           <span class="sep">&middot;</span>
@@ -3204,8 +3109,7 @@ body {
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
       <div class="problem-head">
-        <span class="eyebrow">For black and brown women</span>
-        <h2>Connecting, sharing and belonging <span class="accent">is complex.</span></h2>
+        <h2 class="slide-title">Connecting, sharing and belonging <span class="accent">is complex.</span></h2>
       </div>
 
       <div class="chain-wrap">
@@ -3316,69 +3220,14 @@ body {
     </div>
   </section>
 
-  <!-- ── 03 ─────────────────────────────────────────────────────────── -->
-  <section class="slide founder" id="founder" aria-label="Meet the founder">
-    <div class="stage">
-      <div class="glow"></div>
-
-      <img class="logo" src="assets/logo.svg" alt="Madam">
-
-      <div class="founder-head">
-        <span class="eyebrow">Meet the founder</span>
-        <h2 class="founder-name">Caston</h2>
-        <span class="founder-rule" aria-hidden="true"></span>
-      </div>
-
-      <div class="founder-who">
-        <div class="founder-who__col">
-          <div class="founder-portrait">
-            <img src="assets/s03/caston.webp" alt="Caston, founder of Madam"
-                 width="410" height="512" loading="lazy">
-          </div>
-
-          <div class="founder-creds">
-            <svg viewBox="0 0 24 24" role="img" aria-label="Facebook">
-              <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z" fill="#1877F2"></path>
-            </svg>
-            <span class="founder-creds__sep" aria-hidden="true"></span>
-            <img src="assets/s03/harvard.svg" alt="Harvard" loading="lazy">
-          </div>
-        </div>
-
-        <!-- Narrow stand-in for the authored connector: points at him. -->
-        <svg class="founder-arrow" viewBox="0 0 60 76" fill="none" aria-hidden="true">
-          <path d="M54 8 C 34 12, 16 28, 13 52" stroke="#C8C3B9" stroke-width="5"
-                stroke-linecap="round"></path>
-          <path d="M3 37 L13 56 L26 45" stroke="#C8C3B9" stroke-width="5"
-                stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg>
-
-        <p class="founder-note">this guy built Madam</p>
-      </div>
-
-      <blockquote class="founder-quote">
-        <span class="founder-quote__mark" aria-hidden="true">&ldquo;</span>
-        <p>What if Black and brown women had a digital space
-           <span class="accent">built for them?</span></p>
-      </blockquote>
-
-      <svg class="founder-sketch" viewBox="0 0 1920 1080" fill="none" aria-hidden="true">
-        <path d="M690 490 C 960 440, 1120 600, 1230 690 S 1310 762, 1300 800"
-              stroke="#C8C3B9" stroke-width="7" stroke-linecap="round"></path>
-        <path d="M1262 764 L1302 810 L1344 776" stroke="#C8C3B9" stroke-width="7"
-              stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-
-      <div class="stage-mark" aria-hidden="true"></div>
-    </div>
-  </section>
-
   <!-- ── 04 ─────────────────────────────────────────────────────────── -->
   <section class="slide product" id="product" aria-label="The product">
     <div class="stage">
       <div class="glow"></div>
 
       <img class="logo" src="assets/logo.svg" alt="Madam">
+
+      <h2 class="slide-title">The product.</h2>
 
       <div class="product-rail">
         <div class="product-row" id="productRow" tabindex="0" aria-label="Product features. Swipe or use arrows to browse.">
@@ -3390,7 +3239,7 @@ body {
             <div class="product-meta">
               <div class="product-kicker">01 · The container</div>
               <h3 class="product-name">Jars</h3>
-              <p class="product-copy">Save looks, products and posts into one collection she can share.</p>
+              <p class="product-copy">Collect content and products around her interests. Selling comes when demand is real.</p>
             </div>
           </div>
 
@@ -3402,7 +3251,7 @@ body {
             <div class="product-meta">
               <div class="product-kicker">02 · The arc</div>
               <h3 class="product-name">Journeys</h3>
-              <p class="product-copy">A story that unfolds over a period of time: days, weeks, months. Not a single post.</p>
+              <p class="product-copy">A creator leads an experience over days. Members follow, take part, and come back.</p>
             </div>
           </div>
 
@@ -3414,7 +3263,7 @@ body {
             <div class="product-meta">
               <div class="product-kicker">03 · The home</div>
               <h3 class="product-name">Feed</h3>
-              <p class="product-copy">The creators she trusts, in one place. Watch, save, shop.</p>
+              <p class="product-copy">People she follows, in one place. Discover, save, and take part.</p>
             </div>
           </div>
 
@@ -3477,26 +3326,26 @@ body {
 
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
-      <div class="bizmodel-kicker">How we make money</div>
+      <h2 class="slide-title">How we make money.</h2>
 
       <div class="bizmodel-row">
-        <div class="biz-card biz-card--jars">
-          <div class="biz-card__name">Jars</div>
-          <p class="biz-card__copy">A creator sells a $60 hair kit from her Jar. She keeps $57, Madam keeps $3.</p>
-          <div class="biz-card__fee">5% transaction fee</div>
-        </div>
+        <article class="biz-step biz-step--now">
+          <div class="biz-step__n">01</div>
+          <h3 class="biz-step__name">Community sales</h3>
+          <p class="biz-step__copy">She buys from someone she already trusts. We take a cut. One path, proven, before we add more.</p>
+        </article>
 
-        <div class="biz-card biz-card--outline">
-          <div class="biz-card__name">Affiliate</div>
-          <p class="biz-card__copy">A user buys a $40 product Madam recommended. The brand pays a $6 commission, Madam keeps part of it.</p>
-          <div class="biz-card__fee">Share of commissions</div>
-        </div>
+        <article class="biz-step">
+          <div class="biz-step__n">02</div>
+          <h3 class="biz-step__name">Affiliate</h3>
+          <p class="biz-step__copy">When trusted discovery leads to a purchase, earn a commission. Partner terms are unconfirmed.</p>
+        </article>
 
-        <div class="biz-card biz-card--outline">
-          <div class="biz-card__name">Advertising</div>
-          <p class="biz-card__copy">A brand pays to put its product in front of the community. Madam keeps the ad spend.</p>
-          <div class="biz-card__fee">Ad revenue</div>
-        </div>
+        <article class="biz-step">
+          <div class="biz-step__n">03</div>
+          <h3 class="biz-step__name">Distribution</h3>
+          <p class="biz-step__copy">She is already showing, asking, and getting the word out. We are that channel.</p>
+        </article>
       </div>
 
       <div class="tag">
@@ -3521,7 +3370,7 @@ body {
         <div class="bet-photo__scrim"></div>
       </div>
 
-      <h2 class="bet-headline anim-rise anim-rise-d1">Our current users want <span class="accent">something that is theirs.</span></h2>
+      <h2 class="slide-title bet-headline anim-rise anim-rise-d1">Our current users want <span class="accent">something that is theirs.</span></h2>
 
       <div class="bet-stats anim-rise anim-rise-d3">
         <div class="bet-stat">
@@ -3558,71 +3407,40 @@ body {
       <div class="glow"></div>
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
-      <h2 class="reason-headline">We want a product they love using.</h2>
+      <h2 class="slide-title">Rewards <span class="accent">participation.</span></h2>
 
-      <div class="reason-table" role="table" aria-label="Competitive comparison">
-        <div class="reason-row reason-row--head" role="row">
-          <div role="columnheader"></div>
-          <div class="reason-colhead" role="columnheader">Designed for her</div>
-          <div class="reason-colhead" role="columnheader">Community</div>
-          <div class="reason-colhead" role="columnheader">Commerce</div>
-          <div class="reason-colhead" role="columnheader">She earns</div>
-        </div>
-
-        <div class="reason-row" role="row">
-          <div class="reason-brand" role="rowheader">
-            <span class="reason-brand__name">Instagram</span>
-            <span class="reason-brand__meta">Meta · $1.8T · 2B users</span>
+      <div class="reason-apps">
+        <article class="reason-app">
+          <div class="reason-app__mark"><img src="assets/team/tiktok.svg" alt=""></div>
+          <div>
+            <div class="reason-app__name">TikTok</div>
+            <h3 class="reason-app__verb">Watch.</h3>
+            <p class="reason-app__copy">Keeps her watching.</p>
           </div>
-          <div class="reason-cell" role="cell">—</div>
-          <div class="reason-cell reason-cell--yes" role="cell">✓</div>
-          <div class="reason-cell" role="cell">—</div>
-          <div class="reason-cell" role="cell">—</div>
-        </div>
-
-        <div class="reason-row" role="row">
-          <div class="reason-brand" role="rowheader">
-            <span class="reason-brand__name">TikTok</span>
-            <span class="reason-brand__meta">ByteDance · $300B · 1.6B users</span>
+        </article>
+        <article class="reason-app">
+          <div class="reason-app__mark"><img src="assets/s09/instagram.svg" alt=""></div>
+          <div>
+            <div class="reason-app__name">Instagram</div>
+            <h3 class="reason-app__verb">Scroll.</h3>
+            <p class="reason-app__copy">Keeps her scrolling.</p>
           </div>
-          <div class="reason-cell" role="cell">—</div>
-          <div class="reason-cell" role="cell">—</div>
-          <div class="reason-cell reason-cell--yes" role="cell">✓</div>
-          <div class="reason-cell" role="cell">—</div>
-        </div>
-
-        <div class="reason-row" role="row">
-          <div class="reason-brand" role="rowheader">
-            <span class="reason-brand__name">Pinterest</span>
-            <span class="reason-brand__meta">$23B · 570M users</span>
+        </article>
+        <article class="reason-app">
+          <div class="reason-app__mark"><img src="assets/s09/pinterest.svg" alt=""></div>
+          <div>
+            <div class="reason-app__name">Pinterest</div>
+            <h3 class="reason-app__verb">Save.</h3>
+            <p class="reason-app__copy">Keeps her collecting.</p>
           </div>
-          <div class="reason-cell" role="cell">—</div>
-          <div class="reason-cell" role="cell">—</div>
-          <div class="reason-cell reason-cell--yes" role="cell">✓</div>
-          <div class="reason-cell" role="cell">—</div>
-        </div>
-
-        <div class="reason-row" role="row">
-          <div class="reason-brand" role="rowheader">
-            <span class="reason-brand__name">Substack</span>
-            <span class="reason-brand__meta">$1.1B · 5M subscribers</span>
+        </article>
+        <article class="reason-app reason-app--madam">
+          <img class="reason-app__logo" src="assets/logo.svg" alt="Madam">
+          <div>
+            <h3 class="reason-app__verb">Participate.</h3>
+            <p class="reason-app__copy">She shares what she finds. She recommends what works. She comments on posts. She responds when someone asks.</p>
           </div>
-          <div class="reason-cell" role="cell">—</div>
-          <div class="reason-cell" role="cell">—</div>
-          <div class="reason-cell" role="cell">—</div>
-          <div class="reason-cell reason-cell--yes" role="cell">✓</div>
-        </div>
-
-        <div class="reason-row reason-row--madam" role="row">
-          <div class="reason-brand" role="rowheader">
-            <span class="reason-brand__name">Madam</span>
-            <span class="reason-brand__meta">Raising $750K · 100+ users</span>
-          </div>
-          <div class="reason-cell reason-cell--yes" role="cell">✓</div>
-          <div class="reason-cell reason-cell--yes" role="cell">✓</div>
-          <div class="reason-cell reason-cell--yes" role="cell">✓</div>
-          <div class="reason-cell reason-cell--yes" role="cell">✓</div>
-        </div>
+        </article>
       </div>
 
       <div class="tag">
@@ -3634,39 +3452,64 @@ body {
     </div>
   </section>
 
-  <!-- ── 08 ─────────────────────────────────────────────────────────── -->
+  <!-- ── 07 ─────────────────────────────────────────────────────────── -->
   <section class="slide team" id="team" aria-label="The team">
     <div class="stage">
       <div class="glow"></div>
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
-      <h2 class="team-headline">We are interviewing and working with talent from</h2>
+      <h2 class="slide-title">Building Madam <span class="accent">now.</span></h2>
 
-      <div class="team-grid">
-        <div class="team-logo">
-          <img src="assets/s09/google.svg" alt="Google">
-          <span>Google</span>
-        </div>
-        <div class="team-logo">
-          <img src="assets/s09/meta.svg" alt="Meta">
-          <span>Meta</span>
-        </div>
-        <div class="team-logo">
-          <img src="assets/s09/apple.svg" alt="Apple">
-          <span>Apple</span>
-        </div>
-        <div class="team-logo">
-          <img src="assets/s09/netflix.svg" alt="Netflix">
-          <span>Netflix</span>
-        </div>
-        <div class="team-logo">
-          <img src="assets/s09/spotify.svg" alt="Spotify">
-          <span>Spotify</span>
-        </div>
-        <div class="team-logo">
-          <img src="assets/s09/stackoverflow.svg" alt="Stack Overflow">
-          <span>Stack Overflow</span>
-        </div>
+      <div class="team-people team-people--row">
+        <article class="team-person">
+          <div class="team-person__photo">
+            <img src="assets/opt/caston.jpg" alt="Caston Boyd" width="160" height="160" loading="lazy">
+          </div>
+          <div class="team-person__body">
+            <h3 class="team-person__name">Caston Boyd</h3>
+            <div class="team-person__role">Founder</div>
+            <p class="team-person__commit">Full-time. Ships product and talks to members every week.</p>
+            <div class="team-person__creds" aria-label="Background">
+              <span class="team-cred"><img src="assets/team/harvard.svg" alt="Harvard"></span>
+              <span class="team-cred">
+                <svg class="team-person__fb" viewBox="0 0 24 24" role="img" aria-label="Facebook">
+                  <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z" fill="#F4EDE3"></path>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="team-person">
+          <div class="team-person__photo">
+            <img src="assets/opt/alexa.jpg" alt="Alexa Scordato" width="160" height="160" loading="lazy">
+          </div>
+          <div class="team-person__body">
+            <h3 class="team-person__name">Alexa Scordato</h3>
+            <div class="team-person__role">Advisor</div>
+            <p class="team-person__commit">Former Head of Global Marketing and Chief of Staff at TikTok.</p>
+            <div class="team-person__creds" aria-label="Background">
+              <span class="team-cred"><img src="assets/team/tiktok.svg" alt="TikTok"></span>
+              <span class="team-cred"><img src="assets/s09/stackoverflow.svg" alt="Stack Overflow"></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="team-person">
+          <div class="team-person__photo">
+            <img src="assets/opt/mihir.jpg" alt="Mihir Pathak" width="160" height="160" loading="lazy">
+          </div>
+          <div class="team-person__body">
+            <h3 class="team-person__name">Mihir Pathak</h3>
+            <div class="team-person__role">Advisor</div>
+            <p class="team-person__commit">Advises on fundraising, operations, and growth.</p>
+            <div class="team-person__creds" aria-label="Background">
+              <span class="team-cred team-cred--gt"><img src="assets/team/gt-mark.png" alt="Georgia Tech"></span>
+              <span class="team-cred team-cred--nasa"><img src="assets/team/nasa.svg" alt="NASA"></span>
+              <span class="team-cred team-cred--so"><img src="assets/team/stackoverflow.svg" alt="Stack Overflow"></span>
+            </div>
+          </div>
+        </article>
       </div>
 
       <div class="tag">
@@ -3684,43 +3527,38 @@ body {
       <div class="glow"></div>
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
-      <h2 class="roadmap-headline">Where are we on the journey?</h2>
+      <h2 class="slide-title">The journey.</h2>
 
       <div class="roadmap-track">
         <div class="mile mile--now anim-rise anim-rise-d1">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
           <div class="mile__id">M1</div>
           <div class="mile__rail" aria-hidden="true"></div>
-          <div class="mile__title">1,000 users, 250 monthly active</div>
-          <div class="mile__sub">Activate the first 1,000</div>
+          <div class="mile__title">1,000 users, repeatable acquisition</div>
         </div>
         <div class="mile anim-rise anim-rise-d2">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
           <div class="mile__id">M2</div>
           <div class="mile__rail" aria-hidden="true"></div>
-          <div class="mile__title">10,000 users, transactions proven</div>
-          <div class="mile__sub">Turn on transactions</div>
+          <div class="mile__title">10,000 users, first transaction proven</div>
         </div>
         <div class="mile anim-rise anim-rise-d3">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
           <div class="mile__id">M3</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">100,000 monthly active, affiliate proven</div>
-          <div class="mile__sub">Scale distribution</div>
         </div>
         <div class="mile anim-rise anim-rise-d4">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
           <div class="mile__id">M4</div>
           <div class="mile__rail" aria-hidden="true"></div>
-          <div class="mile__title">1,000,000 monthly active, ads on</div>
-          <div class="mile__sub">Expand the revenue engine</div>
+          <div class="mile__title">1,000,000 monthly active, distribution on</div>
         </div>
         <div class="mile mile--far anim-rise anim-rise-d5">
           <div class="mile__mark" aria-hidden="true"><span class="mile__dot"></span><span class="mile__line"></span></div>
           <div class="mile__id">M5</div>
           <div class="mile__rail" aria-hidden="true"></div>
           <div class="mile__title">Lead the category</div>
-          <div class="mile__sub">Deepen the network</div>
         </div>
       </div>
 
@@ -3739,48 +3577,40 @@ body {
       <div class="glow"></div>
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
-      <h2 class="traction-headline anim-rise anim-rise-d1">Launched, and <span class="accent">growing.</span></h2>
-
-      <div class="traction-channels anim-in">
-        <span>App Store</span>
-        <span class="sep">·</span>
-        <span>Google Play</span>
-        <span class="sep">·</span>
-        <span class="shipped">Shipped May 2026</span>
-      </div>
+      <h2 class="slide-title anim-rise anim-rise-d1">Launched, and <span class="accent">growing.</span></h2>
 
       <div class="traction-stats">
         <div class="trac anim-rise anim-rise-d1">
           <div class="trac__numrow">
-            <span class="trac__num trac__num--gold">100+</span>
-            <span class="trac__unit">users</span>
+            <span class="trac__num trac__num--gold">167+</span>
+            <span class="trac__unit">members</span>
           </div>
-          <p class="trac__copy">And growing. Averaging 2 to 3 added a day.</p>
+          <p class="trac__copy">Live profiles. About one to two join a day.</p>
         </div>
         <div class="trac anim-rise anim-rise-d2">
           <div class="trac__numrow">
-            <span class="trac__num">213</span>
-            <span class="trac__unit">posts</span>
+            <span class="trac__num">47</span>
+            <span class="trac__unit">monthly active</span>
           </div>
-          <p class="trac__copy">Created by the community, 79% photo and 21% video.</p>
+          <p class="trac__copy">Observed activity in the last 30 days.</p>
         </div>
         <div class="trac anim-rise anim-rise-d3">
           <div class="trac__numrow">
-            <span class="trac__num">1,176</span>
-            <span class="trac__unit">actions</span>
+            <span class="trac__num">267</span>
+            <span class="trac__unit">posts</span>
           </div>
-          <p class="trac__copy">Likes, comments and follows on what they posted.</p>
+          <p class="trac__copy">From 33 members. Photo and video.</p>
         </div>
         <div class="trac anim-rise anim-rise-d4">
           <div class="trac__numrow">
-            <span class="trac__num">4.27</span>
-            <span class="trac__unit">/ post</span>
+            <span class="trac__num">18%</span>
+            <span class="trac__unit">week four</span>
           </div>
-          <p class="trac__copy">Engagement on every post. The loop works. Now we scale it.</p>
+          <p class="trac__copy">Returned in week four. 12 of 66 mature profiles.</p>
         </div>
       </div>
 
-      <p class="traction-note">No marketing or distribution spend.</p>
+      <p class="traction-note">Sep 24, 2026 snapshot. No marketing or distribution spend.</p>
 
       <div class="tag">
         <span>09</span>
@@ -3797,25 +3627,24 @@ body {
       <div class="glow"></div>
       <img class="logo" src="assets/logo.svg" alt="Madam">
 
-      <div class="raise-kicker anim-in">We are raising</div>
-      <div class="raise-amount anim-pop">$750,000</div>
-      <p class="raise-sub anim-in">This raise gets us to M1.</p>
-
+      <div class="raise-hero">
+        <div class="raise-amount anim-pop">$750,000</div>
+      </div>
       <div class="raise-uses">
         <div class="raise-use anim-rise anim-rise-d1">
           <div class="raise-use__n">01</div>
           <div class="raise-use__title">Product</div>
-          <p class="raise-use__copy">The next layer of Madam. Jars and the buy path.</p>
+          <p class="raise-use__copy">Improve retention. They spend time on the app. They come back.</p>
         </div>
         <div class="raise-use anim-rise anim-rise-d2">
           <div class="raise-use__n">02</div>
-          <div class="raise-use__title">Grow</div>
-          <p class="raise-use__copy">1,000 users, 250 monthly active.</p>
+          <div class="raise-use__title">Growth</div>
+          <p class="raise-use__copy">10,000 members.</p>
         </div>
         <div class="raise-use anim-rise anim-rise-d3">
           <div class="raise-use__n">03</div>
-          <div class="raise-use__title">Purchasing</div>
-          <p class="raise-use__copy">Open checkout first. Then payments we control.</p>
+          <div class="raise-use__title">Proof</div>
+          <p class="raise-use__copy">Members buy from members.</p>
         </div>
       </div>
 
